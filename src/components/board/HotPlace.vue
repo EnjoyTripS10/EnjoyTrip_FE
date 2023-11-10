@@ -4,7 +4,7 @@
 
 <template>
     <div class="title">
-        <h2>Weekly Best</h2>
+        <h1>주간 인기 게시물</h1>
     </div>
     <div class=""></div>
     <div class="img-section">
@@ -17,9 +17,11 @@
 </template>
 
 <style scoped="scoped">
+h1 {
+    color: white;
+}
 .title {
     text-align: center;
-    margin: 50px 0px;
 }
 .img-section {
     display: flex;

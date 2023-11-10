@@ -30,11 +30,14 @@
 </template>
 
 <style scoped>
+h1 {
+    color: white;
+}
 .banner {
   width: 100%;
-  height: 400px;
-  padding: 0px 0px 150px;
-  background-color: #ffffff;
+  height: 500px;
+  padding: 0px 0px 50px;
+  background-color: #000000;
 
 }
 .img-block {
