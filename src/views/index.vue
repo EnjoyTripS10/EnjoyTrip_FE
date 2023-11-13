@@ -68,4 +68,8 @@ onUnmounted(() => {
   opacity: 0;
   filter: blur(5px);
 }
+
+::-webkit-scrollbar {
+    display: none;
+}
 </style>

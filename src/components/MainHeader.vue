@@ -32,7 +32,7 @@
     overflow: hidden;
 }
 .logo {
-    margin-left: 20px;
+    margin-left: 80px;
     width:240px;
     font-size: 24px;
     font-weight: bold;
@@ -40,17 +40,21 @@
 .navbar {
     display: flex;
     justify-content: flex-end;
-    margin-right: 20px;
+    margin-right: 80px;
     width: 100%;
 }
 .navbar a {
     color: rgb(0, 0, 0);
     text-decoration: none;
-    margin: 0 10px;
+    margin: 0 20px;
 }
 
-.navbar a:hover {
-    text-decoration: underline;
-}
+/* .navbar a:hover {
+    background-color: rgba(160, 158, 158, 0.5); 
+     box-shadow: 0 0 10px rgba(0,0,0,0.2), 
+                0 0 20px rgba(0,0,0,0.2), 
+                0 0 30px rgba(0,0,0,0.2), 
+                0 0 40px rgba(0,0,0,0.2);
+} */
 
 </style>

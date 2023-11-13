@@ -95,6 +95,8 @@ const login = () => {
     text-align: left;
 }
 
-
+::-webkit-scrollbar {
+    display: none;
+}
 
 </style>
