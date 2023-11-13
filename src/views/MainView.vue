@@ -1,14 +1,14 @@
 <script setup>
 import MainFooter from "@/components/MainFooter.vue";
 import MainHeader from "@/components/MainHeader.vue";
-
+import MainPage from "@/components/MainPage.vue";
 
 </script>
 <template>
     <MainHeader/>
     
     <div class="view">
-      <h1>virus</h1>
+      <MainPage/>
     </div>
 
     <MainFooter/>
@@ -16,8 +16,9 @@ import MainHeader from "@/components/MainHeader.vue";
 <style scoped>
 .view {
   display: flex;
-  margin: 0;
-  padding-top: 55px;
+  padding-top: 60px;
+  padding-left: 200px;
+  padding-right: 200px;
   width: 100%;
   justify-content: center;
   align-items: center;

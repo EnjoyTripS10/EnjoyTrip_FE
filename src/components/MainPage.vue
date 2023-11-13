@@ -3,8 +3,8 @@
 </script>
 
 <template>
-    <div>
-        
+    <div class="main-page">
+        <h1>test</h1>
     </div>
 </template>
 
