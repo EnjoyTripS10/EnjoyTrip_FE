@@ -13,7 +13,7 @@ const post = ref({
 </script>
 
 <template>
-    <div>
+    <div class="board">
         <h1>{{ post.title }}</h1>
         <p>작성자:
             {{ post.author }}</p>
@@ -29,5 +29,10 @@ const post = ref({
 </template>
 
 <style scoped>
+.board {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 </style>
