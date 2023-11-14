@@ -11,10 +11,11 @@
 
 <style scoped>
 .footer {
+    margin-top: auto;
     border-top: 1px solid #e4e3e3;
     text-align: center;
     padding: 15px 0;
-    position: relative;
+    position: absolute;
     bottom: 0;
     width: 100%;
 }

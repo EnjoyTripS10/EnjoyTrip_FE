@@ -8,13 +8,13 @@ import location from "../components/home/location.vue";
 <template>
     <div class="main-page">
         <div class="banner">
-
+            <banner />
         </div>
         <div class="img-button">
-            
+            <imgbutton />
         </div>
         <div class="popular">
-            
+            <popular />
         </div>
         <div class="location">
             <location />
@@ -23,7 +23,24 @@ import location from "../components/home/location.vue";
 </template>
 
 <style scoped>
+.main-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.img-button {
+    height: 500px;
+    margin: 100px 0px;
+}
+.banner{
+    margin-top: 150px;
+    height: 50px;
+    margin-bottom: 200px;
+}
 .location {
+    margin: 100px 0px;
     height: 800px;
+    justify-content: center;
 }
 </style>

@@ -3,50 +3,76 @@
 </script>
 
 <template>
-    <div class="location">
-        <div class="box2">
-            <div class="grid-item image-bigcontainer" style="grid-row: 1 / 3; grid-column: 1 / 3;">
-                <img src="../../assets/img/location/seoul.jpg" alt="" width="310px" height="310px">
+    <div class="box2">
+        <div
+            class="grid-item image-bigcontainer"
+            style="grid-row: 1 / 3; grid-column: 1 / 3;">
+            <img
+                src="../../assets/img/location/seoul.jpg"
+                alt=""
+                width="310px"
+                height="310px">
                 <div class="overlay">서울</div>
             </div>
             <div class="grid-item image-container"></div>
             <div class="grid-item image-container">
-                <img src="../../assets/img/location/gangwon.jpg" alt="" width="150px" height="150px">
-                <div class="overlay">강원</div>
-            </div>
-            <div class="grid-item image-container">
-                <img src="../../assets/img/location/deajeon.jpg" alt="" width="150px" height="150px">
-                <div class="overlay">대전</div>
-            </div>
-            <div class="grid-item image-container"></div>
-            <div class="grid-item image-container">
-                <img src="../../assets/img/location/jeonju.jpg" alt="" width="150px" height="150px">
-                <div class="overlay">전주</div>
-            </div>
-            <div class="grid-item image-container"></div>
-            <div class="grid-item image-container">
-                <img src="../../assets/img/location/busan.jpg" alt="" width="150px" height="150px">
-                <div class="overlay">부산</div>
-            </div>
-            <div class="grid-item image-container"></div>
-            <div class="grid-item image-container"></div>
-            <div class="grid-item image-container">
-                <img src="../../assets/img/location/gwangju.jpg" alt="" width="150px" height="150px">
-                <div class="overlay">광주</div>
-            </div>
-            <div class="grid-item image-container"></div>
-            <div class="grid-item image-container">
-                <img src="../../assets/img/location/jeju.jpg" alt="" width="150px" height="150px">
-                <div class="overlay">제주</div>
-            </div>
-        </div>
-    </div>
-</template>
+                <img
+                    src="../../assets/img/location/gangwon.jpg"
+                    alt=""
+                    width="150px"
+                    height="150px">
+                    <div class="overlay">강원</div>
+                </div>
+                <div class="grid-item image-container">
+                    <img
+                        src="../../assets/img/location/deajeon.jpg"
+                        alt=""
+                        width="150px"
+                        height="150px">
+                        <div class="overlay">대전</div>
+                    </div>
+                    <div class="grid-item image-container"></div>
+                    <div class="grid-item image-container">
+                        <img
+                            src="../../assets/img/location/jeonju.jpg"
+                            alt=""
+                            width="150px"
+                            height="150px">
+                            <div class="overlay">전주</div>
+                        </div>
+                        <div class="grid-item image-container"></div>
+                        <div class="grid-item image-container">
+                            <img
+                                src="../../assets/img/location/busan.jpg"
+                                alt=""
+                                width="150px"
+                                height="150px">
+                                <div class="overlay">부산</div>
+                            </div>
+                            <div class="grid-item image-container"></div>
+                            <div class="grid-item image-container"></div>
+                            <div class="grid-item image-container">
+                                <img
+                                    src="../../assets/img/location/gwangju.jpg"
+                                    alt=""
+                                    width="150px"
+                                    height="150px">
+                                    <div class="overlay">광주</div>
+                                </div>
+                                <div class="grid-item image-container"></div>
+                                <div class="grid-item image-container">
+                                    <img
+                                        src="../../assets/img/location/jeju.jpg"
+                                        alt=""
+                                        width="150px"
+                                        height="150px">
+                                        <div class="overlay">제주</div>
+                                    </div>
+                                </div>
+                            </template>
 
 <style scoped>
-.location{
-    width: 730px;
-}
+
 .box2 {
     display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -60,16 +86,17 @@
 .grid-item img {
     transition: transform 0.3s ease-in-out;
     filter: contrast(60%);
+    border: 1px solid rgb(23, 24, 27);
 }
 
 .grid-item img:hover {
     transform: scale(1.1);
     filter: none;
-    z-index: 1000;
+    z-index: 500;
 }
 
 .grid-item:hover {
-    z-index: 1000; /* 호버 시 z-index 증가 */
+    z-index: 500; /* 호버 시 z-index 증가 */
 }
 
 
@@ -102,7 +129,7 @@
     /* background-color: black;
     backdrop-filter: blur(10px); */
     transform: translate(-50%, -50%);
-    color: rgb(0, 0, 0);
+    color: #000000;
     font-size: 20px;
     font-weight: bold;
     text-align: center;

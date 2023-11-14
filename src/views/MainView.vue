@@ -2,18 +2,25 @@
 import MainFooter from "@/components/MainFooter.vue";
 import MainHeader from "@/components/MainHeader.vue";
 import MainPage from "@/components/MainPage.vue";
+import Board from "@/components/board/BoardDetail.vue";
+import { RouterLink } from "vue-router";
 
 </script>
 <template>
-    <MainHeader/>
     <div class="view-container">
+        <div class="header">
+            <MainHeader/>
+        </div>
+        <div class="view">
+            <MainPage/>
+            <!-- <Board/> -->
+        </div>
 
-      <div class="view">
-        <MainPage/>
-      </div>
+        <div class="footer">
+            <MainFooter/>
+        </div>
     </div>
 
-    <MainFooter/>
 </template>
 <style scoped>
 .view-container {
@@ -29,7 +36,7 @@ import MainPage from "@/components/MainPage.vue";
   width: 100%;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
   border-left: 1px solid #e4e3e3;
   border-right: 1px solid #e4e3e3;
 }

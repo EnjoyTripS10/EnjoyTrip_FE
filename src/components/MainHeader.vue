@@ -16,6 +16,7 @@
 
 <style scoped>
 .header {
+    
     position: fixed; /* 헤더 위치를 고정 */
     top: 0; /* 상단에서 0px의 위치 */
     left: 0; /* 좌측에서 0px의 위치 */
