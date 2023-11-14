@@ -35,8 +35,8 @@ const post = ref({
     <div v-if="showModal" class="modal"  @click="closeModal">
         <div class="modal-content" @click.stop>
             <!-- Detailed information goes here -->
-            <button @click="closeModal">Close</button>
             <div class="boardDetail">
+                <button class="close-button" @click="closeModal">X</button>
                 <h1>{{ post.title }}</h1>
                 <p>작성자:
                     {{ post.author }}</p>
@@ -54,8 +54,29 @@ const post = ref({
 </template>
 
 <style scoped>
+.close-button {
+  position: absolute; /* 절대 위치 지정 */
+  right: 0; /* 오른쪽에 배치 */
+  background-color: #f8f9fa;
+  border: none;
+  color: #495057;
+  padding: 5px 10px; /* 패딩 줄임 */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px; /* 글자 크기 줄임 */
+  margin: 4px 2px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
 
+.close-button:hover {
+  background-color: #495057;
+  color: white;
+  border: 1px solid #495057;
+}
 .boardDetail {
+    position: relative; /* 상대 위치 지정 */
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -12,8 +12,8 @@ import { RouterLink } from "vue-router";
             <MainHeader/>
         </div>
         <div class="view">
-            <MainPage/>
-            <!-- <list/> -->
+            <!-- <MainPage/> -->
+            <list/>
         </div>
 
         <div class="footer">
