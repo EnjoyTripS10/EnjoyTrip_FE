@@ -24,7 +24,7 @@
     display: flex;
     /* justify-content: space-between; */
     align-items: center;
-    background-color: #ffffff;
+    background-color: #f5f5f7;
     color: rgb(0, 0, 0);
     /* padding: 10px 20px; */
     box-shadow: 0px 2px 4px rgba(0,0,0,0.2); /* 하단 그림자 효과 추가 */
@@ -32,7 +32,7 @@
     overflow: hidden;
 }
 .logo {
-    margin-left: 80px;
+    margin-left: 60px;
     width:240px;
     font-size: 24px;
     font-weight: bold;
@@ -40,7 +40,7 @@
 .navbar {
     display: flex;
     justify-content: flex-end;
-    margin-right: 80px;
+    margin-right: 60px;
     width: 100%;
 }
 .navbar a {
