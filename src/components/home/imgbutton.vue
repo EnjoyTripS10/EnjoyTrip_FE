@@ -50,20 +50,9 @@
 </template>
 
 <style scoped>
-body{
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    background: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: consolas;
-}
 
 .imgbutton{
     width: 1000px;
-    margin-top: 100px;
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -124,7 +113,7 @@ body{
     align-items: center;
     padding: 20px;
     box-sizing: border-box;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.8);
     transform: translateY(-100px);
 }
 

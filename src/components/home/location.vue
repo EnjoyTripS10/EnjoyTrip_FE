@@ -78,9 +78,9 @@
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 10px;
-  width: 700px;
-  height: 700px;
-  margin: 0px 50px;
+  width: 730px;
+  height: 730px;
+  margin: 0px 30px;
 }
 
 .grid-item img {

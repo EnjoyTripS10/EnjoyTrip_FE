@@ -2,7 +2,7 @@
 import MainFooter from "@/components/MainFooter.vue";
 import MainHeader from "@/components/MainHeader.vue";
 import MainPage from "@/components/MainPage.vue";
-import Board from "@/components/board/BoardDetail.vue";
+import List from "@/components/board/BoardList.vue";
 import { RouterLink } from "vue-router";
 
 </script>
@@ -13,7 +13,7 @@ import { RouterLink } from "vue-router";
         </div>
         <div class="view">
             <MainPage/>
-            <!-- <Board/> -->
+            <!-- <list/> -->
         </div>
 
         <div class="footer">

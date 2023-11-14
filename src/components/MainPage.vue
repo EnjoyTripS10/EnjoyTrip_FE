@@ -30,8 +30,10 @@ import location from "../components/home/location.vue";
     align-items: center;
 }
 .img-button {
-    height: 500px;
+    height: 400px;
     margin: 100px 0px;
+    align-items: center;
+    justify-content: center;
 }
 .banner{
     margin-top: 150px;
