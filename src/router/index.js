@@ -20,6 +20,9 @@ const router = createRouter({
     { path: '/naver-login', name: 'NaverLogin', component: () => import('../views/login/NaverLogin.vue') },
     { path: '/google-login', name: 'GoogleLogin', component: () => import('../views/login/GoogleLogin.vue')},
     { path: '/boardList', name: 'boardList', component: boardList },
+
+
+    { path: '/uploadboard', name: 'addBoard', component: () => import('../views/board/upload.vue')},
   ]
 })
 
