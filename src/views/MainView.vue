@@ -17,7 +17,7 @@ import { RouterLink } from "vue-router";
         </div>
 
         <div class="footer">
-            <MainFooter/>
+            <!-- <MainFooter/> -->
         </div>
     </div>
 
@@ -25,6 +25,7 @@ import { RouterLink } from "vue-router";
 <style scoped>
 .view-container {
   display: flex;
+  
   width: 100%;
 }
 .view {

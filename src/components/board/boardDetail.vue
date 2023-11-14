@@ -26,7 +26,7 @@ const post = ref({
         <img :src="post.image" alt="post image" width="400">
             <p>{{ post.content }}</p>
         </div>
-    </template>
+</template>
 
 <style scoped>
 

@@ -10,8 +10,8 @@
             <img
                 src="../../assets/img/location/seoul.jpg"
                 alt=""
-                width="310px"
-                height="310px">
+                width="360px"
+                height="360px">
                 <div class="overlay">서울</div>
             </div>
             <div class="grid-item image-container"></div>
@@ -19,16 +19,16 @@
                 <img
                     src="../../assets/img/location/gangwon.jpg"
                     alt=""
-                    width="150px"
-                    height="150px">
+                    width="175px"
+                    height="175px">
                     <div class="overlay">강원</div>
                 </div>
                 <div class="grid-item image-container">
                     <img
                         src="../../assets/img/location/deajeon.jpg"
                         alt=""
-                        width="150px"
-                        height="150px">
+                        width="175px"
+                        height="175px">
                         <div class="overlay">대전</div>
                     </div>
                     <div class="grid-item image-container"></div>
@@ -36,8 +36,8 @@
                         <img
                             src="../../assets/img/location/jeonju.jpg"
                             alt=""
-                            width="150px"
-                            height="150px">
+                            width="175px"
+                            height="175px">
                             <div class="overlay">전주</div>
                         </div>
                         <div class="grid-item image-container"></div>
@@ -45,8 +45,8 @@
                             <img
                                 src="../../assets/img/location/busan.jpg"
                                 alt=""
-                                width="150px"
-                                height="150px">
+                                width="175px"
+                                height="175px">
                                 <div class="overlay">부산</div>
                             </div>
                             <div class="grid-item image-container"></div>
@@ -55,8 +55,8 @@
                                 <img
                                     src="../../assets/img/location/gwangju.jpg"
                                     alt=""
-                                    width="150px"
-                                    height="150px">
+                                    width="175px"
+                                    height="175px">
                                     <div class="overlay">광주</div>
                                 </div>
                                 <div class="grid-item image-container"></div>
@@ -64,8 +64,8 @@
                                     <img
                                         src="../../assets/img/location/jeju.jpg"
                                         alt=""
-                                        width="150px"
-                                        height="150px">
+                                        width="175px"
+                                        height="175px">
                                         <div class="overlay">제주</div>
                                     </div>
                                 </div>
@@ -78,8 +78,8 @@
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 10px;
-  width: 600px;
-  height: 600px;
+  width: 700px;
+  height: 700px;
   margin: 0px 50px;
 }
 
@@ -111,14 +111,14 @@
 
 .image-bigcontainer {
     position: relative;
-    width: 310px;
-    height: 310px;
+    width: 360px;
+    height: 360px;
 }
 
 .image-container {
     position: relative;
-    width: 150px;
-    height: 150px;
+    width: 175px;
+    height: 175px;
 }
 
 .overlay {
