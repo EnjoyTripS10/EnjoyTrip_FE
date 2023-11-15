@@ -40,6 +40,12 @@ const sort = (criteria) => {
         <PostCard></PostCard>
         <PostCard></PostCard>
         <PostCard></PostCard>
+        <PostCard></PostCard>
+        <PostCard></PostCard>
+        <PostCard></PostCard>
+        <PostCard></PostCard>
+        <PostCard></PostCard>
+        <PostCard></PostCard>
     </div>
 </div>
 </template>
@@ -49,7 +55,7 @@ const sort = (criteria) => {
     padding: 0px 20px 0px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+
     width: 100%;
     margin-top: 1rem;
 }

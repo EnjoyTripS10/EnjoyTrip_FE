@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import index from '../views/index.vue'
 import MainView from '../views/MainView.vue'
 import boardList from '../components/board/boardList.vue'
+import registPlan from '../components/plan/registPlan.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -20,6 +21,7 @@ const router = createRouter({
     { path: '/naver-login', name: 'NaverLogin', component: () => import('../views/login/NaverLogin.vue') },
     { path: '/google-login', name: 'GoogleLogin', component: () => import('../views/login/GoogleLogin.vue')},
     { path: '/boardList', name: 'boardList', component: boardList },
+    { path: '/registPlan', name: 'registPlan', component: registPlan },
 
 
     { path: '/uploadboard', name: 'addBoard', component: () => import('../views/board/upload.vue')},
