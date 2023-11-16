@@ -5,24 +5,22 @@ import MainPage from "@/components/MainPage.vue";
 import List from "@/components/board/BoardList.vue";
 import registPlan from "../components/plan/registPlan.vue";
 import { RouterLink } from "vue-router";
-
 </script>
 <template>
-    <div class="view-container">
-        <div class="header">
-            <MainHeader/>
-        </div>
-        <div class="view">
-            <!-- <MainPage/> -->
-            <!-- <list/> -->
-            <registPlan/>
-        </div>
-
-        <div class="footer">
-            <!-- <MainFooter/> -->
-        </div>
+  <div class="view-container">
+    <div class="header">
+      <MainHeader />
+    </div>
+    <div class="view">
+      <!-- <MainPage/> -->
+      <!-- <list/> -->
+      <registPlan />
     </div>
 
+    <div class="footer">
+      <!-- <MainFooter/> -->
+    </div>
+  </div>
 </template>
 <style scoped>
 .view-container {
@@ -38,8 +36,8 @@ import { RouterLink } from "vue-router";
   padding-right: 200px; */
   justify-content: center;
   /* align-items: center; */
-  width: 80%;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   border-left: 1px solid #e4e3e3;
   border-right: 1px solid #e4e3e3;
 }
