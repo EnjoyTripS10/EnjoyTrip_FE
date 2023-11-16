@@ -9,16 +9,7 @@
           <label for="content">Content:</label>
           <textarea type="text" id="content" v-model="content" class="content-input"></textarea>
         </div>
-        <div >
-          <div class="location-input-container">
-            <label for="location">Location:</label>
-            <input type="text" id="location" v-model="searchQuery" @keyup.enter="searchPlaces" class="location-input" />
-            <button class="circle-button" @click="searchPlaces">Search</button>
-          </div>
-          <hr>
-            <div id="map" style="width:100%; height:400px; background-color: transparent;"></div>
-            <div id="clickLatlng"></div>
-        </div>
+        <MapComponent :updateLocation="updateParentLocation"></MapComponent>
         <div class="file-input-container">
           <input type="file" id="file" @change="handleFiles" multiple accept="image/*" class="file-input" />
           <label for="file" class="file-label">이미지 선택</label>
@@ -34,19 +25,17 @@
   </template>location
   
 <script setup>
-  import { onMounted, ref } from 'vue';
+  import { ref } from 'vue';
   import axios from 'axios';
+  import MapComponent from '../../components/location/map.vue';
 
   const files = ref([]);
   const title = ref('');
-
-  const searchQuery = ref('');
-  const mapContainer = ref(null);
-  const map = ref(null);
-  const infowindow = ref(null);
-  const markers = ref([]);
   const inLocation = ref({});
-  
+
+  const updateParentLocation = (newLocation) => {
+      inLocation.value = newLocation;
+  };
 
   const handleFiles = (event) => {
     files.value = Array.from(event.target.files);
@@ -82,96 +71,6 @@
       console.error('Error uploading file', error);
     }
   };
-
-
-  const searchPlaces = () => {
-    console.log(searchQuery)
-    if (searchQuery.value) {
-
-      const ps = new kakao.maps.services.Places();
-      ps.keywordSearch(searchQuery.value, placesSearchCB);
-      kakao.maps.load();
-    }
-  };
-  const loadMap = () => {
-    // 카카오 맵 라이브러리 로딩
-    const mapOption = {
-      center: new kakao.maps.LatLng(37.566826, 126.9786567),
-      level: 3
-    };
-
-    mapContainer.value = document.getElementById('map')
-    const iwContent = '<div style="padding:5px;">Hello World!</div>';
-    const iwRemoveable = true;
-    infowindow.value = new kakao.maps.InfoWindow({
-      content: iwContent,
-      removable: iwRemoveable
-    });
-
-    map.value = new kakao.maps.Map(mapContainer.value, mapOption);
-    searchPlaces();
-    // const ps = new kakao.maps.services.Places();
-    // ps.keywordSearch('이성당', placesSearchCB);
-
-  }
-  const loadLocation = () => {
-    const script = document.createElement("script")
-    script.type = "text/javascript"
-    script.src = import.meta.env.VITE_KAKAOLOCATIONS
-    document.head.appendChild(script);
-
-    script.onload = () => {
-      kakao.maps.onloadcallbacks.push(loadMap);
-      kakao.maps.load();
-    }
-
-  };
-  const placesSearchCB = (data, status, pagination) => {
-    if (status === kakao.maps.services.Status.OK) {
-      clearMarkers();
-      var bounds = new kakao.maps.LatLngBounds();
-      for (let i = 0; i < data.length; i++) {
-        displayMarker(data[i]);
-        bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-      }
-      map.value.setBounds(bounds);
-    }
-  };
-  const displayMarker = (place) => {
-    // clearMarkers()
-    var marker = new kakao.maps.Marker({
-      map: map.value,
-      position: new kakao.maps.LatLng(place.y, place.x)
-    });
-    markers.value.push(marker); // Add the new marker to the array
-
-    kakao.maps.event.addListener(marker, 'click', () => {
-      infowindow.value.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-      infowindow.value.open(map.value, marker);
-
-      var message = place.place_name+'/' + place.road_address_name + " /" + place.category_group_name;
-      // place.x place.y
-      // console.log(infowindow.value);
-      inLocation.value = {
-        locationName : place.place_name,
-        locationAddr : place.road_address_name,
-        locationLat : place.x,
-        locationLon : place.y,
-        locationType : place.category_group_name
-      };
-      var resultDiv = document.getElementById('clickLatlng');
-      resultDiv.innerHTML = message;
-    });
-  };
-
-  const clearMarkers = () => {
-    markers.value.forEach(marker => {
-      marker.setMap(null); // Remove marker from the map
-    });
-    markers.value = []; // Clear the markers array
-  };
-
-  onMounted(loadLocation);
 
 </script>
   <style>
@@ -232,8 +131,7 @@
   }
   /* 레이블과 인풋 필드 스타일링 */
   .title-input-container,
-  .content-input-container,
-  .location-input-container {
+  .content-input-container {
     margin-bottom: 10px;
     display: flex;
     
@@ -242,8 +140,7 @@
   }
   
   .title-input,
-  .content-input,
-  .location-input {
+  .content-input {
     width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
@@ -316,9 +213,6 @@
 
   .circle-button:hover {
     background-color: #a9bbce; /* 호버시 배경 색상 변경 */
-  }
-  #map{
-     background-color: transparent !important;
   }
   </style>
   
