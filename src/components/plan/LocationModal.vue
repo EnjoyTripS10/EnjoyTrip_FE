@@ -4,13 +4,15 @@
     <div class="modal-content">
       <h2>장소 추가</h2>
       <!-- 장소 추가 폼 또는 내용 -->
+      <Map :updateLocation="updateParentLocation" />
       <button @click="closeModal">닫기</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits, ref } from "vue";
+import Map from "./SelectLocation.vue";
 
 const props = defineProps({
   isVisible: Boolean,
@@ -20,6 +22,13 @@ const emit = defineEmits(["update:isVisible"]);
 
 const closeModal = () => {
   emit("update:isVisible", false);
+};
+
+const inLocation = ref({});
+
+const updateParentLocation = (newLocation) => {
+  inLocation.value = newLocation;
+  console.log(inLocation);
 };
 </script>
 

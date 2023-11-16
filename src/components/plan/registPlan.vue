@@ -84,19 +84,19 @@ watch(day, (newVal) => {
 const title = ref("");
 const content = ref("");
 
-const submitForm = async () => {
-  try {
-    const response = await axios.post("/api/posts", {
-      title: title.value,
-      content: content.value,
-    });
-    console.log(response.data);
-    // 글쓰기가 성공적으로 완료되었을 때 처리할 코드를 작성합니다.
-  } catch (error) {
-    console.log(error);
-    // 글쓰기가 실패했을 때 처리할 코드를 작성합니다.
-  }
-};
+// const submitForm = async () => {
+//   try {
+//     const response = await axios.post("/api/posts", {
+//       title: title.value,
+//       content: content.value,
+//     });
+//     console.log(response.data);
+//     // 글쓰기가 성공적으로 완료되었을 때 처리할 코드를 작성합니다.
+//   } catch (error) {
+//     console.log(error);
+//     // 글쓰기가 실패했을 때 처리할 코드를 작성합니다.
+//   }
+// };
 
 const toggleDropdown = (item) => {
   console.log(item);
@@ -104,13 +104,6 @@ const toggleDropdown = (item) => {
   item.showDropdown = !item.showDropdown;
 };
 
-const recommend = (item) => {
-  // 추천 로직
-};
-
-const notRecommend = (item) => {
-  // 비추천 로직
-};
 </script>
 
 <template>
