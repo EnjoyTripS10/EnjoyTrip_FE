@@ -1,3 +1,4 @@
+<!-- SelectLocation.vue -->
 <template>
         <div class="location">
           <div class="location-input-container">
@@ -8,6 +9,7 @@
           <hr>
             <div id="map" style="width:100%; height:400px; background-color: transparent;"></div>
             <div id="clickLatlng"></div>
+            <button class="btn" @click="addNewLocation">추가</button>
         </div>
   </template>
   
@@ -22,16 +24,8 @@
 //   const inLocation = ref({});
   
   const props = defineProps({
-    updateLocation: Function
+    updateLocation: Function,
   }); 
-
-  const someMethodToUpdateLocation = () => {
-  const newLocation = {/* 새로운 위치 정보 */};
-  props.updateLocation(newLocation);
-};
-
-
-
 
   const searchPlaces = () => {
     console.log(searchQuery)
@@ -85,7 +79,11 @@
       }
       map.value.setBounds(bounds);
     }
-  };
+};
+
+let newLocation = ref(null);
+let showModal = ref(false);
+
   const displayMarker = (place) => {
     // clearMarkers()
     var marker = new kakao.maps.Marker({
@@ -101,18 +99,30 @@
       var message = place.place_name+'/' + place.road_address_name + " /" + place.category_group_name;
       // place.x place.y
       // console.log(infowindow.value);
-      const newLocation = {
+      newLocation.value = {
         locationName : place.place_name,
         locationAddr : place.road_address_name,
         locationLat : place.x,
         locationLon : place.y,
-        locationType : place.category_group_name
+        locationType: place.category_group_name,
+        showDropdown: false,
+        memo: "",
       };
-      props.updateLocation(newLocation);
+
+      console.log(newLocation);
       var resultDiv = document.getElementById('clickLatlng');
-      resultDiv.innerHTML = message;
+      resultDiv.innerHTML = message + ``;
     });
   };
+  
+  const addNewLocation = () => {
+    // 여기에 newLocation 객체를 생성하는 로직을 작성
+    if(newLocation.value == null){
+      alert("장소를 선택해주세요");
+      return;
+    }
+    props.updateLocation(newLocation, showModal);
+};
 
   const clearMarkers = () => {
     markers.value.forEach(marker => {
@@ -125,6 +135,21 @@
 
 </script>
   <style>
+
+  .btn {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
    label {
     font-size: 30px; /* 글자 크기 증가 */
   }

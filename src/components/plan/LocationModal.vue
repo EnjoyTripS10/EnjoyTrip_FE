@@ -4,21 +4,35 @@
     <div class="modal-content">
       <h2>장소 추가</h2>
       <!-- 장소 추가 폼 또는 내용 -->
+      <div v-if="isMapRendered">
       <Map :updateLocation="updateParentLocation" />
+    </div>
       <button @click="closeModal">닫기</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref } from "vue";
+import { defineProps, defineEmits, ref, watch } from "vue";
 import Map from "./SelectLocation.vue";
 
 const props = defineProps({
   isVisible: Boolean,
 });
 
-const emit = defineEmits(["update:isVisible"]);
+const isMapRendered = ref(false);
+
+watch(() => props.isVisible, (newValue) => {
+  if (newValue) {
+    // 모달이 열렸을 때 지도 렌더링
+    isMapRendered.value = true;
+  } else {
+    // 모달이 닫혔을 때 지도 렌더링 중지
+    isMapRendered.value = false;
+  }
+});
+
+const emit = defineEmits(["update:isVisible", "addLocationToPlan"]);
 
 const closeModal = () => {
   emit("update:isVisible", false);
@@ -26,9 +40,10 @@ const closeModal = () => {
 
 const inLocation = ref({});
 
-const updateParentLocation = (newLocation) => {
+const updateParentLocation = (newLocation, showModal) => {
   inLocation.value = newLocation;
-  console.log(inLocation);
+  console.log(inLocation.value);
+  emit("addLocationToPlan", inLocation.value); // 새로운 이벤트 발생
 };
 </script>
 

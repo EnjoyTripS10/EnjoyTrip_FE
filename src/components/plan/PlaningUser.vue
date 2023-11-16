@@ -1,6 +1,6 @@
 <template>
   <div class="user-list">
-    <label>사용자 목록</label>
+    <label class="label">사용자 목록</label>
     <div class="user-box">
       <div class="list" v-for="user in users" :key="user.id">
         <!-- <img :src="user.profileImage" :alt="user.name" /> -->

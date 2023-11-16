@@ -6,7 +6,7 @@ import Draggable from "vue3-draggable";
 import LocationModal from "./LocationModal.vue";
 import PlaningUser from "./PlaningUser.vue";
 
-const showModal = ref(false);
+let showModal = ref(false);
 
 const location = ref([
   {
@@ -98,12 +98,20 @@ const content = ref("");
 //   }
 // };
 
+
 const toggleDropdown = (item) => {
   console.log(item);
   console.log(item.showDropdown);
   item.showDropdown = !item.showDropdown;
 };
+let componentKey = ref(0);
 
+const addLocationToPlan = (newLocation) => {
+  showModal.value = false;
+  console.log(showModal);
+  location.value = [...location.value, newLocation];
+  componentKey.value++; 
+};
 </script>
 
 <template>
@@ -152,17 +160,17 @@ const toggleDropdown = (item) => {
           <div class="right">
             <div class="drop">
               <label class="date-label">장소 목록</label>
-              <draggable v-model="location" transition="100" class="drop-zone">
-                <template v-slot:item="{ item }">
+              <draggable :key="componentKey" v-model="location" transition="100" class="drop-zone">
+                <template v-slot:item="{ item }" v-for="(item, index) in location" :key="item.locationName">
                   <div class="draggable-item">
                     {{ item.locationName }}
                   </div>
                 </template>
               </draggable>
               <button class="add-location" @click="showModal = true">장소 추가</button>
-              <LocationModal :isVisible="showModal" @update:isVisible="showModal = $event" />
+              <LocationModal :isVisible="showModal" @update:isVisible="showModal = $event" @addLocationToPlan="addLocationToPlan"/>
             </div>
-            <!-- <pre>{{ JSON.stringify(location, undefined, 4) }}</pre> -->
+            <pre>{{ JSON.stringify(location, undefined, 4) }}</pre>
           </div>
         </div>
       </form>
@@ -209,7 +217,7 @@ const toggleDropdown = (item) => {
   align-items: center;
   justify-content: center;
 }
-.date-label {
+label {
   font-size: 15px;
   font-weight: bold;
   margin-bottom: 10px;
