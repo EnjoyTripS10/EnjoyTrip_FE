@@ -4,6 +4,7 @@ import axios from "axios";
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
 import Draggable from "vue3-draggable";
 import LocationModal from "./LocationModal.vue";
+import PlaningUser from "./PlaningUser.vue";
 
 const showModal = ref(false);
 
@@ -170,11 +171,12 @@ const notRecommend = (item) => {
             </div>
             <!-- <pre>{{ JSON.stringify(location, undefined, 4) }}</pre> -->
           </div>
-
-          <!-- <div class="userList"> </div> -->
         </div>
       </form>
     </div>
+  </div>
+  <div class="userList">
+    <PlaningUser />
   </div>
 </template>
 
@@ -220,6 +222,7 @@ const notRecommend = (item) => {
   margin-bottom: 10px;
 }
 .regist-plan {
+  margin-left: 7vw;
   width: 100%;
   height: auto;
   display: flex;
@@ -237,7 +240,8 @@ const notRecommend = (item) => {
 .userList {
   width: 30%;
   height: 500px;
-  background-color: lightcoral;
+  margin-right: 7vw;
+  margin-left: 5vw;
 }
 
 .edit {

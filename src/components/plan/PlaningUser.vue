@@ -1,0 +1,132 @@
+<template>
+  <div class="user-list">
+    <label>사용자 목록</label>
+    <div class="user-box">
+      <div class="list" v-for="user in users" :key="user.id">
+        <!-- <img :src="user.profileImage" :alt="user.name" /> -->
+        <!-- <img class="profile-img" :src="user.profileImage" /> -->
+        <img class="profile-img" src="../../assets/img/logo.png" />
+        <p>{{ user.name }}</p>
+        <button class="delete-btn" @click="deleteUser(user.id)">X</button>
+      </div>
+      <button class="add-user-btn" @click="showModal">사용자 추가</button>
+      <UserAddModal
+        :isModalOpen="isModalOpen"
+        :users="allUsers"
+        @update:isModalOpen="isModalOpen = $event"
+        @onAdd="addUser"
+      />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { onMounted, ref } from "vue";
+import UserAddModal from "./UserAddModal.vue";
+
+// postId prop을 받습니다.
+const props = defineProps({
+  postId: String,
+});
+
+const deleteUser = (userId) => {
+  const index = users.value.findIndex((user) => user.id === userId);
+  if (index !== -1) {
+    users.value.splice(index, 1);
+  }
+};
+
+const isModalOpen = ref(false);
+
+const users = ref([
+  // 사용자 목록, 서버에서 가져온 데이터로 채워질 수 있음
+  { id: 1, name: "사용자1" },
+  { id: 2, name: "사용자2" },
+  // ...
+]);
+
+const existingUsers = ref([
+  // 이미 추가된 사용자 목록
+]);
+
+const showModal = () => {
+  isModalOpen.value = true;
+};
+
+const addUser = (user) => {
+  // 사용자를 existingUsers에 추가하는 로직
+  existingUsers.value.push(user);
+};
+// onMounted(async () => {
+//   // 서버로부터 사용자 데이터를 가져옵니다.
+//   const fetchUsers = async () => {
+//     const response = await fetch(`/api/users-on-post/${props.postId}`);
+//     const data = await response.json();
+//     users.splice(0, users.length, ...data);
+//   };
+
+//   fetchUsers();
+
+//   // 실시간 업데이트를 위한 추가 로직 필요
+// });
+
+</script>
+
+<style scoped>
+.add-user-btn {
+  border: 1px solid #000000;
+  border-radius: 3px;
+  margin-top: 20px;
+  width: 50%;
+}
+
+.add-user-btn:hover {
+  background-color: #000000;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+}
+
+.label {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.list {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  margin-left: 40%;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.profile-img {
+  border: 1px solid #000000;
+  border-radius: 50%;
+  height: 30px;
+  object-fit: cover;
+  width: 30px;
+}
+
+.user-box {
+  align-items: center;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  margin: 0 auto;
+  min-height: 1000px;
+  padding: 20px;
+  width: 100%;
+}
+
+.user-list {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+</style>

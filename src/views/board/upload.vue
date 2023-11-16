@@ -1,111 +1,116 @@
 <template>
-    <div class="upload-container">
-      <div class="input-container">
-        <div class="title-input-container">
-          <label for="title">Title:</label>
-          <input type="text" id="title" v-model="title" class="title-input" />
-        </div>
-        <div class="content-input-container">
-          <label for="content">Content:</label>
-          <textarea type="text" id="content" v-model="content" class="content-input"></textarea>
-        </div>
-        <MapComponent :updateLocation="updateParentLocation"></MapComponent>
-        <div class="file-input-container">
-          <input type="file" id="file" @change="handleFiles" multiple accept="image/*" class="file-input" />
-          <label for="file" class="file-label">이미지 선택</label>
-        </div>
-        
-    
+  <div class="upload-container">
+    <div class="input-container">
+      <div class="title-input-container">
+        <label for="title">Title:</label>
+        <input type="text" id="title" v-model="title" class="title-input" />
       </div>
-      <ul v-if="files.length" class="file-list">
-        <li v-for="file in files" :key="file.name" class="file-item">{{ file.name }}</li>
-      </ul>
-      <button @click="uploadFiles" class="upload-btn">Upload</button>
+      <div class="content-input-container">
+        <label for="content">Content:</label>
+        <textarea type="text" id="content" v-model="content" class="content-input"></textarea>
+      </div>
+      <MapComponent :updateLocation="updateParentLocation"></MapComponent>
+      <div class="file-input-container">
+        <input
+          type="file"
+          id="file"
+          @change="handleFiles"
+          multiple
+          accept="image/*"
+          class="file-input"
+        />
+        <label for="file" class="file-label">이미지 선택</label>
+      </div>
     </div>
-  </template>location
-  
+    <ul v-if="files.length" class="file-list">
+      <li v-for="file in files" :key="file.name" class="file-item">{{ file.name }}</li>
+    </ul>
+    <button @click="uploadFiles" class="upload-btn">Upload</button>
+  </div>
+</template>
+location
+
 <script setup>
-  import { ref } from 'vue';
-  import axios from 'axios';
-  import MapComponent from '../../components/location/map.vue';
+import { ref } from "vue";
+import axios from "axios";
+import MapComponent from "../../components/location/map.vue";
 
-  const files = ref([]);
-  const title = ref('');
-  const inLocation = ref({});
+const files = ref([]);
+const title = ref("");
+const inLocation = ref({});
 
-  const updateParentLocation = (newLocation) => {
-      inLocation.value = newLocation;
-  };
+const updateParentLocation = (newLocation) => {
+  inLocation.value = newLocation;
+};
 
-  const handleFiles = (event) => {
-    files.value = Array.from(event.target.files);
-    if (files.value.length > 10) {
-        alert('최대 10개의 파일만 업로드할 수 있습니다.');
-        event.target.value = ''; // 입력 필드 초기화
-      } else {
-        files.value = selectedFiles;
-      }
-  };
+const handleFiles = (event) => {
+  files.value = Array.from(event.target.files);
+  if (files.value.length > 10) {
+    alert("최대 10개의 파일만 업로드할 수 있습니다.");
+    event.target.value = ""; // 입력 필드 초기화
+  } else {
+    files.value = selectedFiles;
+  }
+};
 
-  const uploadFiles = async () => {
-    console.log(title.value)
-    console.log(content.value)
-    console.log(inLocation.value)
+const uploadFiles = async () => {
+  console.log(title.value);
+  console.log(content.value);
+  console.log(inLocation.value);
 
-    const formData = new FormData();
-    formData.append('title', title.value);
-    formData.append('content',content.value)
-    formData.append('inLocation', JSON.stringify(inLocation.value))
-    files.value.forEach(file => {
-      formData.append('files', file);
+  const formData = new FormData();
+  formData.append("title", title.value);
+  formData.append("content", content.value);
+  formData.append("inLocation", JSON.stringify(inLocation.value));
+  files.value.forEach((file) => {
+    formData.append("files", file);
+  });
+
+  try {
+    const response = await axios.post("/board", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
-
-    try {
-      const response = await axios.post('/board', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      console.log('File uploaded successfully', response.data);
-    } catch (error) {
-      console.error('Error uploading file', error);
-    }
-  };
-
+    console.log("File uploaded successfully", response.data);
+  } catch (error) {
+    console.error("Error uploading file", error);
+  }
+};
 </script>
-  <style>
-   label {
-    font-size: 30px; /* 글자 크기 증가 */
-  }
-  label[for="file"] {
-    font-size: 20px; /* 글자 크기 증가 */
-  }
-  /* 전체 컨테이너를 중앙 정렬 */
-  .upload-container {
-    padding: 30px; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 카드 스타일의 그림자 */
-    width: 50%; /* 창의 50% 너비 */
-    min-width: 500px; /* 최소 너비 설정 */
-    max-width: 80%; /* 최대 너비를 80%로 설정하여 유연성 부여 */
-    margin: 0 auto; /* 좌우 자동 마진으로 중앙 정렬 */
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+<style>
+label {
+  font-size: 30px; /* 글자 크기 증가 */
+}
+label[for="file"] {
+  font-size: 20px; /* 글자 크기 증가 */
+}
+/* 전체 컨테이너를 중앙 정렬 */
+.upload-container {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 카드 스타일의 그림자 */
+  width: 50%; /* 창의 50% 너비 */
+  min-width: 500px; /* 최소 너비 설정 */
+  max-width: 80%; /* 최대 너비를 80%로 설정하여 유연성 부여 */
+  margin: 0 auto; /* 좌우 자동 마진으로 중앙 정렬 */
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
-    position: relative; /* 포지션 설정 */
-    /* top: 100%; 상단에서 50% 위치 */
-    transform: translateY(40%); /* Y축 기준 50% 위로 이동 */
-  }
-  .upload-btn {
+  position: relative; /* 포지션 설정 */
+  /* top: 100%; 상단에서 50% 위치 */
+  transform: translateY(20%); /* Y축 기준 50% 위로 이동 */
+}
+.upload-btn {
   cursor: pointer;
   padding: 10px 20px;
   background-color: #a9bbce; /* 밝은 파란색 */
@@ -118,101 +123,101 @@
   transition: background-color 0.3s, transform 0.3s; /* 부드러운 색상 및 변형 전환 */
 }
 
-.upload-btn:hover, .upload-btn:focus {
+.upload-btn:hover,
+.upload-btn:focus {
   background-color: #82a7cf; /* 어두운 파란색으로 변경 */
   transform: scale(1.05); /* 버튼을 약간 확대 */
   outline: none; /* 포커스시 윤곽선 제거 */
 }
-  
-  input,textarea {
-    padding: 12px; /* 패딩 증가 */
-    font-size: 30px; /* 글자 크기 증가 */
-    width: 100%;
-  }
-  /* 레이블과 인풋 필드 스타일링 */
-  .title-input-container,
-  .content-input-container {
-    margin-bottom: 10px;
-    display: flex;
-    
-    align-items: center;
-    gap: 25px;
-  }
-  
-  .title-input,
-  .content-input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-top: 5px;
-    
-  }
-  
-  .file-input {
-    margin-bottom: 10px;
-  }
-  
-  .title-input-container {
-    margin-bottom: 10px;
-  }
-  
-  .title-input {
-    margin-left: 5px;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  .file-input-container {
-    position: relative;
-    margin-bottom: 10px;
-  }
 
-  .file-input {
-    width: 100%;
-    height: 40px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0;
-    cursor: pointer;
-  }
+input,
+textarea {
+  padding: 12px; /* 패딩 증가 */
+  font-size: 30px; /* 글자 크기 증가 */
+  width: 100%;
+}
+/* 레이블과 인풋 필드 스타일링 */
+.title-input-container,
+.content-input-container {
+  margin-bottom: 10px;
+  display: flex;
 
-  .file-label {
-    display: block;
-    background-color: #a9bbce;
-    color: white;
-    text-align: center;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
+  align-items: center;
+  gap: 25px;
+}
 
-  .file-label:hover {
-    background-color: #a9bbce;
-  }
-  .circle-button {
-    display: flex;
-    padding: 0 20px;
-    align-items: center;
-    justify-content: center;
-    margin-top: 5px;
-    width: 80px; /* 원의 지름 */
-    height: 40px; /* 원의 지름 */
-    line-height: 40px;
-    border-radius: 5px; /* 원형으로 만듦 */
-    border: none; /* 테두리 없앰 */
-    background-color: #a9bbce; /* 배경 색상 */
-    color: white; /* 글자 색상 */
-    font-size: 24px; /* 글자 크기 */
-    cursor: pointer; /* 커서 스타일 변경 */
-    outline: none; /* 포커스시 윤곽선 제거 */
-    transition: background-color 0.3s; /* 배경색 변경시 부드러운 전환 효과 */
-  }
+.title-input,
+.content-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 5px;
+}
 
-  .circle-button:hover {
-    background-color: #a9bbce; /* 호버시 배경 색상 변경 */
-  }
-  </style>
-  
+.file-input {
+  margin-bottom: 10px;
+}
+
+.title-input-container {
+  margin-bottom: 10px;
+}
+
+.title-input {
+  margin-left: 5px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.file-input-container {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.file-input {
+  width: 100%;
+  height: 40px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-label {
+  display: block;
+  background-color: #a9bbce;
+  color: white;
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.file-label:hover {
+  background-color: #a9bbce;
+}
+.circle-button {
+  display: flex;
+  padding: 0 20px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+  width: 80px; /* 원의 지름 */
+  height: 40px; /* 원의 지름 */
+  line-height: 40px;
+  border-radius: 5px; /* 원형으로 만듦 */
+  border: none; /* 테두리 없앰 */
+  background-color: #a9bbce; /* 배경 색상 */
+  color: white; /* 글자 색상 */
+  font-size: 24px; /* 글자 크기 */
+  cursor: pointer; /* 커서 스타일 변경 */
+  outline: none; /* 포커스시 윤곽선 제거 */
+  transition: background-color 0.3s; /* 배경색 변경시 부드러운 전환 효과 */
+}
+
+.circle-button:hover {
+  background-color: #a9bbce; /* 호버시 배경 색상 변경 */
+}
+</style>
