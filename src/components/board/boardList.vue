@@ -1,8 +1,18 @@
 <script setup>
-import { ref } from 'vue';
+import { ref,onMounted } from 'vue';
 import PostCard from "./PostCard.vue";
+import axios from 'axios';
 
-const posts = ref(/* fetch or import your posts data here */);
+const posts = ref([]);
+const fetchPosts = async () => {
+  try {
+    const response = await axios.get('/board');
+    posts.value = response.data;
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+  }
+};
+onMounted(fetchPosts);
 
 const sort = (criteria) => {
     // Implement sorting logic based on the criteria (views, likes, or recent)
@@ -28,24 +38,7 @@ const sort = (criteria) => {
         </div>
 
     <div class="boardList">
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
-        <PostCard></PostCard>
+        <PostCard v-for="post in posts" :key="post.id" :post="post" />
     </div>
 </div>
 </template>
