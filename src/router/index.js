@@ -3,6 +3,7 @@ import index from "../views/index.vue";
 import MainView from "../views/MainView.vue";
 import boardList from "../components/board/boardList.vue";
 import registPlan from "../components/plan/registPlan.vue";
+import PlanList from "../components/plan/PlanList.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -54,6 +55,7 @@ const router = createRouter({
     },
     { path: "/boardList", name: "boardList", component: boardList },
     { path: "/registPlan", name: "registPlan", component: registPlan },
+    { path: "/planList", name: "PlanList", component: PlanList },
     // { path: '/test', name: 'test', component: test },
 
     {

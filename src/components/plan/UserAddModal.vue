@@ -40,6 +40,9 @@ const emit = defineEmits(["update:isModalOpen, onAdd"]);
 const searchQuery = ref("");
 
 const filteredUser = computed(() => {
+  if (searchQuery.value.trim() === "") {
+    return [];
+  }
   return users.value.filter((user) =>
     user.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   );

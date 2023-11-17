@@ -1,18 +1,23 @@
 <script setup>
+import { onMounted } from "vue";
+
+onMounted(() => {
+  console.log("mounted");
+});
 </script>
 
 <template>
-    <div class="app">
+  <div class="app">
     <router-view></router-view>
-</div>
+  </div>
 </template>
 
 <style scoped="scoped">
 .app {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
