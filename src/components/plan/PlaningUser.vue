@@ -44,8 +44,7 @@ const isModalOpen = ref(false);
 
 const users = ref([
   // 사용자 목록, 서버에서 가져온 데이터로 채워질 수 있음
-  { email: 1, name: "사용자1" },
-  { email: 2, name: "사용자2" },
+  
   // ...
 ]);
 
