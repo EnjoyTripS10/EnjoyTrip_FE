@@ -47,6 +47,7 @@ const draggableArrays = ref([[]]); // 1일차 부터 배열로 가져온 내용
 
 const location = ref([
   {
+    locationId: 1,
     locationName: "성심당",
     locationAddr: "대전 중구 대종로480번길 15",
     locationLat: "36.327743549909655",
@@ -56,6 +57,7 @@ const location = ref([
     memo: "",
   },
   {
+    locationId: 2,
     locationName: "정진돈",
     locationAddr: "대전 유성구 계룡로123번길 30",
     locationLat: "36.35438273239536",
@@ -65,6 +67,7 @@ const location = ref([
     memo: "",
   },
   {
+    locationId : 3,
     locationName: "롯데월드",
     locationAddr: "서울 송파구 올림픽로 240",
     locationLat: "37.51105631414629",
@@ -74,6 +77,7 @@ const location = ref([
     memo: "",
   },
   {
+    locationId: 4,
     locationName: "에버랜드",
     locationAddr: "경기 용인시 처인구 포곡읍 에버랜드로 199",
     locationLat: "37.292813986661415",
@@ -83,6 +87,7 @@ const location = ref([
     memo: "",
   },
   {
+    locationId: 5,
     locationName: "파라다이스시티",
     locationAddr: "인천광역시 중구 영종해안남로321번길 186",
     locationLat: "37.43711341239237",
@@ -140,7 +145,7 @@ const submitForm = async () => {
       type : 0,
       startDate : start.value,
       endDate : end.value,
-      tripDetails: JSON.stringify(draggableArrays.value),
+      locationList: draggableArrays.value,
       users: users.value
     };
   
