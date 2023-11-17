@@ -18,16 +18,16 @@
                 <img class="profile-img" :src="user.profile_img" />
               </li>
             </ul>
+            <div class="tooltiptext">
+              <ul>
+                <li v-for="user in plan.users" :key="user.id">
+                  <div class="tooltip-box">
+                    <img class="profile-img" :src="user.profile_img" /> {{ user.name }}
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="tooltiptext">
-          <ul>
-            <li v-for="user in plan.users" :key="user.id">
-              <div class="tooltip-box">
-                <img class="profile-img" :src="user.profile_img" /> {{ user.name }}
-              </div>
-            </li>
-          </ul>
         </div>
       </li>
     </ul>
@@ -178,9 +178,9 @@ const plans = ref([
   margin: 10px 0px;
 }
 
-.plan-item .tooltiptext {
+.img-box .tooltiptext {
   visibility: hidden;
-  width: 180px; /* 너비 고정 */
+  width: 150px; /* 너비 고정 */
   background-color: black;
   color: #fff;
   text-align: center;
@@ -188,15 +188,15 @@ const plans = ref([
   padding: 10px; /* 내부 여백 */
   position: absolute;
   z-index: 1000;
-  top: 60%; /* 상위 요소의 하단에 위치 */
-  right: 0%;
+  top: 75%; /* 상위 요소의 하단에 위치 */
+  left: -20px;
   opacity: 0;
   transition: opacity 0.3s;
   overflow: hidden; /* 내용이 넘칠 경우 숨김 */
   white-space: nowrap; /* 텍스트 줄바꿈 방지 */
 }
 
-.plan-item:hover .tooltiptext {
+.img-box:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
 }
