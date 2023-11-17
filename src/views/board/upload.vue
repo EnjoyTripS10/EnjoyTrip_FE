@@ -10,6 +10,7 @@
         <textarea type="text" id="content" v-model="content" class="content-input"></textarea>
       </div>
       <MapComponent :updateLocation="updateParentLocation"></MapComponent>
+      <hr><br>
       <div class="file-input-container">
         <input
           type="file"

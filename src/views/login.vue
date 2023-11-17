@@ -63,7 +63,7 @@ const doKakaoLogin = () => {
         '&redirect_uri=' +
         import.meta.env.VITE_APP_KAKAO_REDIRECT_URL +
         '&response_type=code&' +
-        'scope=account_email birthday gender profile_nickname profile_image'
+        'scope=account_email profile_nickname profile_image'
 
     showSocialLoginPopup(url)
 }
@@ -151,10 +151,10 @@ onMounted(() => {
                 <!-- <h2>여행자들을 위한 <br>모든 것</h2> -->
                 <div class="login-box">
                     <button class="login-btn google" @click="doGoogleLogin()">
-                        <img src="@/assets/img/login/kakao_login.png" alt="login">
+                        <img src="@/assets/img/login/google_login.png" alt="login">
                     </button>
                     <button class="login-btn kakao" @click="doNaverLogin()">
-                        <img src="@/assets/img/login/kakao_login.png" alt="login">
+                        <img src="@/assets/img/login/naver_login.png" alt="login">
                     </button>
                     <button class="login-btn naver" @click="doKakaoLogin()">
                         <img src="@/assets/img/login/kakao_login.png" alt="login">
@@ -193,16 +193,16 @@ onMounted(() => {
 }
 
 .naver {
-    background-image: url("@/assets/img/login/kakao_login.png");
+    /* background-image: url("@/assets/img/login/google_login.png"); */
     /* background-image: url("@/assets/img/login/naver_login.png"); 이미지 경로 */
 }
 
 .kakao {
-    background-image: url("@/assets/img/login/kakao_login.png"); /* 이미지 경로 */
+    /* background-image: url("@/assets/img/login/naver_login.png");  */
 }
 
 .google {
-    background-image: url("@/assets/img/login/kakao_login.png");
+    /* background-image: url("@/assets/img/login/kakao_login.png"); */
     /* background-image: url("@/assets/img/login/google_login.png"); 이미지 경로 */
 }
 
