@@ -1,10 +1,20 @@
 <script setup>
 import { ref,defineProps } from 'vue';
+import axios from "axios";
 
 const showModal = ref(false);
+const title = ref('')
 
 const openModal = () => {
     showModal.value = true;
+
+//   try {
+//     const response =  axios.get(`/board/${post.boardId.value}`);
+//     title.value = response.boardTitle.data;
+    
+//   } catch (error) {
+//     console.error("Error", error);
+//   }
 };
 
 const closeModal = () => {
@@ -29,7 +39,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="post-card" @click="openModal">
+    <div class="post-card" @click="openModal(post.boardId)">
         <!-- <img :src="post.image" alt="post image"> -->
         <img :src="'data:image/png;base64,' + post.image">
         <h2>{{post.boardTitle}}</h2>
@@ -44,7 +54,7 @@ const props = defineProps({
             <!-- Detailed information goes here -->
             <div class="boardDetail">
                 <button class="close-button" @click="closeModal">X</button>
-                <h1>{{ post.boardTitle }}</h1>
+                <h1>{{ title }}</h1>
                 <p>작성자:
                     {{ post.userEmail }}</p>
                 <p>작성일:
