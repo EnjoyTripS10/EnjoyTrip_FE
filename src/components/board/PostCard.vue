@@ -4,17 +4,20 @@ import axios from "axios";
 
 const showModal = ref(false);
 const title = ref('')
+const modalData = ref({});
 
-const openModal = () => {
+
+const openModal = async (boardId) => {
     showModal.value = true;
 
-//   try {
-//     const response =  axios.get(`/board/${post.boardId.value}`);
-//     title.value = response.boardTitle.data;
-    
-//   } catch (error) {
-//     console.error("Error", error);
-//   }
+  try {
+    const response = await axios.get(`/board/${boardId}`);
+    console.log(response)
+    console.log(response.data)
+    modalData.value = response.data;
+  } catch (error) {
+    console.error("Error", error);
+  }
 };
 
 const closeModal = () => {
@@ -54,17 +57,21 @@ const props = defineProps({
             <!-- Detailed information goes here -->
             <div class="boardDetail">
                 <button class="close-button" @click="closeModal">X</button>
-                <h1>{{ title }}</h1>
+                <h1>{{ modalData.boardTitle }}</h1>
                 <p>작성자:
-                    {{ post.userEmail }}</p>
+                    {{ modalData.userEmail }}</p>
                 <p>작성일:
-                    {{ post.createdAt }}</p>
+                    {{modalData.createdAt }}</p>
                 <p>조회수:
-                    {{ post.boardHit }}</p>
+                    {{ modalData.boardHit }}</p>
                 <p>좋아요:
-                    {{ post.boardHit }}</p>
-                <img :src="'data:image/png;base64,' + post.image" alt="post image" width="400">
-                <p>{{ post.boardContent }}</p>
+                    {{ modalData.boardLikes }}</p>
+                <div v-for="(imgBase64, index) in modalData.image" :key="index">
+                    <img :src="'data:image/png;base64,' + imgBase64">
+                    <!-- <img :src="'data:image/png;base64,' + post.image"> -->
+                </div>
+                <!-- <img :src="'data:image/png;base64,' + modalData.image[0]" alt="post image" width="400"> -->
+                <p>{{ modalData.boardContent }}</p>
             </div>
         </div>
     </div>

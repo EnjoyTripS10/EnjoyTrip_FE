@@ -9,7 +9,7 @@
         <!-- <img class="profile-img" :src="user.profileImage" /> -->
         <img class="profile-img" src="../../assets/img/logo.png" />
         <p>{{ user.name }}</p>
-        <button class="delete-btn" @click="deleteUser(user.id)">X</button>
+        <button class="delete-btn" @click="deleteUser(user.email)">X</button>
       </div>
       <button class="add-user-btn" @click="showModal">사용자 추가</button>
       <UserAddModal
@@ -34,7 +34,7 @@ const props = defineProps({
 const emit = defineEmits(["updateUsers"]);
 
 const deleteUser = (userId) => {
-  const index = users.value.findIndex((user) => user.id === userId);
+  const index = users.value.findIndex((user) => user.email === userId);
   if (index !== -1) {
     users.value.splice(index, 1);
   }
@@ -44,8 +44,8 @@ const isModalOpen = ref(false);
 
 const users = ref([
   // 사용자 목록, 서버에서 가져온 데이터로 채워질 수 있음
-  { id: 1, name: "사용자1" },
-  { id: 2, name: "사용자2" },
+  { email: 1, name: "사용자1" },
+  { email: 2, name: "사용자2" },
   // ...
 ]);
 
@@ -54,13 +54,16 @@ const showModal = () => {
 };
 
 const addUser = (newUser) => {
-  const userExists = users.value.some((user) => user.id === newUser.id);
+  const userExists = users.value.some((user) => user.email === newUser.email);
 
   if (userExists) {
     alert("이미 등록된 사용자입니다.");
   } else {
+    // console.log(newUser);
     users.value.push(newUser);
+    console.log(users.value);
     emit("updateUsers", users.value);
+    
   }
 };
 // onMounted(async () => {

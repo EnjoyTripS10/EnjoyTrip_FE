@@ -14,7 +14,7 @@
       </div>
       <ul class="user-list">
         <div>
-          <li v-for="user in filteredUser" :key="user.id">
+          <li v-for="user in filteredUser" :key="user.email">
             {{ user.name }}
             <button @click="addUserList(user)">등록</button>
           </li>
@@ -35,27 +35,26 @@ const props = defineProps({
   // },
 });
 
-const emit = defineEmits(["update:isModalOpen, onAdd"]);
+
+const emit = defineEmits(["update:isModalOpen", "onAdd"]);
+
 
 const searchQuery = ref("");
 
 const filteredUser = computed(() => {
-  if (searchQuery.value.trim() === "") {
-    return [];
-  }
   return users.value.filter((user) =>
     user.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
 
 const users = ref([
-  { id: 8, name: "김범수" },
-  { id: 9, name: "김보경" },
-  { id: 3, name: "서정현" },
-  { id: 4, name: "이용준" },
-  { id: 5, name: "이수경" },
-  { id: 6, name: "황정민" },
-  { id: 7, name: "최재식" },
+  { email: "8", name: "김범수" },
+  { email: "9", name: "김보경" },
+  { email: "3", name: "서정현" },
+  { email: "4", name: "이용준" },
+  { email: "5", name: "이수경" },
+  { email: "6", name: "황정민" },
+  { email: "7", name: "최재식" },
 ]);
 
 const closeModal = () => {
@@ -63,8 +62,9 @@ const closeModal = () => {
 };
 
 const addUserList = (user) => {
-  console.log(user.name);
+  // console.log(user.name);
   emit("onAdd", user);
+  // emit("updateUsers", users.value);
   closeModal();
 };
 </script>

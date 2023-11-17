@@ -9,6 +9,8 @@ import PlaningUser from "./PlaningUser.vue";
 // 달력
 const day = ref(1);
 const dateValue = ref([]);
+const start = ref("");
+const end = ref("");
 
 const formatter = ref({
   date: "YYYY.MM.DD",
@@ -19,6 +21,9 @@ watch(dateValue, (newVal) => {
   if (newVal.length === 2) {
     const startDate = new Date(newVal[0]);
     const endDate = new Date(newVal[1]);
+
+    start.value = startDate;
+    end.value = endDate;
 
     const timeDiff = endDate.getTime() - startDate.getTime();
     const dayDiff = timeDiff / (1000 * 3600 * 24);
@@ -108,6 +113,7 @@ const addLocationToPlan = (newLocation) => {
 // user 추가
 const users = ref([[]]); // 기본 값은 자기 아이디로 넣어주기
 const updateUsers = (newUser) => {
+  console.log(newUser)
   users.value = newUser;
   console.log(users.value);
 };
@@ -125,6 +131,36 @@ const updateUsers = (newUser) => {
 //     // 글쓰기가 실패했을 때 처리할 코드를 작성합니다.
 //   }
 // };
+
+
+const submitForm = async () => {
+  const postData = {
+      title: title.value,
+      content: content.value,
+      type : 0,
+      startDate : start.value,
+      endDate : end.value,
+      tripDetails: JSON.stringify(draggableArrays.value),
+      users: users.value
+    };
+  
+  try {
+    console.log(users.value)
+    const response = await axios.post('/trip', postData,
+    {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+    console.log('Post successful:', response.data);
+
+    // 폼 제출 후의 추가 작업 (예: 페이지 리디렉션, 상태 업데이트 등)
+  } catch (error) {
+    console.error('Error submitting post:', error);
+    // 에러 처리 로직
+  }
+};
 </script>
 
 <template>
@@ -144,7 +180,7 @@ const updateUsers = (newUser) => {
           <textarea id="content" v-model="content"></textarea>
         </div>
         <div class="button-container">
-          <button type="submit" class="submit-btn">글쓰기</button>
+          <button type="submit" class="submit-btn" @submit.prevent="submitForm">글쓰기</button>
         </div>
         <div class="edit">
           <div class="left">
@@ -198,7 +234,8 @@ const updateUsers = (newUser) => {
     </div>
   </div>
   <div class="userList">
-    <PlaningUser @updateUsers="updateUsers" />
+    <PlaningUser
+    @updateUsers="updateUsers" />
   </div>
 </template>
 
