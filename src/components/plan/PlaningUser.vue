@@ -1,3 +1,5 @@
+<!--PlaningUser.vue-->
+
 <template>
   <div class="user-list">
     <label class="label">사용자 목록</label>
@@ -12,22 +14,24 @@
       <button class="add-user-btn" @click="showModal">사용자 추가</button>
       <UserAddModal
         :isModalOpen="isModalOpen"
-        :users="allUsers"
-        @update:isModalOpen="isModalOpen = $event"
         @onAdd="addUser"
+        @update:isModalOpen="isModalOpen = $event"
       />
     </div>
   </div>
 </template>
-
+<!--:users="allUsers" 프롭으로 넘겨줄 유저값-->
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import UserAddModal from "./UserAddModal.vue";
 
 // postId prop을 받습니다.
 const props = defineProps({
   postId: String,
+  updateUsers: Function,
 });
+
+const emit = defineEmits(["updateUsers"]);
 
 const deleteUser = (userId) => {
   const index = users.value.findIndex((user) => user.id === userId);
@@ -45,17 +49,19 @@ const users = ref([
   // ...
 ]);
 
-const existingUsers = ref([
-  // 이미 추가된 사용자 목록
-]);
-
 const showModal = () => {
   isModalOpen.value = true;
 };
 
-const addUser = (user) => {
-  // 사용자를 existingUsers에 추가하는 로직
-  existingUsers.value.push(user);
+const addUser = (newUser) => {
+  const userExists = users.value.some((user) => user.id === newUser.id);
+
+  if (userExists) {
+    alert("이미 등록된 사용자입니다.");
+  } else {
+    users.value.push(newUser);
+    emit("updateUsers", users.value);
+  }
 };
 // onMounted(async () => {
 //   // 서버로부터 사용자 데이터를 가져옵니다.
@@ -69,7 +75,6 @@ const addUser = (user) => {
 
 //   // 실시간 업데이트를 위한 추가 로직 필요
 // });
-
 </script>
 
 <style scoped>

@@ -1,12 +1,24 @@
+<!--UserAddModal.vue-->
+
 <template>
   <div class="modal" v-if="isModalOpen">
     <div class="modal-content">
-      <button class="close-btn" @click="closeModal">X</button>
-      <input type="text" v-model="searchQuery" placeholder="사용자 email로 검색" />
+      <div class="input-close">
+        <input
+          class="input-box"
+          type="text"
+          v-model="searchQuery"
+          placeholder="사용자 email로 검색"
+        />
+        <button class="close-btn" @click="closeModal">X</button>
+      </div>
       <ul class="user-list">
-        <li v-for="user in filteredUsers" :key="user.id" @click="addUser(user)">
-          {{ user.name }}
-        </li>
+        <div>
+          <li v-for="user in filteredUser" :key="user.id">
+            {{ user.name }}
+            <button @click="addUserList(user)">등록</button>
+          </li>
+        </div>
       </ul>
     </div>
   </div>
@@ -17,48 +29,78 @@ import { ref, computed } from "vue";
 
 const props = defineProps({
   isModalOpen: Boolean,
-  users: {
-    type: Array,
-    default: () => [], // 기본값을 빈 배열로 설정
-  },
-  onAdd: Function,
+  // users: {
+  //   type: Array,
+  //   default: () => [], // 기본값을 빈 배열로 설정
+  // },
 });
 
-const emit = defineEmits(["update:isModalOpen"]);
+const emit = defineEmits(["update:isModalOpen, onAdd"]);
 
 const searchQuery = ref("");
-const filteredUsers = computed(() => {
-  // users가 정의되어 있을 때만 filter를 수행
-  return (
-    props.users &&
-    props.users.filter((user) => user.name.toLowerCase().includes(searchQuery.value.toLowerCase()))
+
+const filteredUser = computed(() => {
+  return users.value.filter((user) =>
+    user.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
+
+const users = ref([
+  { id: 8, name: "김범수" },
+  { id: 9, name: "김보경" },
+  { id: 3, name: "서정현" },
+  { id: 4, name: "이용준" },
+  { id: 5, name: "이수경" },
+  { id: 6, name: "황정민" },
+  { id: 7, name: "최재식" },
+]);
 
 const closeModal = () => {
   emit("update:isModalOpen", false);
 };
 
-const addUser = (user) => {
-  props.onAdd(user);
+const addUserList = (user) => {
+  console.log(user.name);
+  emit("onAdd", user);
   closeModal();
 };
 </script>
 
 <style scoped>
 .modal {
-  /* 모달 스타일링 */
+  margin-top: 20px;
+}
+
+.input-box {
+  width: 90%;
 }
 
 .modal-content {
-  /* 모달 내용 스타일링 */
+  display: flex;
+  flex-direction: column;
 }
 
+.input-close {
+  display: flex;
+  align-items: space-between;
+}
 .close-btn {
-  /* 닫기 버튼 스타일링 */
+  border: 1px solid black;
+  margin-left: 3px;
+  width: 10%;
 }
 
 .user-list {
-  /* 사용자 목록 스타일링 */
+  display: flex;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.user-list div li {
+  margin-bottom: 10px;
+}
+
+.user-list div button {
+  border: 1px solid black;
 }
 </style>

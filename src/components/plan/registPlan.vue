@@ -6,7 +6,39 @@ import Draggable from "vue3-draggable";
 import LocationModal from "./LocationModal.vue";
 import PlaningUser from "./PlaningUser.vue";
 
-let showModal = ref(false);
+// 달력
+const day = ref(1);
+const dateValue = ref([]);
+
+const formatter = ref({
+  date: "YYYY.MM.DD",
+  month: "MM",
+});
+
+watch(dateValue, (newVal) => {
+  if (newVal.length === 2) {
+    const startDate = new Date(newVal[0]);
+    const endDate = new Date(newVal[1]);
+
+    const timeDiff = endDate.getTime() - startDate.getTime();
+    const dayDiff = timeDiff / (1000 * 3600 * 24);
+
+    day.value = dayDiff + 1; // 시작일과 종료일을 포함하여 계산
+  }
+});
+
+watch(day, (newVal) => {
+  draggableArrays.value = new Array(newVal).fill().map(() => []);
+});
+
+// 제목 내용
+
+const title = ref("");
+const content = ref("");
+
+// 장소 드래그 엔 드롭 블록
+
+const draggableArrays = ref([[]]); // 1일차 부터 배열로 가져온 내용
 
 const location = ref([
   {
@@ -56,33 +88,29 @@ const location = ref([
   },
 ]);
 
-const day = ref(1);
-const dateValue = ref([]);
-const draggableArrays = ref([[]]);
+// 장소 메모
+const toggleDropdown = (item) => {
+  console.log(item);
+  console.log(item.showDropdown);
+  item.showDropdown = !item.showDropdown;
+};
 
-const formatter = ref({
-  date: "YYYY.MM.DD",
-  month: "MM",
-});
+// 장소 추가
+let showModal = ref(false);
+let componentKey = ref(0);
+const addLocationToPlan = (newLocation) => {
+  showModal.value = false;
+  console.log(showModal);
+  location.value = [...location.value, newLocation.value];
+  componentKey.value++;
+};
 
-watch(dateValue, (newVal) => {
-  if (newVal.length === 2) {
-    const startDate = new Date(newVal[0]);
-    const endDate = new Date(newVal[1]);
-
-    const timeDiff = endDate.getTime() - startDate.getTime();
-    const dayDiff = timeDiff / (1000 * 3600 * 24);
-
-    day.value = dayDiff + 1; // 시작일과 종료일을 포함하여 계산
-  }
-});
-
-watch(day, (newVal) => {
-  draggableArrays.value = new Array(newVal).fill().map(() => []);
-});
-
-const title = ref("");
-const content = ref("");
+// user 추가
+const users = ref([[]]); // 기본 값은 자기 아이디로 넣어주기
+const updateUsers = (newUser) => {
+  users.value = newUser;
+  console.log(users.value);
+};
 
 // const submitForm = async () => {
 //   try {
@@ -97,20 +125,6 @@ const content = ref("");
 //     // 글쓰기가 실패했을 때 처리할 코드를 작성합니다.
 //   }
 // };
-
-const toggleDropdown = (item) => {
-  console.log(item);
-  console.log(item.showDropdown);
-  item.showDropdown = !item.showDropdown;
-};
-let componentKey = ref(0);
-
-const addLocationToPlan = (newLocation) => {
-  showModal.value = false;
-  console.log(showModal);
-  location.value = [...location.value, newLocation.value];
-  componentKey.value++;
-};
 </script>
 
 <template>
@@ -151,8 +165,8 @@ const addLocationToPlan = (newLocation) => {
                     <button class="recomend-btn">등록</button>
                   </div>
                 </template>
-                <!-- <pre>{{ JSON.stringify(array, undefined, 4) }}</pre> -->
               </draggable>
+              <pre>{{ JSON.stringify(array, undefined, 4) }}</pre>
             </div>
           </div>
 
@@ -184,174 +198,182 @@ const addLocationToPlan = (newLocation) => {
     </div>
   </div>
   <div class="userList">
-    <PlaningUser />
+    <PlaningUser @updateUsers="updateUsers" />
   </div>
 </template>
 
 <style scoped>
-.dropdown-menu {
-  display: flex;
-  width: 100%;
-  height: 100px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0px 2px 2px #aaa;
-  margin: 10px 0px;
-  padding: 10px;
-  justify-content: center;
-}
-
-.memo {
-  resize: none;
-  margin-right: 20px;
-  border-radius: 10px;
-}
-.recomend-btn {
-  background-color: #ffffff;
-  border-radius: 10px;
-  border: 1px solid #000000;
-}
-.dropdown-menu.active {
-  display: block;
-  width: 100%;
-  height: 100px;
-}
-.drop {
-  display: flex;
-  width: 300px;
-  margin: 0px 20px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-label {
-  font-size: 15px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-.regist-plan {
-  margin-left: 7vw;
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.left .right {
-  width: 35%;
-  height: auto;
-  justify-self: center;
-}
-
-.userList {
-  width: 30%;
-  height: 500px;
-  margin-right: 7vw;
-  margin-left: 5vw;
-}
-
-.edit {
-  display: flex;
-  padding-top: 50px;
-  width: 100%;
-  height: 100vh;
-  justify-content: center;
-}
-
-.edit-date {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 50px;
-  padding-bottom: 50px;
-}
-.draggable-item {
-  display: flex;
-  justify-content: center;
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0px 2px 5px #aaa;
-  margin: 1%;
-  padding: 1%;
-  border-radius: 10px;
-}
-.drop-zone {
-  display: flex;
-  flex-direction: column;
-  background-color: rgb(0, 0, 0);
-  border-radius: 10px;
-  box-shadow: 0px 2px 2px #aaa;
-  margin: 10px 20px;
-  padding: 10px;
-  width: 100%;
-  height: 25%;
-  min-height: 70px;
-}
-pre {
-  background-color: #eee;
-  margin-top: 30px;
-  width: 90%;
-  min-height: 200px;
-}
-
-.form-style {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: auto;
-  min-height: 1000px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-}
-
-.form-group {
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.form-group textarea {
-  resize: none; /* 크기 조절 불가 */
-  min-height: 60px; /* 최소 높이 */
-}
-
 .button-container {
   display: flex;
   justify-content: flex-end; /* 버튼을 오른쪽으로 정렬 */
   width: 100%;
 }
 
-.submit-btn {
-  padding: 7px 15px;
-  background-color: khaki;
-  color: black;
+.dropdown-menu {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 2px 2px #aaa;
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  margin: 10px 0px;
+  padding: 10px;
+  width: 100%;
+}
+
+.dropdown-menu.active {
+  display: block;
+  height: 100px;
+  width: 100%;
+}
+
+.draggable-item {
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px #aaa;
+  display: flex;
+  justify-content: center;
+  margin: 1%;
+  padding: 1%;
+}
+
+.drop {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0px 20px;
+  width: 300px;
+}
+
+.drop-zone {
+  background-color: rgb(0, 0, 0);
+  border-radius: 10px;
+  box-shadow: 0px 2px 2px #aaa;
+  display: flex;
+  flex-direction: column;
+  height: 25%;
+  margin: 10px 20px;
+  min-height: 70px;
+  padding: 10px;
+  width: 100%;
+}
+
+.edit {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  padding-top: 50px;
+  width: 100%;
+}
+
+.edit-date {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 50px;
+  padding-top: 50px;
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.form-group input,
+.form-group textarea {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  width: 100%;
+}
+
+.form-group label {
+  display: block;
   font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group textarea {
+  min-height: 60px; /* 최소 높이 */
+  resize: none; /* 크기 조절 불가 */
+}
+
+.form-style {
+  align-items: center;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  margin: 0 auto;
+  min-height: 1000px;
+  padding: 20px;
+  width: 100%;
+}
+
+label {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.left .right {
+  height: auto;
+  justify-self: center;
+  width: 35%;
+}
+
+.memo {
+  border-radius: 10px;
+  margin-right: 20px;
+  resize: none;
+}
+
+.pre {
+  background-color: #eee;
+  margin-top: 30px;
+  min-height: 200px;
+  width: 90%;
+}
+
+.recomend-btn {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 10px;
+}
+
+.regist-plan {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  justify-content: center;
+  margin-left: 7vw;
+  width: 100%;
+}
+
+.submit-btn {
+  background-color: khaki;
   border: none;
   border-radius: 4px;
+  color: black;
   cursor: pointer;
+  font-weight: bold;
+  padding: 7px 15px;
   transition: background-color 0.3s;
 }
 
 .submit-btn:hover {
   background-color: #0056b3;
+}
+
+.userList {
+  height: 500px;
+  margin-left: 5vw;
+  margin-right: 7vw;
+  width: 30%;
 }
 </style>
