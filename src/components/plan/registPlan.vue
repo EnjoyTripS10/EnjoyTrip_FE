@@ -98,7 +98,6 @@ const content = ref("");
 //   }
 // };
 
-
 const toggleDropdown = (item) => {
   console.log(item);
   console.log(item.showDropdown);
@@ -109,8 +108,8 @@ let componentKey = ref(0);
 const addLocationToPlan = (newLocation) => {
   showModal.value = false;
   console.log(showModal);
-  location.value = [...location.value, newLocation];
-  componentKey.value++; 
+  location.value = [...location.value, newLocation.value];
+  componentKey.value++;
 };
 </script>
 
@@ -161,14 +160,22 @@ const addLocationToPlan = (newLocation) => {
             <div class="drop">
               <label class="date-label">장소 목록</label>
               <draggable :key="componentKey" v-model="location" transition="100" class="drop-zone">
-                <template v-slot:item="{ item }" v-for="(item, index) in location" :key="item.locationName">
+                <template
+                  v-slot:item="{ item }"
+                  v-for="(item, index) in location"
+                  :key="item.locationName"
+                >
                   <div class="draggable-item">
                     {{ item.locationName }}
                   </div>
                 </template>
               </draggable>
               <button class="add-location" @click="showModal = true">장소 추가</button>
-              <LocationModal :isVisible="showModal" @update:isVisible="showModal = $event" @addLocationToPlan="addLocationToPlan"/>
+              <LocationModal
+                :isVisible="showModal"
+                @update:isVisible="showModal = $event"
+                @addLocationToPlan="addLocationToPlan"
+              />
             </div>
             <pre>{{ JSON.stringify(location, undefined, 4) }}</pre>
           </div>
