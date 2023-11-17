@@ -1,6 +1,7 @@
 <template>
   <div class="plan-list">
     <h2>계획 목록</h2>
+    <input class="search-box" type="text" placeholder="검색..." v-model="searchQuery" />
     <ul class="plan-items">
       <li v-for="plan in plans" :key="plan.id" class="plan-item">
         <div class="plan-details">
@@ -37,6 +38,9 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import axios from "axios";
+
+// 검색 쿼리 데이터
+const searchQuery = ref("");
 
 const plans = ref([
   {
@@ -101,6 +105,13 @@ const plans = ref([
 </script>
 
 <style scoped>
+.search-box {
+  width: 60%; /* 혹은 적절한 너비 */
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 .tooltip-box {
   display: flex;
   align-items: center;
