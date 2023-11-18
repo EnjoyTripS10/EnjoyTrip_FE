@@ -135,5 +135,6 @@ const addUser = (newUser) => {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  height: 100%;
 }
 </style>

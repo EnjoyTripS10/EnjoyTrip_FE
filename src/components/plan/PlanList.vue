@@ -112,13 +112,6 @@ const plans = ref([
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-.tooltip-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  line-height: 20px;
-}
 .plan-list {
   border: 1px solid #ccc;
 }
@@ -159,14 +152,13 @@ const plans = ref([
   margin-left: -13px; /* 사진들이 15% 겹치도록 조정 */
   position: relative; /* z-index를 적용하기 위해 필요 */
 }
-.profile-img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%; /* 원형 이미지 */
-  object-fit: cover;
-  border: 2px solid white; /* 이미지 사이의 구분을 위한 테두리 */
-  position: relative; /* z-index를 적용하기 위해 필요 */
-  z-index: 1; /* 겹침 순서 조정 */
+
+.tooltip-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  line-height: 20px;
 }
 
 .text-box {
