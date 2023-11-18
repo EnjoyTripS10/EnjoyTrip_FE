@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onBeforeMount } from "vue";
 import axios from "axios";
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
 import Draggable from "vue3-draggable";
@@ -17,6 +17,19 @@ const formatter = ref({
   month: "MM",
 });
 
+const fetchLocations = async () => {
+  try {
+    const response = await axios.get('/location/stored');
+    location.value = response.data;
+    componentKey.value++;
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+  }
+};
+onBeforeMount(fetchLocations);
+setTimeout(fetchLocations, 5000);
+
+// fetchLocations();
 watch(dateValue, (newVal) => {
   if (newVal.length === 2) {
     const startDate = new Date(newVal[0]);
@@ -46,56 +59,25 @@ const content = ref("");
 const draggableArrays = ref([[]]); // 1일차 부터 배열로 가져온 내용
 
 const location = ref([
-  {
-    locationId: 1,
-    locationName: "성심당",
-    locationAddr: "대전 중구 대종로480번길 15",
-    locationLat: "36.327743549909655",
-    locationLon: "127.42730271663449",
-    locationType: "음식점",
-    showDropdown: false,
-    memo: "",
-  },
-  {
-    locationId: 2,
-    locationName: "정진돈",
-    locationAddr: "대전 유성구 계룡로123번길 30",
-    locationLat: "36.35438273239536",
-    locationLon: "127.34488567928535",
-    locationType: "음식점",
-    showDropdown: false,
-    memo: "",
-  },
-  {
-    locationId : 3,
-    locationName: "롯데월드",
-    locationAddr: "서울 송파구 올림픽로 240",
-    locationLat: "37.51105631414629",
-    locationLon: "127.09806314999784",
-    locationType: "관광지",
-    showDropdown: false,
-    memo: "",
-  },
-  {
-    locationId: 4,
-    locationName: "에버랜드",
-    locationAddr: "경기 용인시 처인구 포곡읍 에버랜드로 199",
-    locationLat: "37.292813986661415",
-    locationLon: "127.20228550062",
-    locationType: "관광지",
-    showDropdown: false,
-    memo: "",
-  },
-  {
-    locationId: 5,
-    locationName: "파라다이스시티",
-    locationAddr: "인천광역시 중구 영종해안남로321번길 186",
-    locationLat: "37.43711341239237",
-    locationLon: "126.45600502673338",
-    locationType: "숙박",
-    showDropdown: false,
-    memo: "",
-  },
+  // {
+  //   locationId: 5,
+  //   locationName: "파라다이스시티",
+  //   locationAddr: "인천광역시 중구 영종해안남로321번길 186",
+  //   locationLat: "37.43711341239237",
+  //   locationLon: "126.45600502673338",
+  //   locationType: "숙박",
+  //   showDropdown: false,
+  //   memo: "",
+  // },  {
+  //   locationId: 5,
+  //   locationName: "파라다이스시티",
+  //   locationAddr: "인천광역시 중구 영종해안남로321번길 186",
+  //   locationLat: "37.43711341239237",
+  //   locationLon: "126.45600502673338",
+  //   locationType: "숙박",
+  //   showDropdown: false,
+  //   memo: "",
+  // },
 ]);
 
 // 장소 메모
