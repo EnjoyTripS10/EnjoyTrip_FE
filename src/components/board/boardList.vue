@@ -4,12 +4,22 @@ import PostCard from "./PostCard.vue";
 import axios from 'axios';
 
 const posts = ref([]);
+const searchQuery = ref('');
 const fetchPosts = async () => {
   try {
     const response = await axios.get('/board');
     posts.value = response.data;
   } catch (error) {
     console.error('Error fetching posts:', error);
+  }
+};
+
+const fetchSearchedPosts = async () => {
+  try {
+    const response = await axios.get(`/board/search/${searchQuery.value}`);
+    posts.value = response.data;
+  } catch (error) {
+    console.error('Error fetching searched posts:', error);
   }
 };
 onMounted(fetchPosts);
@@ -28,7 +38,10 @@ const sort = (criteria) => {
     <div class="board">
     <div class="header">
             <h2>게시글 목록</h2> <!-- Title -->
-            <input type="text" placeholder="검색..." class="search-bar"> <!-- Search Bar -->
+            <div class="search-container">  
+                <input type="text" placeholder="검색..." v-model="searchQuery" @keyup.enter="fetchSearchedPosts" class="search-bar">
+                <button @click="fetchSearchedPosts" class="search-btn">검색</button>
+            </div>
             <div class="sorting-options">
                 <!-- Sorting Options -->
                 <button @click="sort('views')">조회수</button>
@@ -79,5 +92,26 @@ const sort = (criteria) => {
     background-color: #f0f0f0;
     border-radius: 5px;
     cursor: pointer;
+}
+
+
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+
+.search-btn {
+  padding: 5px 10px;
+  margin-left: 5px;
+  background-color: #4c72af;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.search-btn:hover {
+  background-color: #4c72af;
 }
 </style>
