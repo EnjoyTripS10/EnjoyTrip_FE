@@ -5,7 +5,7 @@ import axios from "axios";
 const showModal = ref(false);
 const title = ref('')
 const modalData = ref({});
-
+const isLiked = ref(false);
 
 const openModal = async (boardId) => {
     showModal.value = true;
@@ -15,6 +15,7 @@ const openModal = async (boardId) => {
     console.log(response)
     console.log(response.data)
     modalData.value = response.data;
+    isLiked.value = modalData.value.like;
   } catch (error) {
     console.error("Error", error);
   }
@@ -30,6 +31,23 @@ const props = defineProps({
     required: true
   }
 });
+
+const toggleLike = async (boardId) => {
+  isLiked.value = !isLiked.value; // 상태 토글
+
+  try {
+    // 서버에 좋아요 상태 업데이트 요청
+    const response = await axios.post(`/board/like`, {boardId, isLiked : isLiked.value},{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.error("Error updating like status:", error);
+  }
+};
+
 // const post = ref({
 //     title: '자전거 타고 하체운동',
 //     author: '김범수',
@@ -56,6 +74,9 @@ const props = defineProps({
         <div class="modal-content" @click.stop>
             <!-- Detailed information goes here -->
             <div class="boardDetail">
+                <button class="heart-btn" :class="{ 'filled': isLiked }" @click="toggleLike(modalData.boardId)">
+                    &#x2764; <!-- 하트 아이콘 -->
+                </button>
                 <button class="close-button" @click="closeModal">X</button>
                 <h1>{{ modalData.boardTitle }}</h1>
                 <p>작성자:
@@ -92,6 +113,15 @@ const props = defineProps({
   margin: 4px 2px;
   cursor: pointer;
   transition: all 0.5s;
+}
+
+.heart-btn {
+  color: #ccc; /* 기본적으로 비어있는 하트 */
+  /* ... 기타 스타일 ... */
+}
+
+.heart-btn.filled {
+  color: red; /* 좋아요가 활성화되었을 때 꽉 찬 하트 */
 }
 
 .close-button:hover {

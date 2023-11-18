@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import index from "../views/index.vue";
 import MainView from "../views/MainView.vue";
 import boardList from "../components/board/boardList.vue";
+import boardListLiked from "../components/board/boardListLiked.vue";
 import registPlan from "../components/plan/registPlan.vue";
 import PlanList from "../components/plan/PlanList.vue";
 const router = createRouter({
@@ -54,6 +55,7 @@ const router = createRouter({
       component: () => import("../views/login/GoogleLogin.vue"),
     },
     { path: "/boardList", name: "boardList", component: boardList },
+    { path: "/boardListLiked", name: "boardListLiked", component: boardListLiked },
     { path: "/registPlan", name: "registPlan", component: registPlan },
     { path: "/planList", name: "PlanList", component: PlanList },
     // { path: '/test', name: 'test', component: test },
