@@ -1,11 +1,12 @@
 <script setup>
-import { ref,defineProps } from 'vue';
+import { ref,defineProps, watch } from 'vue';
 import axios from "axios";
 
 const showModal = ref(false);
 const title = ref('')
 const modalData = ref({});
 const isLiked = ref(false);
+const status = ref(0);
 
 const openModal = async (boardId) => {
     showModal.value = true;
@@ -33,8 +34,8 @@ const props = defineProps({
 });
 
 const toggleLike = async (boardId) => {
-  isLiked.value = !isLiked.value; // 상태 토글
-
+  isLiked.value = !isLiked.value; // 상태 토글  `
+status.value++;
   try {
     // 서버에 좋아요 상태 업데이트 요청
     const response = await axios.post(`/board/like`, {boardId, isLiked : isLiked.value},{
@@ -47,6 +48,19 @@ const toggleLike = async (boardId) => {
     console.error("Error updating like status:", error);
   }
 };
+
+watch(isLiked, (newVal) => {
+    if(status.value !== 0){
+        if(newVal === true) {
+        modalData.value.boardLikes++;
+    }
+    else {
+        modalData.value.boardLikes--;
+    }
+}
+})
+
+
 
 // const post = ref({
 //     title: '자전거 타고 하체운동',
