@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, defineProps, onUnmounted } from "vue";
+import { onMounted, ref, onUnmounted } from "vue";
 
 const searchQuery = ref("");
 const mapContainer = ref(null);

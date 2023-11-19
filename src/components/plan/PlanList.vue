@@ -113,7 +113,10 @@ const plans = ref([
   border-radius: 4px;
 }
 .plan-list {
+  margin-top: 50px;
+  padding: 20px;
   border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .plan-list-box {

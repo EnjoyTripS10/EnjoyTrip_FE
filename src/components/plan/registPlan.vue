@@ -19,11 +19,11 @@ const formatter = ref({
 
 const fetchLocations = async () => {
   try {
-    const response = await axios.get('/location/stored');
+    const response = await axios.get("/location/stored");
     location.value = response.data;
     componentKey.value++;
   } catch (error) {
-    console.error('Error fetching posts:', error);
+    console.error("Error fetching posts:", error);
   }
 };
 onBeforeMount(fetchLocations);
@@ -58,27 +58,7 @@ const content = ref("");
 
 const draggableArrays = ref([[]]); // 1일차 부터 배열로 가져온 내용
 
-const location = ref([
-  // {
-  //   locationId: 5,
-  //   locationName: "파라다이스시티",
-  //   locationAddr: "인천광역시 중구 영종해안남로321번길 186",
-  //   locationLat: "37.43711341239237",
-  //   locationLon: "126.45600502673338",
-  //   locationType: "숙박",
-  //   showDropdown: false,
-  //   memo: "",
-  // },  {
-  //   locationId: 5,
-  //   locationName: "파라다이스시티",
-  //   locationAddr: "인천광역시 중구 영종해안남로321번길 186",
-  //   locationLat: "37.43711341239237",
-  //   locationLon: "126.45600502673338",
-  //   locationType: "숙박",
-  //   showDropdown: false,
-  //   memo: "",
-  // },
-]);
+const location = ref([]);
 
 // 장소 메모
 const toggleDropdown = (item) => {
@@ -100,129 +80,118 @@ const addLocationToPlan = (newLocation) => {
 // user 추가
 const users = ref([[]]); // 기본 값은 자기 아이디로 넣어주기
 const updateUsers = (newUser) => {
-  console.log(newUser)
+  console.log(newUser);
   users.value = newUser;
   console.log(users.value);
 };
 
-// const submitForm = async () => {
-//   try {
-//     const response = await axios.post("/api/posts", {
-//       title: title.value,
-//       content: content.value,
-//     });
-//     console.log(response.data);
-//     // 글쓰기가 성공적으로 완료되었을 때 처리할 코드를 작성합니다.
-//   } catch (error) {
-//     console.log(error);
-//     // 글쓰기가 실패했을 때 처리할 코드를 작성합니다.
-//   }
-// };
-
-
 const submitForm = async () => {
   const postData = {
-      title: title.value,
-      content: content.value,
-      type : 0,
-      startDate : start.value,
-      endDate : end.value,
-      locationList: draggableArrays.value,
-      users: users.value
-    };
-  
+    title: title.value,
+    content: content.value,
+    type: 0,
+    startDate: start.value,
+    endDate: end.value,
+    locationList: draggableArrays.value,
+    users: users.value,
+  };
+
   try {
-    console.log(users.value)
-    const response = await axios.post('/trip', postData,
-    {
+    console.log(users.value);
+    const response = await axios.post("/trip", postData, {
       headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-  );
-    console.log('Post successful:', response.data);
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("Post successful:", response.data);
 
     // 폼 제출 후의 추가 작업 (예: 페이지 리디렉션, 상태 업데이트 등)
   } catch (error) {
-    console.error('Error submitting post:', error);
+    console.error("Error submitting post:", error);
     // 에러 처리 로직
   }
 };
 </script>
 
 <template>
-  <div class="regist-plan">
-    <label class="date-label"> 계획 작성하기 </label>
-    <div>
-      <form @submit.prevent="submitForm" class="form-style">
-        <div class="edit-date">
-          <vue-tailwind-datepicker v-model="dateValue" :formatter="formatter" />
-        </div>
-        <div class="form-group">
-          <label for="title">제목:</label>
-          <input type="text" id="title" v-model="title" />
-        </div>
-        <div class="form-group">
-          <label for="content">내용:</label>
-          <textarea id="content" v-model="content"></textarea>
-        </div>
-        <div class="button-container">
-          <button type="submit" class="submit-btn" @submit.prevent="submitForm">글쓰기</button>
-        </div>
-        <div class="edit">
-          <div class="left">
-            <div class="drop" v-for="(array, index) in draggableArrays" :key="index">
-              <label class="date-label">{{ index + 1 }} 일차</label>
-              <draggable v-model="draggableArrays[index]" transition="100" class="drop-zone">
-                <template v-slot:item="{ item }">
-                  <div class="draggable-item" @click.prevent="toggleDropdown(item)">
-                    {{ item.locationName }}
-                    <!-- <button @click.prevent="toggleDropdown(item)">// 클릭</button> -->
-                  </div>
-                  <div v-if="item.showDropdown" class="dropdown-menu">
-                    <textarea
-                      class="memo"
-                      v-model="item.memo"
-                      placeholder="메모 작성..."
-                    ></textarea>
-                    <button class="recomend-btn">등록</button>
-                  </div>
-                </template>
-              </draggable>
-              <pre>{{ JSON.stringify(array, undefined, 4) }}</pre>
-            </div>
+  <div class="regist-plan-user">
+    <div class="regist-plan">
+      <label class="date-label"> 계획 작성하기 </label>
+      <div>
+        <form @submit.prevent="submitForm" class="form-style">
+          <div class="edit-date">
+            <vue-tailwind-datepicker v-model="dateValue" :formatter="formatter" />
           </div>
+          <div class="form-group">
+            <label for="title">제목:</label>
+            <input type="text" id="title" v-model="title" />
+          </div>
+          <div class="form-group">
+            <label for="content">내용:</label>
+            <textarea id="content" v-model="content"></textarea>
+          </div>
+          <div class="button-container">
+            <button type="submit" class="submit-btn" @submit.prevent="submitForm">글쓰기</button>
+          </div>
+          <div class="edit">
+            <div class="left">
+              <div class="drop" v-for="(array, index) in draggableArrays" :key="index">
+                <label class="date-label">{{ index + 1 }} 일차</label>
+                <draggable v-model="draggableArrays[index]" transition="100" class="drop-zone">
+                  <template v-slot:item="{ item }">
+                    <div class="draggable-item" @click.prevent="toggleDropdown(item)">
+                      {{ item.locationName }}
+                      <!-- <button @click.prevent="toggleDropdown(item)">// 클릭</button> -->
+                    </div>
+                    <div v-if="item.showDropdown" class="dropdown-menu">
+                      <textarea
+                        class="memo"
+                        v-model="item.memo"
+                        placeholder="메모 작성..."
+                      ></textarea>
+                      <button class="recomend-btn">등록</button>
+                    </div>
+                  </template>
+                </draggable>
+                <!-- <pre>{{ JSON.stringify(array, undefined, 4) }}</pre> -->
+              </div>
+            </div>
 
-          <div class="right">
-            <div class="drop">
-              <label class="date-label">장소 목록</label>
-              <draggable :key="componentKey" v-model="location" transition="100" class="drop-zone">
-                <template
-                  v-slot:item="{ item }"
-                  v-for="(item, index) in location"
-                  :key="item.locationName"
+            <div class="right">
+              <div class="drop">
+                <label class="date-label">추천 장소</label>
+                <draggable
+                  :key="componentKey"
+                  v-model="location"
+                  transition="100"
+                  class="drop-zone"
                 >
-                  <div class="draggable-item">
-                    {{ item.locationName }}
-                  </div>
-                </template>
-              </draggable>
-              <button class="add-location" @click="showModal = true">장소 추가</button>
-              <LocationModal
-                :isVisible="showModal"
-                @update:isVisible="showModal = $event"
-                @addLocationToPlan="addLocationToPlan"
-              />
+                  <template
+                    v-slot:item="{ item }"
+                    v-for="(item, index) in location"
+                    :key="item.locationName"
+                  >
+                    <div class="draggable-item">
+                      {{ item.locationName }}
+                    </div>
+                  </template>
+                </draggable>
+                <button class="add-location" @click="showModal = true">장소 추가</button>
+                <LocationModal
+                  :isVisible="showModal"
+                  @update:isVisible="showModal = $event"
+                  @addLocationToPlan="addLocationToPlan"
+                />
+              </div>
+              <!-- <pre>{{ JSON.stringify(location, undefined, 4) }}</pre> -->
             </div>
-            <pre>{{ JSON.stringify(location, undefined, 4) }}</pre>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
-  <div class="userList">
-    <PlaningUser
-    @updateUsers="updateUsers" />
+    <div class="userList">
+      <PlaningUser @updateUsers="updateUsers" />
+    </div>
   </div>
 </template>
 
@@ -283,9 +252,15 @@ const submitForm = async () => {
   width: 100%;
 }
 
+.regist-plan-user {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  width: 100%;
+}
+
 .edit {
   display: flex;
-  height: 100vh;
   justify-content: center;
   padding-top: 50px;
   width: 100%;
@@ -331,7 +306,6 @@ const submitForm = async () => {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  height: auto;
   margin: 0 auto;
   min-height: 1000px;
   padding: 20px;
@@ -345,7 +319,6 @@ label {
 }
 
 .left .right {
-  height: auto;
   justify-self: center;
   width: 35%;
 }
@@ -395,7 +368,8 @@ label {
 }
 
 .userList {
-  height: 500px;
+  height: 100%;
+  min-height: 1000px;
   margin-left: 5vw;
   margin-right: 7vw;
   width: 30%;

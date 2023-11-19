@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import index from "../views/index.vue";
 import MainView from "../views/MainView.vue";
+import MainPage from "../components/MainPage.vue";
 import boardList from "../components/board/boardList.vue";
 import boardListLiked from "../components/board/boardListLiked.vue";
 import registPlan from "../components/plan/registPlan.vue";
@@ -9,6 +10,10 @@ import PlanDetail from "../components/plan/PlanDetail.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior(to, from, savedPosition) {
+    // 항상 페이지 이동 시 최상단으로 스크롤
+    return { top: 0 };
+  },
   routes: [
     { path: "/", name: "redirect", redirect: "/index/section1" },
     {
@@ -39,7 +44,51 @@ const router = createRouter({
       ],
     },
 
-    { path: "/home", name: "home", component: MainView },
+    {
+      path: "/",
+      component: MainView,
+      children: [
+        {
+          path: "home",
+          component: MainPage,
+        },
+        {
+          path: "boardList",
+          name: "boardList",
+          component: boardList,
+        },
+        {
+          path: "planList",
+          name: "PlanList",
+          component: PlanList,
+        },
+        {
+          path: "planDetail",
+          name: "PlanDetail",
+          component: PlanDetail,
+        },
+        {
+          path: "registPlan",
+          name: "registPlan",
+          component: registPlan,
+        },
+        {
+          path: "boardListLiked",
+          name: "boardListLiked",
+          component: boardListLiked,
+        },
+        {
+          path: "uploadboard",
+          name: "addBoard",
+          component: () => import("../views/board/upload.vue"),
+        },
+        {
+          path: "findLocation",
+          name: "findLocation",
+          component: () => import("../components/location/findlocation.vue"),
+        },
+      ],
+    },
     { path: "/login", name: "login", component: () => import("../views/login.vue") },
     {
       path: "/kakao-login",
@@ -55,18 +104,6 @@ const router = createRouter({
       path: "/google-login",
       name: "GoogleLogin",
       component: () => import("../views/login/GoogleLogin.vue"),
-    },
-    { path: "/boardList", name: "boardList", component: boardList },
-    { path: "/boardListLiked", name: "boardListLiked", component: boardListLiked },
-    { path: "/registPlan", name: "registPlan", component: registPlan },
-    { path: "/planList", name: "PlanList", component: PlanList },
-    { path: "/planDetail", name: "PlanDetail", component: PlanDetail },
-    // { path: '/test', name: 'test', component: test },
-
-    {
-      path: "/uploadboard",
-      name: "addBoard",
-      component: () => import("../views/board/upload.vue"),
     },
   ],
 });

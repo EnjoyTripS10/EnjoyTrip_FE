@@ -1,13 +1,15 @@
-<script setup></script>
+<script setup>
+import { RouterLink } from "vue-router";
+</script>
 
 <template>
   <header class="header">
-    <div class="logo">VirusTrip</div>
+    <RouterLink to="/home" class="logo">VirusTrip</RouterLink>
     <nav class="navbar">
-      <a href="#">Home</a>
-      <a href="#">About</a>
-      <a href="#">Services</a>
-      <a href="#">Contact</a>
+      <RouterLink to="/boardList">장소 목록</RouterLink>
+      <RouterLink to="/planList">계획 목록</RouterLink>
+      <RouterLink to="/registPlan">계획 작성</RouterLink>
+      <RouterLink to="/findLocation">주변 장소</RouterLink>
     </nav>
   </header>
 </template>

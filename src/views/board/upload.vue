@@ -10,7 +10,8 @@
         <textarea type="text" id="content" v-model="content" class="content-input"></textarea>
       </div>
       <MapComponent :updateLocation="updateParentLocation"></MapComponent>
-      <hr><br>
+      <hr />
+      <br />
       <div class="file-input-container">
         <input
           type="file"
@@ -34,7 +35,7 @@ location
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
-import MapComponent from "../../components/location/map.vue";
+import MapComponent from "../../components/location/kakaoMap.vue";
 
 const files = ref([]);
 const title = ref("");
@@ -109,7 +110,6 @@ label[for="file"] {
 
   position: relative; /* 포지션 설정 */
   /* top: 100%; 상단에서 50% 위치 */
-  transform: translateY(20%); /* Y축 기준 50% 위로 이동 */
 }
 .upload-btn {
   cursor: pointer;

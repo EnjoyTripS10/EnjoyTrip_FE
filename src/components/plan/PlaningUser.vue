@@ -44,7 +44,6 @@ const isModalOpen = ref(false);
 
 const users = ref([
   // 사용자 목록, 서버에서 가져온 데이터로 채워질 수 있음
-  
   // ...
 ]);
 
@@ -62,7 +61,6 @@ const addUser = (newUser) => {
     users.value.push(newUser);
     console.log(users.value);
     emit("updateUsers", users.value);
-    
   }
 };
 // onMounted(async () => {
@@ -84,7 +82,7 @@ const addUser = (newUser) => {
   border: 1px solid #000000;
   border-radius: 3px;
   margin-top: 20px;
-  width: 50%;
+  width: 100%;
 }
 
 .add-user-btn:hover {
@@ -123,7 +121,7 @@ const addUser = (newUser) => {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  height: auto;
+  height: 100%;
   margin: 0 auto;
   min-height: 1000px;
   padding: 20px;
@@ -134,7 +132,6 @@ const addUser = (newUser) => {
   align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  height: 100%;
+  height: 100vh;
 }
 </style>

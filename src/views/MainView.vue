@@ -1,10 +1,5 @@
 <script setup>
-import MainFooter from "@/components/MainFooter.vue";
 import MainHeader from "@/components/MainHeader.vue";
-import MainPage from "@/components/MainPage.vue";
-import List from "@/components/board/BoardList.vue";
-import registPlan from "../components/plan/registPlan.vue";
-import { RouterLink } from "vue-router";
 </script>
 <template>
   <div class="view-container">
@@ -12,9 +7,7 @@ import { RouterLink } from "vue-router";
       <MainHeader />
     </div>
     <div class="view">
-      <!-- <MainPage/> -->
-      <!-- <list/> -->
-      <registPlan />
+      <RouterView />
     </div>
 
     <div class="footer">
@@ -31,7 +24,7 @@ import { RouterLink } from "vue-router";
 }
 .view {
   display: flex;
-  padding-top: 80px;
+  padding-top: 60px;
   /*padding-left: 200px;
   padding-right: 200px; */
   justify-content: center;

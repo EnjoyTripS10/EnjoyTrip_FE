@@ -36,9 +36,9 @@ import location from "../components/home/location.vue";
     justify-content: center;
 }
 .banner{
-    margin-top: 150px;
-    height: 50px;
-    margin-bottom: 200px;
+    width: 100vw;
+    height: 400px;
+    margin-bottom: 100px;
 }
 .location {
     margin: 100px 0px;
