@@ -87,6 +87,9 @@ const showLikedPosts = () => {
 </template>
 
 <style scoped>
+.board {
+  margin-top: 50px;
+}
 .dropdown-menu {
   list-style-type: none;
   padding: 0;
@@ -136,7 +139,7 @@ const showLikedPosts = () => {
 }
 
 .header {
-  padding: 20px;
+  padding-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
