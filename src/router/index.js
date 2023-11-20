@@ -7,6 +7,7 @@ import boardListLiked from "../components/board/boardListLiked.vue";
 import registPlan from "../components/plan/registPlan.vue";
 import PlanList from "../components/plan/PlanList.vue";
 import PlanDetail from "../components/plan/PlanDetail.vue";
+import updatePlan from "../components/plan/updatePlan.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -71,6 +72,11 @@ const router = createRouter({
           path: "registPlan",
           name: "registPlan",
           component: registPlan,
+        },
+        {
+          path: "updatePlan",
+          name: "updatePlan",
+          component: updatePlan,
         },
         {
           path: "boardListLiked",

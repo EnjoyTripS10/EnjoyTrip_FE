@@ -25,7 +25,8 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
+import axios from "axios";
 
 const props = defineProps({
   isModalOpen: Boolean,
@@ -46,6 +47,25 @@ const filteredUser = computed(() => {
   return users.value.filter(
     (user) => user.email.toLowerCase() === searchQuery.value.toLowerCase().trim()
   );
+});
+
+const searchUsers = async (query) => {
+  if (query.trim() === '') {
+    filteredUser.value = [];
+    return;
+  }
+
+  try {
+    // 여기에 서버의 사용자 검색 API 엔드포인트를 입력하세요.
+    const response = await axios.get(`/api/user/findmember/${query}`);
+    filteredUser.value = response.data; // 서버 응답을 filteredUser에 할당
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+};
+
+watch(searchQuery, (newValue) => {
+  searchUsers(newValue);
 });
 
 const users = ref([

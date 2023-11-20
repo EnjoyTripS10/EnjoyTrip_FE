@@ -134,6 +134,7 @@ const addNewLocation = () => {
     alert("장소를 선택해주세요");
     return;
   }
+  
   props.updateLocation(newLocation, showModal);
 };
 

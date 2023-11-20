@@ -25,14 +25,8 @@ const sort = (criteria) => {
   // ... other criteria
 };
 
-const fetchSearchedPosts = async () => {
-  try {
-    const response = await axios.get(`/boardLiked/search/${searchQuery.value}`);
-    posts.value = response.data;
-  } catch (error) {
-    console.error("Error fetching searched posts:", error);
-  }
-};
+
+
 const isDropdownOpen = ref(false);
 
 const toggleDropdown = () => {
