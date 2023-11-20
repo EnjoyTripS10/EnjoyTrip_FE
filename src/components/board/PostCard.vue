@@ -89,6 +89,20 @@ const searchNaver = (place) => {
   const url = `https://search.naver.com/search.naver?query=${city} ${name}`;
   window.open(url, "_blank");
 };
+
+// 수정 이벤트 핸들러
+const editBoard = (boardId) => {
+  // 수정 관련 로직
+  console.log("Edit board with ID:", boardId);
+  // 예: router.push(`/edit-board/${boardId}`);
+};
+
+// 삭제 이벤트 핸들러
+const deleteBoard = (boardId) => {
+  // 삭제 관련 로직
+  console.log("Delete board with ID:", boardId);
+  // 예: callDeleteApi(boardId);
+};
 </script>
 
 <template>
@@ -144,6 +158,10 @@ const searchNaver = (place) => {
             <p>좋아요 : {{ modalData.boardLikes }}</p>
             <!-- <img :src="'data:image/png;base64,' + modalData.image[0]" alt="post image" width="400"> -->
             <p>{{ modalData.boardContent }}</p>
+          </div>
+          <div class="edit-delete-buttons">
+            <button @click="editBoard(modalData.boardId)">수정</button>
+            <button @click="deleteBoard(modalData.boardId)">삭제</button>
           </div>
         </div>
       </div>
@@ -268,9 +286,41 @@ h1 {
 .boardDetail-in {
   position: relative; /* 상대 위치 지정 */
   margin-top: 2%;
+  height: calc(100% - 60px);
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.edit-delete-buttons {
+  position: absolute; /* 부모 대비 절대 위치 설정 */
+  bottom: 10px; /* 하단에서 10px 떨어진 곳에 위치 */
+  right: 10px; /* 오른쪽에서 10px 떨어진 곳에 위치 */
+}
+
+.edit-delete-buttons button {
+  margin-left: 5px; /* 버튼 사이 간격 조정 */
+  padding: 5px 10px; /* 버튼의 내부 여백 */
+  background-color: #f0f0f0; /* 기본 배경색 */
+  border: 1px solid #ccc; /* 테두리 스타일 */
+  border-radius: 5px; /* 테두리 둥글게 */
+  cursor: pointer; /* 마우스 포인터 변경 */
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.edit-delete-buttons button:hover {
+  background-color: #e0e0e0; /* 호버 시 배경색 변경 */
+  transform: translateY(-2px); /* 호버 시 버튼을 약간 위로 이동 */
+}
+
+/* 수정 버튼에만 특별한 스타일 적용 가능 */
+.edit-delete-buttons button:first-child {
+  background-color: #add8e6; /* 수정 버튼의 배경색 */
+}
+
+/* 삭제 버튼에만 특별한 스타일 적용 가능 */
+.edit-delete-buttons button:last-child {
+  background-color: #ffcccb; /* 삭제 버튼의 배경색 */
 }
 .post-card {
   margin-bottom: 20px;

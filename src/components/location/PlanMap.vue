@@ -24,14 +24,14 @@ const props = defineProps({
   locationGroup: Array,
 });
 
-watchEffect(() => {
-  if (props.locationGroup && props.locationGroup.length > 0) {
-    clearMarkers(); // 기존 마커 제거
-    props.locationGroup.forEach((location) => {
-      // 여기에서 location 데이터를 사용하여 마커 생성
-    });
-  }
-});
+// const watchEffect(() => {
+//   if (props.locationGroup && props.locationGroup.length > 0) {
+//     clearMarkers(); // 기존 마커 제거
+//     props.locationGroup.forEach((location) => {
+//       displayMarker(location);
+//     });
+//   }
+// });
 
 const fetchLocation = () => {
   if ("geolocation" in navigator) {
@@ -116,6 +116,7 @@ const placesSearchCB = (data, status) => {
 
 const displayMarker = (place) => {
   // 마커를 생성하고 지도에 표시합니다
+  console.log(place);
   var marker = new kakao.maps.Marker({
     map: map.value,
     position: new kakao.maps.LatLng(place.y, place.x),

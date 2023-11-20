@@ -75,7 +75,7 @@ const showLikedPosts = () => {
     </div>
 
     <div class="boardList">
-      <PostCard v-for="post in posts" :key="post.id" :post="post" class="post-card-style"/>
+      <PostCard v-for="post in posts" :key="post.id" :post="post" class="post-card-style" />
     </div>
     <div class="dropdown-container" v-if="isDropdownOpen">
       <ul class="dropdown-menu">
@@ -95,6 +95,7 @@ const showLikedPosts = () => {
 }
 .board {
   margin-top: 50px;
+  width: 100%;
 }
 .dropdown-menu {
   list-style-type: none;
