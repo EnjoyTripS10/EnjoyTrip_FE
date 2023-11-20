@@ -17,9 +17,10 @@ const title = ref("");
 const content = ref("");
 
 // 장소 드래그 엔 드롭 블록
-
 const draggableArrays = ref([[]]); // 1일차 부터 배열로 가져온 내용
 const location = ref([]);
+
+const getData = ref([]);
 
 const formatter = ref({
   date: "YYYY.MM.DD",
@@ -28,24 +29,41 @@ const formatter = ref({
 
 const fetchLocations = async () => {
   try {
-    const response = await axios.get("/trip/1");
+    const response = await axios.get("/trip/3");
 
     title.value = response.data.title;
     content.value = response.data.content;
-    console
-    const startDate = new Date(response.data.startDate);
-    const endDate = new Date(response.data.endDate);
+    // const startDate = new Date("Nov 02 2023 19:49:17");
+    // const endDate = new Date("2023-11-02 19:49:17");
+    
+    const startDate = convertISOToDateTime(response.data.startDate);
+    const endDate = convertISOToDateTime(response.data.endDate);
     
     // dateValue ref를 업데이트
     dateValue.value = [startDate, endDate];
 
-    draggableArrays.value = response.data.locationList;
+    getData.value = response.data;
+    // draggableArrays.value = response.data.locationList;
+    draggableArrays.value = response.data.locationList.map(dayLocations => {
+      // 각 dayLocations 배열에 대해 필요한 데이터만 추출하거나 변환
+      return dayLocations.map(location => {
+        // 예시: 필요한 필드만 반환
+        return {
+          locationId: location.locationId,
+          locationName: location.locationName,
+          locationAddr: location.locationAddr,
+          locationLat: location.locationLat,
+          locationLon: location.locationLon,
+          memo: location.memo || ""  // memo가 없는 경우 빈 문자열로 설정
+        };
+      });
+    });
 
     console.log(draggableArrays.value)
     users.value= response.data.users;
     console.log(users.value);
 
-    componentKey.value++;
+    // componentKey.value++;
   } catch (error) {
     console.error("Error fetching posts:", error);
   }
@@ -53,20 +71,15 @@ const fetchLocations = async () => {
 onBeforeMount(fetchLocations);
 
 const convertISOToDateTime = (isoString) => {
-  const date = new Date(isoString);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // getMonth()는 0부터 시작하므로 1을 더합니다.
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  const seconds = String(date.getSeconds()).padStart(2, '0');
-//"YYYY.MM.DD",
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  "2023-10-31T15:00:00.000Z"
+  const dateYMD = isoString.substring(0,10)
+  return `${dateYMD} 00:00:00`;
 };
 
 // fetchLocations();
 watch(dateValue, (newVal) => {
   if (newVal.length === 2) {
+    console.log("dateValue" + newVal);
     const startDate = new Date(newVal[0]);
     const endDate = new Date(newVal[1]);
 
@@ -77,11 +90,14 @@ watch(dateValue, (newVal) => {
     const dayDiff = timeDiff / (1000 * 3600 * 24);
 
     day.value = dayDiff + 1; // 시작일과 종료일을 포함하여 계산
+
+    console.log("여행기간" + day.value)
   }
 });
 
 watch(day, (newVal) => {
-  if(newVal) draggableArrays.value = new Array(newVal).fill().map(() => []);
+  console.log("day" + newVal);
+  // if(newVal) draggableArrays.value = new Array(newVal).fill().map(() => []);
 });
 
 
@@ -144,7 +160,7 @@ const submitForm = async () => {
 <template>
   <div class="regist-plan-user">
     <div class="regist-plan">
-      <label class="date-label"> 계획 작성하기 </label>
+      <label class="date-label"> 계획 수정하기 </label>
       <div>
         <form @submit.prevent="submitForm" class="form-style">
           <div class="edit-date">
@@ -159,13 +175,13 @@ const submitForm = async () => {
             <textarea id="content" v-model="content"></textarea>
           </div>
           <div class="button-container">
-            <button type="submit" class="submit-btn" @submit.prevent="submitForm">글쓰기</button>
+            <button type="submit" class="submit-btn" @submit.prevent="submitForm">수정 완료</button>
           </div>
           <div class="edit">
             <div class="left">
-              <div class="drop" v-for="(array, index) in draggableArrays" :key="index">
+              <div class="drop" v-for="(array, index) in getData.locationList" :key="index">
                 <label class="date-label">{{ index + 1 }} 일차</label>
-                <draggable v-model="draggableArrays[index]" transition="100" class="drop-zone">
+                <draggable v-model="getData.locationList[index]" transition="100" class="drop-zone">
                   <template v-slot:item="{ item }">
                     <div class="draggable-item" @click.prevent="toggleDropdown(item)">
                       {{ item.locationName }}
