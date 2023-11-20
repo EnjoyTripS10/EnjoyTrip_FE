@@ -8,10 +8,7 @@ import PlaningUser from "./PlaningUser.vue";
 
 // 달력
 const day = ref(1);
-const dateValue = ref([{
-  startDate: '',
-  endDate: '',
-}]);
+const dateValue = ref([]);
 const start = ref("");
 const end = ref("");
 
@@ -36,10 +33,12 @@ const fetchLocations = async () => {
     title.value = response.data.title;
     content.value = response.data.content;
     console
-    dateValue.value.startDate = convertISOToDateTime(response.data.startDate);
-    console.log(dateValue.value);
-    dateValue.value.endDate = convertISOToDateTime(response.data.endDate);
+    const startDate = new Date(response.data.startDate);
+    const endDate = new Date(response.data.endDate);
     
+    // dateValue ref를 업데이트
+    dateValue.value = [startDate, endDate];
+
     draggableArrays.value = response.data.locationList;
 
     console.log(draggableArrays.value)
