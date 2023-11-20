@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import axios from "axios";
 
 const showModal = ref(false);
@@ -19,6 +19,36 @@ const openModal = async (boardId) => {
   } catch (error) {
     console.error("Error", error);
   }
+};
+
+const kakaoShare = (data) => {
+  window.Kakao.Share.createDefaultButton({
+    container: "#kakaotalk-sharing-btn",
+    objectType: "feed",
+    content: {
+      title: data.boardTitle,
+      description: "장소 : " + data.locationName + "\n내용 : " + data.boardContent,
+      imageUrl:
+        "http://k.kakaocdn.net/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png",
+      link: {
+        // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+        mobileWebUrl: "http://172.20.10.2:8080/boardList",
+        webUrl: "http://172.20.10.2:8080/boardList",
+      },
+    },
+    social: {
+      likeCount: data.boardLikes,
+    },
+    buttons: [
+      {
+        title: "VIrusTrip 바로가기",
+        link: {
+          mobileWebUrl: "http://172.20.10.2:8080/boardList",
+          webUrl: "http://172.20.10.2:8080/boardList",
+        },
+      },
+    ],
+  });
 };
 
 const closeModal = () => {
@@ -63,7 +93,9 @@ watch(isLiked, (newVal) => {
 });
 
 const formatDate = (datetime) => {
-  return datetime.split("T")[0];
+  if (datetime) {
+    return datetime.split("T")[0];
+  }
 };
 
 // 이미지
@@ -146,6 +178,14 @@ const deleteBoard = (boardId) => {
             <button @click="showNextImage">다음</button>
           </div>
           <div class="board-info">
+            <a id="kakaotalk-sharing-btn" href="javascript:;">
+              <img
+                src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+                alt="카카오톡 공유 보내기 버튼"
+                @click="kakaoShare(modalData)"
+                style="width: 30px; height: 30px"
+              />
+            </a>
             <button
               class="heart-btn"
               :class="{ filled: isLiked }"
