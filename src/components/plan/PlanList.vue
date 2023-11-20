@@ -4,10 +4,10 @@
     <input class="search-box" type="text" placeholder="검색..." v-model="searchQuery" />
     <ul class="plan-items">
       <li v-for="plan in plans" :key="plan.id" class="plan-item">
-        <div class="plan-details">
+        <div class="plan-details" @click="navigateToDetail(plan.tripId)">
           <div class="text-box">
-            <h3>{{ plan.title }}</h3>
-            <p>{{ plan.startDate }} ~ {{ plan.endDate }}</p>
+            <h3>{{ plan.tripTitle }}</h3>
+            <p>{{ formatDate(plan.tripStartDate) }} ~ {{ formatDate(plan.tripEndDate) }}</p>
           </div>
           <div class="img-box">
             <ul class="user-list">
@@ -16,14 +16,21 @@
                 :key="user.id"
                 :style="{ zIndex: plan.users.length - index }"
               >
-                <img class="profile-img" :src="user.profile_img" />
+                <img
+                  class="profile-img"
+                  :src="user.picture ? user.picture : 'src/assets/img/logo_bg.png'"
+                />
               </li>
             </ul>
             <div class="tooltiptext">
               <ul>
                 <li v-for="user in plan.users" :key="user.id">
                   <div class="tooltip-box">
-                    <img class="profile-img" :src="user.profile_img" /> {{ user.name }}
+                    <img
+                      class="profile-img"
+                      :src="user.picture ? user.picture : 'src/assets/img/logo_bg.png'"
+                    />
+                    {{ user.userName }}
                   </div>
                 </li>
               </ul>
@@ -37,71 +44,32 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import axios from "axios";
 
 // 검색 쿼리 데이터
 const searchQuery = ref("");
 
-const plans = ref([
-  {
-    title: "1박 2일 군산여행",
-    startDate: "2021-10-01",
-    endDate: "2021-10-02",
-    users: [
-      {
-        id: 1,
-        name: "김철수",
-        profile_img: "https://picsum.photos/200/200",
-      },
-      {
-        id: 2,
-        name: "이영희",
-        profile_img: "https://picsum.photos/200/201",
-      },
-      {
-        id: 3,
-        name: "이희수",
-        profile_img: "https://picsum.photos/200/202",
-      },
-      {
-        id: 4,
-        name: "이영희",
-        profile_img: "https://picsum.photos/200/203",
-      },
-      {
-        id: 5,
-        name: "김수지",
-        profile_img: "https://picsum.photos/200/204",
-      },
-    ],
-  },
-  {
-    title: "제주도 한 달 살이",
-    startDate: "2021-11-01",
-    endDate: "2021-11-31",
-    users: [
-      {
-        id: 3,
-        name: "김수지",
-        profile_img: "https://picsum.photos/200/205",
-      },
-      {
-        id: 4,
-        name: "이희수",
-        profile_img: "https://picsum.photos/200/206",
-      },
-    ],
-  },
-]);
+const plans = ref([]);
 
-// onMounted(async () => {
-//   try {
-//     const response = await axios.get('API_ENDPOINT_URL'); // 여기에 계획 목록을 가져올 API 엔드포인트 URL을 적으세요.
-//     plans.value = response.data;
-//   } catch (error) {
-//     console.error('계획 목록을 가져오는 데 실패했습니다:', error);
-//   }
-// });
+const formatDate = (datetime) => {
+  return datetime.split("T")[0];
+};
+
+onMounted(async () => {
+  try {
+    const response = await axios.get("/trip"); // 여기에 계획 목록을 가져올 API 엔드포인트 URL을 적으세요.
+    plans.value = response.data;
+  } catch (error) {
+    console.error("계획 목록을 가져오는 데 실패했습니다:", error);
+  }
+});
+
+const router = useRouter();
+
+const navigateToDetail = (tripId) => {
+  router.push(`/planDetail/${tripId}`);
+};
 </script>
 
 <style scoped>

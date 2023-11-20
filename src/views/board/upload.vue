@@ -2,13 +2,14 @@
   <div class="upload-container">
     <div class="input-container">
       <div class="title-input-container">
-        <label for="title">Title:</label>
+        <label for="title">제목:</label>
         <input type="text" id="title" v-model="title" class="title-input" />
       </div>
       <div class="content-input-container">
-        <label for="content">Content:</label>
-        <textarea type="text" id="content" v-model="content" class="content-input"></textarea>
+        <label for="content">내용:</label>
+        <input type="text" id="content" v-model="content" class="content-input">
       </div>
+      <label for="content">장소를 선택해 주세요</label>
       <MapComponent :updateLocation="updateParentLocation"></MapComponent>
       <hr />
       <br />
@@ -21,13 +22,13 @@
           accept="image/*"
           class="file-input"
         />
-        <label for="file" class="file-label">이미지 선택</label>
+        <label for="file" class="file-label">사진 업로드</label>
       </div>
     </div>
     <ul v-if="files.length" class="file-list">
       <li v-for="file in files" :key="file.name" class="file-item">{{ file.name }}</li>
     </ul>
-    <button @click="uploadFiles" class="upload-btn">Upload</button>
+    <button @click="uploadFiles" class="upload-btn">등록</button>
   </div>
 </template>
 location
@@ -35,7 +36,8 @@ location
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
-import MapComponent from "../../components/location/kakaoMap.vue";
+import { useRouter } from "vue-router";
+import MapComponent from "../../components/location/map.vue";
 
 const files = ref([]);
 const title = ref("");
@@ -54,7 +56,7 @@ const handleFiles = (event) => {
     files.value = selectedFiles;
   }
 };
-
+const router = useRouter();
 const uploadFiles = async () => {
   console.log(title.value);
   console.log(content.value);
@@ -78,14 +80,16 @@ const uploadFiles = async () => {
   } catch (error) {
     console.error("Error uploading file", error);
   }
+  router.push("/boardList");
 };
 </script>
 <style>
 label {
-  font-size: 30px; /* 글자 크기 증가 */
+  font-size: 15px; /* 글자 크기 증가 */
+  width: 10%;
 }
 label[for="file"] {
-  font-size: 20px; /* 글자 크기 증가 */
+  font-size: 15px; /* 글자 크기 증가 */
 }
 /* 전체 컨테이너를 중앙 정렬 */
 .upload-container {
@@ -94,15 +98,15 @@ label[for="file"] {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0 auto;
+  margin: 30px auto;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 카드 스타일의 그림자 */
-  width: 50%; /* 창의 50% 너비 */
+  width: 100%; /* 창의 50% 너비 */
+  height: auto;
   min-width: 500px; /* 최소 너비 설정 */
   max-width: 80%; /* 최대 너비를 80%로 설정하여 유연성 부여 */
-  margin: 0 auto; /* 좌우 자동 마진으로 중앙 정렬 */
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -111,6 +115,12 @@ label[for="file"] {
   position: relative; /* 포지션 설정 */
   /* top: 100%; 상단에서 50% 위치 */
 }
+
+.input-container {
+  width: 60%;
+  height: 100%;
+}
+
 .upload-btn {
   cursor: pointer;
   padding: 10px 20px;
@@ -136,15 +146,16 @@ textarea {
   padding: 12px; /* 패딩 증가 */
   font-size: 30px; /* 글자 크기 증가 */
   width: 100%;
+  resize: none;
 }
 /* 레이블과 인풋 필드 스타일링 */
 .title-input-container,
 .content-input-container {
   margin-bottom: 10px;
   display: flex;
-
+  width: 100%;
   align-items: center;
-  gap: 25px;
+  gap: 10px;
 }
 
 .title-input,
@@ -154,6 +165,10 @@ textarea {
   border: 1px solid #ddd;
   border-radius: 4px;
   margin-top: 5px;
+}
+
+.content-input {
+  height: 150px;
 }
 
 .file-input {
@@ -190,7 +205,8 @@ textarea {
   background-color: #a9bbce;
   color: white;
   text-align: center;
-  padding: 10px 20px;
+  width: 20%;
+  padding: 10px 10px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -212,7 +228,7 @@ textarea {
   border: none; /* 테두리 없앰 */
   background-color: #a9bbce; /* 배경 색상 */
   color: white; /* 글자 색상 */
-  font-size: 24px; /* 글자 크기 */
+  font-size: 15px; /* 글자 크기 */
   cursor: pointer; /* 커서 스타일 변경 */
   outline: none; /* 포커스시 윤곽선 제거 */
   transition: background-color 0.3s; /* 배경색 변경시 부드러운 전환 효과 */

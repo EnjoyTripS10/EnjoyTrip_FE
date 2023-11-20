@@ -279,6 +279,7 @@ const toggleMenu = () => {
   transition: left 0.3s ease;
   background-color: #ffffff;
   border: 1px solid #c7c6c6;
+  border-left: none;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   display: flex;

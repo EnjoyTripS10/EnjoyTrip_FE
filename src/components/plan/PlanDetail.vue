@@ -1,56 +1,19 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import axios from "axios";
 import PlaningUser from "./PlaningUser.vue";
+import { useRoute } from "vue-router";
 
-const title = ref("제목이지롱"); // 불러오기
-const content = ref("내용 별거 있냐"); // 불러오기
+const route = useRoute();
+const planid = route.params.planid;
+const title = ref("");
+const content = ref("");
 
-const location = ref([
-  [
-    {
-    locationId: 1,
-    locationName: "성심당",
-    locationAddr: "대전 중구 대종로480번길 15",
-    locationLat: "36.327743549909655",
-    locationLon: "127.42730271663449",
-    locationType: "음식점",
-    showDropdown: false,
-    memo: "",
-  },
-  {
-    locationId: 2,
-    locationName: "정진돈",
-    locationAddr: "대전 유성구 계룡로123번길 30",
-    locationLat: "36.35438273239536",
-    locationLon: "127.34488567928535",
-    locationType: "음식점",
-    showDropdown: false,
-    memo: "",
-  },
-],
-  [{
-    locationId: 3,
-    locationName: "장소3",
-    locationAddr: "대전 중구 대종로480번길 15",
-    locationLat: "36.327743549909655",
-    locationLon: "127.42730271663449",
-    locationType: "음식점",
-    showDropdown: false,
-    memo: "",
-  },
-  {
-    locationId: 4,
-    locationName: "장소4",
-    locationAddr: "대전 유성구 계룡로123번길 30",
-    locationLat: "36.35438273239536",
-    locationLon: "127.34488567928535",
-    locationType: "음식점",
-    showDropdown: false,
-    memo: "",
-  },],
-]);
+const planData = ref([]);
 
+const formatDate = (datetime) => {
+  return datetime.split("T")[0];
+};
 // 장소 메모
 const toggleDropdown = (item) => {
   console.log(item);
@@ -58,85 +21,98 @@ const toggleDropdown = (item) => {
   item.showDropdown = !item.showDropdown;
 };
 
-// user 추가
-const users = ref([
-      {
-        id: 1,
-        name: "김철수",
-        profile_img: "https://picsum.photos/200/200",
-      },
-      {
-        id: 2,
-        name: "이영희",
-        profile_img: "https://picsum.photos/200/201",
-      },
-      {
-        id: 3,
-        name: "이희수",
-        profile_img: "https://picsum.photos/200/202",
-      },
-      {
-        id: 4,
-        name: "이영희",
-        profile_img: "https://picsum.photos/200/203",
-      },
-      {
-        id: 5,
-        name: "김수지",
-        profile_img: "https://picsum.photos/200/204",
-      },
-    ]); // 기본 값은 자기 아이디로 넣어주기
+const getUserPicture = (user) => {
+  return user.picture;
+};
 
-// const submitForm = async () => {
-//   try {
-//     const response = await axios.post("/api/posts", {
-//       title: title.value,
-//       content: content.value,
-//     });
-//     console.log(response.data);
-//     // 글쓰기가 성공적으로 완료되었을 때 처리할 코드를 작성합니다.
-//   } catch (error) {
-//     console.log(error);
-//     // 글쓰기가 실패했을 때 처리할 코드를 작성합니다.
-//   }
-// };
+const loadPlan = async () => {
+  try {
+    // URL 내의 `${planid}`를 실제 변수로 대체합니다.
+    const response = await axios.get(`/trip/${planid}`, {
+      params: {
+        title: title.value,
+        content: content.value,
+      },
+    });
+    planData.value = response.data;
+    title.value = planData.value.title;
+    content.value = planData.value.content;
+    console.log(planData.value);
+    // 글쓰기가 성공적으로 완료되었을 때 처리할 코드를 작성합니다.
+  } catch (error) {
+    console.log(error);
+    // 글쓰기가 실패했을 때 처리할 코드를 작성합니다.
+  }
+};
 
-
+onMounted(loadPlan);
 </script>
 
 <template>
   <div class="detail-plan">
     <label> 계획 짜세히 </label>
-        <div class="detail-plan-info-button">
-          <btuuon>여행완료</btuuon>
+    <div class="detail-plan-info-button">
+      <btuuon>여행완료</btuuon>
+    </div>
+    <div class="detail-plan-info">
+      <label for="title">제목: </label>
+      <input type="text" id="title" :value="title" readonly />
+    </div>
+    <div class="detail-plan-info">
+      <label for="content">내용:</label>
+      <input id="content" :value="content" readonly />
+    </div>
+    <div class="detail-plan-info-main">
+      <div class="detail-plan-left">
+        <label>경로</label>
+      </div>
+      <div class="detail-plan-right">
+        <div>
+          <label>여행 참여자</label>
         </div>
-        <div class="detail-plan-info">
-          <label for="title">제목:</label>
-          <input type="text" id="title" :value="title" readonly/>
-        </div>
-        <div class="detail-plan-info">
-          <label for="content">내용:</label>
-          <textarea id="content" :value="content" readonly></textarea>
-        </div>
-        <div class="detail-plan-info-main">
-          <div class="detail-plan-left">
-            지도자리
+        <div class="img-box">
+          <ul class="user-list">
+            <li
+              v-for="(user, index) in planData.users"
+              :key="user.id"
+              :style="{ zIndex: planData.users.length - index }"
+            >
+              <img
+                class="profile-img"
+                :src="user.picture ? user.picture : '../src/assets/img/logo_bg.png'"
+              />
+            </li>
+          </ul>
+          <div class="tooltiptext">
+            <ul>
+              <li v-for="user in planData.users" :key="user.id">
+                <div class="tooltip-box">
+                  <img
+                    class="profile-img"
+                    :src="user.picture ? user.picture : '../src/assets/img/logo_bg.png'"
+                  />{{ user.name }}
+                </div>
+              </li>
+            </ul>
           </div>
-          <div class="detail-plan-right">
-            
-            <div class="detail-plan-right-user">
-              유저
-            </div> 
+        </div>
+        <div class="detail-plan-right-list">
+          <label>여행 일정</label>
+          <div class="list-block">
 
-            <div class="detail-plan-right-list">
-              일차별 장소 목록
-            </div>
           </div>
-        </div> 
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.detail-plan {
+  margin-top: 60px;
+  width: 80%;
+}
+
 .detail-plan-info-main {
   display: flex;
   justify-content: space-between;
@@ -201,7 +177,17 @@ const users = ref([
   margin: 0px 20px;
   width: 300px;
 }
+.user-list {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
 
+.user-list li {
+  margin-left: -13px; /* 사진들이 15% 겹치도록 조정 */
+  position: relative; /* z-index를 적용하기 위해 필요 */
+}
 .drop-zone {
   background-color: rgb(0, 0, 0);
   border-radius: 10px;
@@ -244,23 +230,17 @@ const users = ref([
   width: 80%;
 }
 
-.detail-plan-info input,
-.detail-plan-info textarea {
+.detail-plan-info input {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 8px;
-  width: 100%;
+  width: 80%;
 }
 
 .detail-plan-info label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
-}
-
-.detail-plan-info textarea {
-  min-height: 60px; /* 최소 높이 */
-  resize: none; /* 크기 조절 불가 */
 }
 
 label {
@@ -300,7 +280,6 @@ label {
   flex-direction: column;
   height: auto;
   justify-content: center;
-  width: 100%;
 }
 
 .submit-btn {
@@ -319,5 +298,45 @@ label {
   margin-left: 5vw;
   margin-right: 7vw;
   width: 30%;
+}
+
+.img-box {
+  margin-left: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-box {
+  margin: 10px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  line-height: 20px;
+}
+
+.img-box .tooltiptext {
+  visibility: hidden;
+  width: 150px; /* 너비 고정 */
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px; /* 내부 여백 */
+  position: absolute;
+  z-index: 1000;
+  top: 75%; /* 상위 요소의 하단에 위치 */
+  left: -20px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  overflow: hidden; /* 내용이 넘칠 경우 숨김 */
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+.img-box:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }
 </style>

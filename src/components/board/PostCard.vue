@@ -80,6 +80,15 @@ const showPreviousImage = () => {
     currentImageIndex.value--;
   }
 };
+
+const searchNaver = (place) => {
+  console.log(place.place_name);
+  const cityWords = place.locationAddr.split(" ");
+  const city = encodeURIComponent(cityWords[0]);
+  const name = encodeURIComponent(place.locationName);
+  const url = `https://search.naver.com/search.naver?query=${city} ${name}`;
+  window.open(url, "_blank");
+};
 </script>
 
 <template>
@@ -105,6 +114,16 @@ const showPreviousImage = () => {
           <button class="close-button" @click="closeModal">닫기</button>
         </div>
         <div class="boardDetail-in">
+          <div class="board-header">
+            <div class="header-info">
+              <h1>{{ modalData.boardTitle }}</h1>
+              <div class="header-info-right">
+                <h2>{{ modalData.userEmail }}</h2>
+                <h2>{{ formatDate(modalData.createdAt) }}</h2>
+              </div>
+            </div>
+            <p @click="searchNaver(modalData)">{{ modalData.locationName }}</p>
+          </div>
           <div class="carousel">
             <button @click="showPreviousImage">이전</button>
             <div class="img-slide">
@@ -112,21 +131,20 @@ const showPreviousImage = () => {
             </div>
             <button @click="showNextImage">다음</button>
           </div>
-          <button
-            class="heart-btn"
-            :class="{ filled: isLiked }"
-            @click="toggleLike(modalData.boardId)"
-          >
-            &#x2764;
-            <!-- 하트 아이콘 -->
-          </button>
-          <h1>{{ modalData.boardTitle }}</h1>
-          <p>작성자: {{ modalData.userEmail }}</p>
-          <p>작성일: {{ modalData.createdAt }}</p>
-          <p>조회수: {{ modalData.boardHit }}</p>
-          <p>좋아요: {{ modalData.boardLikes }}</p>
-          <!-- <img :src="'data:image/png;base64,' + modalData.image[0]" alt="post image" width="400"> -->
-          <p>{{ modalData.boardContent }}</p>
+          <div class="board-info">
+            <button
+              class="heart-btn"
+              :class="{ filled: isLiked }"
+              @click="toggleLike(modalData.boardId)"
+            >
+              &#x2764;
+              <!-- 하트 아이콘 -->
+            </button>
+            <p>조회수 : {{ modalData.boardHit }}</p>
+            <p>좋아요 : {{ modalData.boardLikes }}</p>
+            <!-- <img :src="'data:image/png;base64,' + modalData.image[0]" alt="post image" width="400"> -->
+            <p>{{ modalData.boardContent }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -134,6 +152,41 @@ const showPreviousImage = () => {
 </template>
 
 <style scoped>
+h1 {
+  font-family: "Arial", sans-serif; /* 글꼴 설정 */
+  font-size: 18px; /* 글자 크기 */
+  color: #333; /* 글자 색상 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  font-weight: bold; /* 글자 굵기 */
+}
+.header-info-right {
+  display: flex; /* Flexbox 레이아웃 사용 */
+  justify-content: space-between; /* 요소들을 양 끝으로 정렬 */
+  align-items: center; /* 세로 방향에서 중앙 정렬 (필요에 따라) */
+  gap: 15px;
+}
+.header-info {
+  display: flex; /* Flexbox 레이아웃 사용 */
+  justify-content: space-between; /* 요소들을 양 끝으로 정렬 */
+  align-items: center; /* 세로 방향에서 중앙 정렬 (필요에 따라) */
+}
+.board-header p:hover {
+  cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경 */
+  font-weight: bold; /* 텍스트의 굵기를 굵게 변경 */
+}
+.board-header {
+  width: 80%;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.board-info {
+  width: 80%;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-top: 1px solid #ccc;
+}
 .img-slide {
   width: 70%;
   height: 70%;
@@ -145,6 +198,8 @@ const showPreviousImage = () => {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
 .carousel img {
   max-width: 100%;
@@ -171,8 +226,8 @@ const showPreviousImage = () => {
 }
 
 .img-box {
-  width: 90%;
-  height: 70%;
+  width: 100%;
+  height: 50%;
   margin-top: 5px;
   margin-bottom: 5px;
 }
@@ -218,9 +273,9 @@ const showPreviousImage = () => {
   align-items: center;
 }
 .post-card {
-  margin: 20px;
-  width: 225px;
-  height: 300px;
+  margin-bottom: 20px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -237,7 +292,7 @@ const showPreviousImage = () => {
 }
 
 .post-card h2 {
-  font-size: 1.3rem;
+  font-size: 1rem;
 }
 
 .post-card-info {
@@ -268,8 +323,23 @@ const showPreviousImage = () => {
 .modal-content {
   cursor: default;
   background: white;
+  max-height: 80%;
+  overflow-y: auto;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 10px; /* 스크롤바의 너비 */
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: darkgrey; /* 스크롤바 썸(움직이는 부분)의 색상 */
+  border-radius: 5px; /* 스크롤바 썸의 둥근 모서리 */
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background-color: lightgrey; /* 스크롤바 트랙(배경)의 색상 */
 }
 </style>

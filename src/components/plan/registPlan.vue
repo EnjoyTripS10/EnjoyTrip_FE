@@ -27,8 +27,6 @@ const fetchLocations = async () => {
   }
 };
 onBeforeMount(fetchLocations);
-setTimeout(fetchLocations, 5000);
-
 // fetchLocations();
 watch(dateValue, (newVal) => {
   if (newVal.length === 2) {

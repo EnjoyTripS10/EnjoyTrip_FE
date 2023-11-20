@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, defineProps } from "vue";
+import { onMounted, ref } from "vue";
 
 const searchQuery = ref("");
 const mapContainer = ref(null);
@@ -65,6 +65,10 @@ const loadLocation = () => {
   document.head.appendChild(script);
 
   script.onload = () => {
+    if (kakao && kakao.maps && kakao.maps.readyState > 0) {
+      loadMap();
+      return;
+    }
     kakao.maps.onloadcallbacks.push(loadMap);
     kakao.maps.load();
   };

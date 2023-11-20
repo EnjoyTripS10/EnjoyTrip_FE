@@ -43,19 +43,24 @@ const filteredUser = computed(() => {
   if (searchQuery.value.trim() === "") {
     return [];
   }
-  return users.value.filter((user) =>
-    user.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  return users.value.filter(
+    (user) => user.email.toLowerCase() === searchQuery.value.toLowerCase().trim()
   );
 });
 
 const users = ref([
-  { email: "8", name: "김범수" },
-  { email: "9", name: "김보경" },
-  { email: "3", name: "서정현" },
-  { email: "4", name: "이용준" },
-  { email: "5", name: "이수경" },
-  { email: "6", name: "황정민" },
-  { email: "7", name: "최재식" },
+  { email: "pmsd41@gmail.com", name: "김범수" },
+  { email: "qhrud@gmail.com", name: "김보경" },
+  { email: "wjdgus@gmail.com", name: "서정현" },
+  { email: "dydwns@gmail.com", name: "이용준" },
+  { email: "tnrud@gmail.com", name: "이수경" },
+  { email: "wjdals@gmail.com", name: "황정민" },
+  { email: "wotlr@gmail.com", name: "최재식" },
+  { email: "eodud@gmail.com", name: "이대영" },
+  { email: "guswjd@gmail.com", name: "권현정" },
+  { email: "eodms@gmail.com", name: "강대은" },
+  { email: "cksgus@gmail.com", name: "남찬현" },
+  { email: "woans@gmail.com", name: "이재문" },
 ]);
 
 const closeModal = () => {

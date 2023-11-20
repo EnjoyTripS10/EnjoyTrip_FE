@@ -63,7 +63,7 @@ const router = createRouter({
           component: PlanList,
         },
         {
-          path: "planDetail",
+          path: "planDetail/:planid",
           name: "PlanDetail",
           component: PlanDetail,
         },
