@@ -4,7 +4,7 @@
   <div class="modal" v-if="isModalOpen">
 
     <div class="modal-content">
-      <form @submit.prevent="addUserList(users)">
+      <form @submit.prevent="addUserList(findUser)">
       <div class="input-close">
         <input
           class="input-box"
@@ -18,8 +18,8 @@
       
       <ul class="user-list">
         <div>
-            <p>{{ users.name }}</p>
-            <button @click="addUserList(users)">등록</button>
+            <p>{{ findUser }}</p>
+            <button @click="addUserList(findUser)">등록</button>
         </div>
       </ul>
     </form>
@@ -31,6 +31,8 @@
 import { ref, computed, watch } from "vue";
 import axios from "axios";
 
+const users = ref([{}]);
+const findUser = ref({});
 const props = defineProps({
   isModalOpen: Boolean,
   // users: {
@@ -56,9 +58,9 @@ const searchUsers = async (query) => {
     
      // 서버 응답을 filteredUser에 할당
      console.log("come???")
-     users.value.email = response.data.userEmail;
-     users.value.name = response.data.userName;
-     console.log(users.value)
+     findUser.value = {email :response.data.userEmail, name : response.data.userName}
+     console.log(findUser.value)
+
   } catch (error) {
     console.error('Error fetching users:', error);
   }
@@ -68,32 +70,20 @@ watch(searchQuery, (newValue) => {
   searchUsers(newValue);
 });
 
-const users = ref(
-{
-  email: '',
-  name: '',
-},
-  // { email: "pmsd41@gmail.com", name: "김범수" },
-  // { email: "qhrud@gmail.com", name: "김보경" },
-  // { email: "wjdgus@gmail.com", name: "서정현" },
-  // { email: "dydwns@gmail.com", name: "이용준" },
-  // { email: "tnrud@gmail.com", name: "이수경" },
-  // { email: "wjdals@gmail.com", name: "황정민" },
-  // { email: "wotlr@gmail.com", name: "최재식" },
-  // { email: "eodud@gmail.com", name: "이대영" },
-  // { email: "guswjd@gmail.com", name: "권현정" },
-  // { email: "eodms@gmail.com", name: "강대은" },
-  // { email: "cksgus@gmail.com", name: "남찬현" },
-  // { email: "woans@gmail.com", name: "이재문" },
-);
+
 
 const closeModal = () => {
   emit("update:isModalOpen", false);
 };
 
+const addItemToList = (item) => {
+  users.value.push(item);
+};
+
 const addUserList = (user) => {
   // console.log(user.name);
-  emit("onAdd", user);
+  addItemToList(user);
+  emit("onAdd", users);
   // emit("updateUsers", users.value);
   closeModal();
 };
