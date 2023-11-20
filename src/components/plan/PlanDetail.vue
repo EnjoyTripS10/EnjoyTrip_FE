@@ -1,15 +1,20 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
-import PlaningUser from "./PlaningUser.vue";
 import { useRoute } from "vue-router";
+import PlanMap from "../location/PlanMap.vue";
 
+const selectedLocationGroup = ref([]);
 const route = useRoute();
 const planid = route.params.planid;
 const title = ref("");
 const content = ref("");
 
 const planData = ref([]);
+
+const selectLocationGroup = (locationGroup) => {
+  selectedLocationGroup.value = locationGroup;
+};
 
 const formatDate = (datetime) => {
   return datetime.split("T")[0];
@@ -65,6 +70,9 @@ onMounted(loadPlan);
     <div class="detail-plan-info-main">
       <div class="detail-plan-left">
         <label>경로</label>
+        <div class="plan-map">
+          <PlanMap :locationGroup="selectedLocationGroup" />
+        </div>
       </div>
       <div class="detail-plan-right">
         <div>
@@ -98,8 +106,21 @@ onMounted(loadPlan);
         </div>
         <div class="detail-plan-right-list">
           <label>여행 일정</label>
-          <div class="list-block">
-
+          <div
+            v-for="(locationGroup, index) in planData.locationList"
+            :key="index"
+            class="list-block"
+            @click="selectLocationGroup(locationGroup)"
+          >
+            <label>{{ index + 1 }} 일차</label>
+            <div
+              v-for="(location, locationIndex) in locationGroup"
+              :key="locationIndex"
+              class="list"
+            >
+              {{ location.locationName }}
+            </div>
+            <!-- 여기에 각 locationGroup에 대한 내용을 표시 -->
           </div>
         </div>
       </div>
@@ -108,6 +129,32 @@ onMounted(loadPlan);
 </template>
 
 <style scoped>
+.plan-map {
+  width: 100%;
+  height: 100%;
+  margin-top: 20px;
+  padding-right: 30px;
+}
+.list {
+  width: 100%;
+  background-color: #ffffff;
+  color: black;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  text-align: center;
+}
+.list-block {
+  color: #ffffff;
+  text-align: center;
+  width: 100%;
+  height: auto;
+  background-color: #000000;
+  border-radius: 12px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px 20px;
+}
 .detail-plan {
   margin-top: 60px;
   width: 80%;
@@ -119,11 +166,11 @@ onMounted(loadPlan);
   width: 80%;
 }
 .detail-plan-left {
-  width: 50%;
+  width: 75%;
 }
 
 .detail-plan-right {
-  width: 50%;
+  width: 35%;
 }
 
 .detail-plan-right-user {
@@ -234,7 +281,7 @@ onMounted(loadPlan);
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 8px;
-  width: 80%;
+  width: 100%;
 }
 
 .detail-plan-info label {
