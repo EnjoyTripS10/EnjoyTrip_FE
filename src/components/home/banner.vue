@@ -1,5 +1,12 @@
 <script setup>
-import { RouterLink } from "vue-router";
+import { ref } from "vue";
+import { RouterLink, useRouter } from "vue-router";
+const router = useRouter();
+const searchText = ref("");
+
+const search = () => {
+  router.push(`/boardListCity/${searchText.value}`);
+};
 </script>
 
 <template>
@@ -10,9 +17,9 @@ import { RouterLink } from "vue-router";
     </div>
     <div class="banner-content">
       <div class="search-box">
-        <input type="text" placeholder="장소 이름으로 검색" />
-        <button>검색</button>
-        <div class="link">
+        <input type="text" placeholder="장소 이름으로 검색" v-model="searchText" />
+        <button @click="search">검색</button>
+        <div class="link" style="color: white">
           <RouterLink to="/boardList">>추천 장소 보러가기</RouterLink>
         </div>
       </div>
@@ -28,6 +35,7 @@ import { RouterLink } from "vue-router";
   background-size: cover;
   position: relative; /* 자식 요소의 위치를 상대적으로 설정 */
   filter: contrast(70%);
+  color: black;
 }
 .slogan {
   position: absolute;
@@ -67,7 +75,7 @@ import { RouterLink } from "vue-router";
   width: 40%;
   transform: translate(-50%, -50%);
   text-align: center;
-  color: white;
+  color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.8); /* 반투명 검정색 배경 */
   padding: 20px;
 }

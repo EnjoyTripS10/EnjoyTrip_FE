@@ -1,7 +1,9 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import axios from "axios";
 
+const router = useRouter();
 const showModal = ref(false);
 const modalData = ref({});
 const isLiked = ref(false);
@@ -24,7 +26,9 @@ const openModal = async (boardId) => {
 const kakaoShare = (data) => {
   window.Kakao.Share.createDefaultButton({
     container: "#kakaotalk-sharing-btn",
-    objectType: "feed",
+    objectType: "location",
+    address: data.locationAddr,
+    addressTitle: data.locationName,
     content: {
       title: data.boardTitle,
       description: "장소 : " + data.locationName + "\n내용 : " + data.boardContent,
@@ -39,15 +43,6 @@ const kakaoShare = (data) => {
     social: {
       likeCount: data.boardLikes,
     },
-    buttons: [
-      {
-        title: "VIrusTrip 바로가기",
-        link: {
-          mobileWebUrl: "http://172.20.10.2:8080/boardList",
-          webUrl: "http://172.20.10.2:8080/boardList",
-        },
-      },
-    ],
   });
 };
 
@@ -125,15 +120,19 @@ const searchNaver = (place) => {
 // 수정 이벤트 핸들러
 const editBoard = (boardId) => {
   // 수정 관련 로직
-  console.log("Edit board with ID:", boardId);
-  // 예: router.push(`/edit-board/${boardId}`);
+  router.push(`/updateBoard/${boardId}`);
 };
 
 // 삭제 이벤트 핸들러
-const deleteBoard = (boardId) => {
-  // 삭제 관련 로직
-  console.log("Delete board with ID:", boardId);
-  // 예: callDeleteApi(boardId);
+const deleteBoard = async (boardId) => {
+  try {
+    await axios.delete(`/board/${boardId}`);
+    // 삭제 후 할 행동, 예를 들어 목록 페이지로 이동
+    router.push({ name: "PlanList" });
+  } catch (error) {
+    console.error("삭제 중 오류 발생: ", error);
+    // 오류 처리 로직
+  }
 };
 </script>
 

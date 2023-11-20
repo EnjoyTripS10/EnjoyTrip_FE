@@ -8,6 +8,8 @@ import registPlan from "../components/plan/registPlan.vue";
 import PlanList from "../components/plan/PlanList.vue";
 import PlanDetail from "../components/plan/PlanDetail.vue";
 import updatePlan from "../components/plan/updatePlan.vue";
+import updateBoard from "../views/board/updateBoard.vue";
+import boardListCity from "../components/board/boardList_city.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -74,15 +76,26 @@ const router = createRouter({
           component: registPlan,
         },
         {
-          path: "updatePlan",
+          path: "updatePlan/:planid",
           name: "updatePlan",
           component: updatePlan,
+        },
+        {
+          path: "updateBoard/:boardId",
+          name: "updateBoard",
+          component: updateBoard,
         },
         {
           path: "boardListLiked",
           name: "boardListLiked",
           component: boardListLiked,
         },
+        {
+          path: "boardListCity/:city",
+          name: "boardListCity",
+          component: boardListCity,
+        },
+
         {
           path: "uploadboard",
           name: "addBoard",

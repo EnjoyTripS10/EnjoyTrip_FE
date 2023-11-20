@@ -5,8 +5,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
-import marker1 from "@/assets/img/marker_512.png";
+import { onMounted, ref, watch } from "vue";
 import marker2 from "@/assets/img/marker2.png";
 
 const mapContainer = ref(null);
@@ -17,21 +16,22 @@ const markers = ref([]);
 const latitude = ref(null);
 const longitude = ref(null);
 const errorMessage = ref("");
-const code = ref("FD6");
-const placeList = ref([]);
 
 const props = defineProps({
   locationGroup: Array,
 });
 
-// const watchEffect(() => {
-//   if (props.locationGroup && props.locationGroup.length > 0) {
-//     clearMarkers(); // 기존 마커 제거
-//     props.locationGroup.forEach((location) => {
-//       displayMarker(location);
-//     });
-//   }
-// });
+watch(
+  () => props.locationGroup,
+  (locationGroup) => {
+    if (locationGroup && locationGroup.length > 0) {
+      clearMarkers(); // 기존 마커 제거
+      locationGroup.forEach((location) => {
+        displayMarker(location);
+      });
+    }
+  }
+);
 
 const fetchLocation = () => {
   if ("geolocation" in navigator) {
@@ -54,7 +54,7 @@ const loadMap = () => {
   // 카카오 맵 라이브러리 로딩
   const mapOption = {
     center: new kakao.maps.LatLng(latitude.value, longitude.value - 0.01),
-    level: 5,
+    level: 10,
   };
 
   mapContainer.value = document.getElementById("map");
@@ -67,8 +67,6 @@ const loadMap = () => {
     content: iwContent,
     removable: iwRemoveable,
   });
-
-  searchPlaces(code.value, map.value);
 };
 
 const loadLocation = () => {
@@ -88,38 +86,12 @@ const loadLocation = () => {
   };
 };
 
-// 장소 검색
-const searchPlaces = (code, map) => {
-  console.log(code);
-  if (code) {
-    const ps = new kakao.maps.services.Places();
-    ps.categorySearch(code, placesSearchCB, {
-      x: longitude.value,
-      y: latitude.value,
-      radius: 1000,
-    });
-    kakao.maps.load();
-  }
-};
-
-const placesSearchCB = (data, status) => {
-  if (status === kakao.maps.services.Status.OK) {
-    clearMarkers();
-    var bounds = new kakao.maps.LatLngBounds();
-    placeList.value = data;
-    console.log(placeList.value);
-    for (let i = 0; i < data.length; i++) {
-      displayMarker(data[i]);
-    }
-  }
-};
-
 const displayMarker = (place) => {
   // 마커를 생성하고 지도에 표시합니다
-  console.log(place);
+  console.log(place.locationLat, place.locationLon);
   var marker = new kakao.maps.Marker({
     map: map.value,
-    position: new kakao.maps.LatLng(place.y, place.x),
+    position: new kakao.maps.LatLng(place.locationLat, place.locationLon),
   });
   var markerImage = new kakao.maps.MarkerImage(
     marker2,
@@ -127,7 +99,9 @@ const displayMarker = (place) => {
     new kakao.maps.Point(13, 34)
   );
 
+  console.log(map.value);
   marker.setImage(markerImage);
+  marker.setMap(map.value);
   markers.value.push(marker);
 
   // 마커에 클릭이벤트를 등록합니다

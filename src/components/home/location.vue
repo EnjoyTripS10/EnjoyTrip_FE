@@ -1,39 +1,82 @@
-<script setup></script>
+<script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+// 이미지 클릭 이벤트 핸들러
+const navigateToBoardListCity = (cityName) => {
+  router.push(`/boardListCity/${cityName}`);
+};
+</script>
 
 <template>
   <div class="box2">
-    <div class="grid-item image-bigcontainer" style="grid-row: 1 / 3; grid-column: 1 / 3">
-      <img src="../../assets/img/location/seoul.jpg" alt="" style="width: 360px; height: 360px"  />
+    <div
+      class="grid-item image-bigcontainer"
+      style="grid-row: 1 / 3; grid-column: 1 / 3"
+      @click="navigateToBoardListCity('서울')"
+    >
+      <img src="../../assets/img/location/seoul.jpg" alt="" style="width: 360px; height: 360px" />
       <div class="overlay">서울</div>
     </div>
     <div class="grid-item image-container"></div>
     <div class="grid-item image-container">
-      <img src="../../assets/img/location/gangwon.jpg" alt="" style="width: 175px; height: 175px"  />
+      <img
+        src="../../assets/img/location/gangwon.jpg"
+        alt=""
+        style="width: 175px; height: 175px"
+        @click="navigateToBoardListCity('강원')"
+      />
       <div class="overlay">강원</div>
     </div>
     <div class="grid-item image-container">
-      <img src="../../assets/img/location/deajeon.jpg" alt="" style="width: 175px; height: 175px"  />
+      <img
+        src="../../assets/img/location/deajeon.jpg"
+        alt=""
+        style="width: 175px; height: 175px"
+        @click="navigateToBoardListCity('대전')"
+      />
       <div class="overlay">대전</div>
     </div>
     <div class="grid-item image-container"></div>
     <div class="grid-item image-container">
-      <img src="../../assets/img/location/jeonju.jpg" alt="" style="width: 175px; height: 175px"  />
+      <img
+        src="../../assets/img/location/jeonju.jpg"
+        alt=""
+        style="width: 175px; height: 175px"
+        @click="navigateToBoardListCity('전주')"
+      />
       <div class="overlay">전주</div>
     </div>
     <div class="grid-item image-container"></div>
     <div class="grid-item image-container">
-      <img src="../../assets/img/location/busan.jpg" alt="" style="width: 175px; height: 175px" />
+      <img
+        src="../../assets/img/location/busan.jpg"
+        alt=""
+        style="width: 175px; height: 175px"
+        @click="navigateToBoardListCity('부산')"
+      />
       <div class="overlay">부산</div>
     </div>
     <div class="grid-item image-container"></div>
     <div class="grid-item image-container"></div>
     <div class="grid-item image-container">
-      <img src="../../assets/img/location/gwangju.jpg" alt="" style="width: 175px; height: 175px"  />
+      <img
+        src="../../assets/img/location/gwangju.jpg"
+        alt=""
+        style="width: 175px; height: 175px"
+        @click="navigateToBoardListCity('광주')"
+      />
       <div class="overlay">광주</div>
     </div>
     <div class="grid-item image-container"></div>
     <div class="grid-item image-container">
-      <img src="../../assets/img/location/jeju.jpg" alt="" style="width: 175px; height: 175px"  />
+      <img
+        src="../../assets/img/location/jeju.jpg"
+        alt=""
+        style="width: 175px; height: 175px"
+        @click="navigateToBoardListCity('제주')"
+      />
       <div class="overlay">제주</div>
     </div>
   </div>

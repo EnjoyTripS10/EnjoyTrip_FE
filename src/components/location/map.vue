@@ -1,7 +1,7 @@
 <template>
   <div class="location">
     <div class="location-input-container">
-      <label for="location">Location:</label>
+      <label class="location-label" for="location">장소 검색:</label>
       <input
         type="text"
         id="location"
@@ -145,12 +145,11 @@ label[for="file"] {
 .location-input-container {
   margin-bottom: 10px;
   display: flex;
-
+  width: 100%;
   align-items: center;
-  gap: 25px;
 }
 .location-input {
-  width: 100%;
+  width: 80%;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -159,5 +158,13 @@ label[for="file"] {
 
 #map {
   background-color: transparent !important;
+}
+
+.circle-button {
+  width: 5%;
+}
+
+.location-label {
+  width: 20%;
 }
 </style>

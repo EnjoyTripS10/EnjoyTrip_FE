@@ -25,8 +25,6 @@ const sort = (criteria) => {
   // ... other criteria
 };
 
-
-
 const isDropdownOpen = ref(false);
 
 const toggleDropdown = () => {
@@ -81,8 +79,14 @@ const showLikedPosts = () => {
 </template>
 
 <style scoped>
+.post-card-style {
+  width: 18%;
+  height: 30%;
+  margin: 1%;
+}
 .board {
   margin-top: 50px;
+  width: 80%;
 }
 .dropdown-menu {
   list-style-type: none;
@@ -128,6 +132,7 @@ const showLikedPosts = () => {
   padding: 0px 20px 0px;
   display: flex;
   flex-wrap: wrap;
+
   width: 100%;
   margin-top: 1rem;
 }
@@ -161,10 +166,10 @@ const showLikedPosts = () => {
 }
 
 .search-container {
-  display: flex;
   width: 100%;
-  justify-content: center;
+  display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .search-btn {

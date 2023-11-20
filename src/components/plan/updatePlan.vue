@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch, onBeforeMount } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
 import Draggable from "vue3-draggable";
@@ -11,6 +12,8 @@ const day = ref(1);
 const dateValue = ref([]);
 const start = ref("");
 const end = ref("");
+const route = useRoute();
+const planid = route.params.planid;
 
 // 제목 내용
 const title = ref("");
@@ -29,24 +32,24 @@ const formatter = ref({
 
 const fetchLocations = async () => {
   try {
-    const response = await axios.get("/trip/3");
+    const response = await axios.get(`/trip/${planid}`);
 
     title.value = response.data.title;
     content.value = response.data.content;
     // const startDate = new Date("Nov 02 2023 19:49:17");
     // const endDate = new Date("2023-11-02 19:49:17");
-    
+
     const startDate = convertISOToDateTime(response.data.startDate);
     const endDate = convertISOToDateTime(response.data.endDate);
-    
+
     // dateValue ref를 업데이트
     dateValue.value = [startDate, endDate];
 
     getData.value = response.data;
     // draggableArrays.value = response.data.locationList;
-    draggableArrays.value = response.data.locationList.map(dayLocations => {
+    draggableArrays.value = response.data.locationList.map((dayLocations) => {
       // 각 dayLocations 배열에 대해 필요한 데이터만 추출하거나 변환
-      return dayLocations.map(location => {
+      return dayLocations.map((location) => {
         // 예시: 필요한 필드만 반환
         return {
           locationId: location.locationId,
@@ -54,13 +57,13 @@ const fetchLocations = async () => {
           locationAddr: location.locationAddr,
           locationLat: location.locationLat,
           locationLon: location.locationLon,
-          memo: location.memo || ""  // memo가 없는 경우 빈 문자열로 설정
+          memo: location.memo || "", // memo가 없는 경우 빈 문자열로 설정
         };
       });
     });
 
-    console.log(draggableArrays.value)
-    users.value= response.data.users;
+    console.log(draggableArrays.value);
+    users.value = response.data.users;
     console.log(users.value);
 
     // componentKey.value++;
@@ -71,8 +74,8 @@ const fetchLocations = async () => {
 onBeforeMount(fetchLocations);
 
 const convertISOToDateTime = (isoString) => {
-  "2023-10-31T15:00:00.000Z"
-  const dateYMD = isoString.substring(0,10)
+  "2023-10-31T15:00:00.000Z";
+  const dateYMD = isoString.substring(0, 10);
   return `${dateYMD} 00:00:00`;
 };
 
@@ -91,7 +94,7 @@ watch(dateValue, (newVal) => {
 
     day.value = dayDiff + 1; // 시작일과 종료일을 포함하여 계산
 
-    console.log("여행기간" + day.value)
+    console.log("여행기간" + day.value);
   }
 });
 
@@ -99,10 +102,6 @@ watch(day, (newVal) => {
   console.log("day" + newVal);
   // if(newVal) draggableArrays.value = new Array(newVal).fill().map(() => []);
 });
-
-
-
-
 
 // 장소 메모
 const toggleDropdown = (item) => {
@@ -164,7 +163,7 @@ const submitForm = async () => {
       <div>
         <form @submit.prevent="submitForm" class="form-style">
           <div class="edit-date">
-            <vue-tailwind-datepicker v-model="dateValue"/>
+            <vue-tailwind-datepicker v-model="dateValue" />
           </div>
           <div class="form-group">
             <label for="title">제목:</label>

@@ -1,7 +1,7 @@
 <template>
   <div class="upload-container">
     <div class="title">
-      <label>장소 등록하기</label>
+      <label>장소 정보 수정</label>
     </div>
     <div class="input-container">
       <div class="title-input-container">
@@ -10,9 +10,10 @@
       </div>
       <div class="content-input-container">
         <label for="content">내용:</label>
-        <input type="text" id="content" v-model="content" class="content-input">
+        <input type="text" id="content" v-model="content" class="content-input" />
       </div>
-      <label for="content">장소를 선택해 주세요</label>
+      <label class="location-label" for="content">장소 : {{ boardData.locationName }}</label>
+
       <MapComponent :updateLocation="updateParentLocation"></MapComponent>
       <hr />
       <br />
@@ -37,14 +38,39 @@
 location
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import MapComponent from "../../components/location/map.vue";
 
 const files = ref([]);
 const title = ref("");
 const inLocation = ref({});
+const route = useRoute();
+const content = ref("");
+const boardId = route.params.boardId;
+const boardData = ref([]);
+
+const loadBoard = async () => {
+  try {
+    // URL 내의 `${planid}`를 실제 변수로 대체합니다.
+    const response = await axios.get(`/board/${boardId}`, {
+      params: {
+        title: title.value,
+        content: content.value,
+      },
+    });
+    boardData.value = response.data;
+    title.value = boardData.value.boardTitle;
+    content.value = boardData.value.boardContent;
+    inLocation.value = boardData.value.locationName;
+    console.log(boardData.value);
+    // 글쓰기가 성공적으로 완료되었을 때 처리할 코드를 작성합니다.
+  } catch (error) {
+    console.log(error);
+    // 글쓰기가 실패했을 때 처리할 코드를 작성합니다.
+  }
+};
 
 const updateParentLocation = (newLocation) => {
   inLocation.value = newLocation;
@@ -59,6 +85,7 @@ const handleFiles = (event) => {
     files.value = selectedFiles;
   }
 };
+
 const router = useRouter();
 const uploadFiles = async () => {
   console.log(title.value);
@@ -85,8 +112,15 @@ const uploadFiles = async () => {
   }
   router.push("/boardList");
 };
+onMounted(loadBoard);
 </script>
 <style>
+
+.location-label{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 .title {
   margin-top: 20px;
   margin-bottom: 30px;

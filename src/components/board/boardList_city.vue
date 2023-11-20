@@ -1,9 +1,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import PostCard from "./PostCard.vue";
 import axios from "axios";
 
+const route = useRoute();
+const city = route.params.city;
 const posts = ref([]);
 const searchQuery = ref("");
 const fetchPosts = async () => {
@@ -54,7 +56,7 @@ const showLikedPosts = () => {
 <template>
   <div class="board">
     <div class="header">
-      <h2>추천 장소 목록</h2>
+      <h2>'{{ city }}' 장소 목록</h2>
       <!-- Title -->
       <div class="search-container">
         <input
