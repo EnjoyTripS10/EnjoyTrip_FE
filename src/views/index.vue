@@ -5,7 +5,7 @@ import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
 
-const routes = ['/index/section1','/index/section2','/index/section3', '/index/section4']; // 정의한 라우트 경로들
+const routes = ['/index/section1','/index/section2','/index/section5', '/index/section4']; // 정의한 라우트 경로들
 
 let debounceTimer = null;
 const debounceDelay = 80; // 디바운스 지연 시간 (ms)

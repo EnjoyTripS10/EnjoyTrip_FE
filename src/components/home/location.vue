@@ -19,7 +19,7 @@ const navigateToBoardListCity = (cityName) => {
       style="grid-row: 1 / 3; grid-column: 1 / 3"
       @click="navigateToBoardListCity('서울')"
     >
-      <img src="../../assets/img/location/seoul.jpg" alt="" style="width: 360px; height: 360px" />
+      <img src="../../assets/img/location/seoul.jpg" alt="" style="width: 510px; height: 510px" />
       <div class="overlay">서울</div>
     </div>
     <div class="grid-item image-container"></div>
@@ -27,7 +27,7 @@ const navigateToBoardListCity = (cityName) => {
       <img
         src="../../assets/img/location/gangwon.jpg"
         alt=""
-        style="width: 175px; height: 175px"
+        style="width: 250px; height: 250px"
         @click="navigateToBoardListCity('강원')"
       />
       <div class="overlay">강원</div>
@@ -36,7 +36,7 @@ const navigateToBoardListCity = (cityName) => {
       <img
         src="../../assets/img/location/deajeon.jpg"
         alt=""
-        style="width: 175px; height: 175px"
+        style="width: 250px; height: 250px"
         @click="navigateToBoardListCity('대전')"
       />
       <div class="overlay">대전</div>
@@ -46,7 +46,7 @@ const navigateToBoardListCity = (cityName) => {
       <img
         src="../../assets/img/location/jeonju.jpg"
         alt=""
-        style="width: 175px; height: 175px"
+        style="width: 250px; height: 250px"
         @click="navigateToBoardListCity('전주')"
       />
       <div class="overlay">전주</div>
@@ -56,7 +56,7 @@ const navigateToBoardListCity = (cityName) => {
       <img
         src="../../assets/img/location/busan.jpg"
         alt=""
-        style="width: 175px; height: 175px"
+        style="width: 250px; height: 250px"
         @click="navigateToBoardListCity('부산')"
       />
       <div class="overlay">부산</div>
@@ -67,7 +67,7 @@ const navigateToBoardListCity = (cityName) => {
       <img
         src="../../assets/img/location/gwangju.jpg"
         alt=""
-        style="width: 175px; height: 175px"
+        style="width: 250px; height: 250px"
         @click="navigateToBoardListCity('광주')"
       />
       <div class="overlay">광주</div>
@@ -77,7 +77,7 @@ const navigateToBoardListCity = (cityName) => {
       <img
         src="../../assets/img/location/jeju.jpg"
         alt=""
-        style="width: 175px; height: 175px"
+        style="width: 250px; height: 250px"
         @click="navigateToBoardListCity('제주')"
       />
       <div class="overlay">제주</div>
@@ -86,7 +86,6 @@ const navigateToBoardListCity = (cityName) => {
 </template>
 
 <style scoped>
-
 .location-title {
   display: flex;
   justify-content: center;
@@ -94,16 +93,17 @@ const navigateToBoardListCity = (cityName) => {
   margin-bottom: 50px;
   font-size: 2rem;
   font-weight: 800;
- margin-bottom: 70px;
+  margin-bottom: 70px;
 }
 .box2 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 10px;
-  width: 730px;
-  height: 730px;
+  width: 1030px;
+  height: 1030px;
   margin: 0px 30px;
+  margin-bottom: 50px;
 }
 
 .grid-item img {
@@ -133,14 +133,14 @@ const navigateToBoardListCity = (cityName) => {
 
 .image-bigcontainer {
   position: relative;
-  width: 360px;
-  height: 360px;
+  width: 510px;
+  height: 510px;
 }
 
 .image-container {
   position: relative;
-  width: 175px;
-  height: 175px;
+  width: 250px;
+  height: 250px;
 }
 
 .overlay {
@@ -152,7 +152,7 @@ const navigateToBoardListCity = (cityName) => {
     backdrop-filter: blur(10px); */
   transform: translate(-50%, -50%);
   color: #000000;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: bold;
   text-align: center;
   z-index: 3;

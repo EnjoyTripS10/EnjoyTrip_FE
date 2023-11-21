@@ -21,7 +21,6 @@ onMounted(fetchPosts);
 
 <template>
   <div class="container mb-5">
-    <div class="title">최근 인기 여행지 BEST 10</div>
     <div class="marquee-wrapper" style="user-select: none">
       <div class="marquee-content scrollingX">
         <div class="card-testimonial" v-for="(post, index) in displayedPosts" :key="index">
@@ -204,6 +203,7 @@ article.sample-col-para img {
 }
 
 .marquee-wrapper {
+  width: 90%;
   position: relative;
   display: flex;
   overflow: hidden;
@@ -220,11 +220,11 @@ article.sample-col-para img {
 }
 .marquee-wrapper .marquee-content .card-testimonial {
   width: 400px;
-  background-color: #b6b1b1;
+  background-color: #222222;
   padding: 1rem;
-  border: 1px solid #f5f5f5;
+  border: 1px solid #414141;
   border-radius: 1rem;
-  color: #000000;
+  color: #ffffff;
   font-size: 12px;
 }
 .marquee-wrapper .marquee-content .card-testimonial article picture {

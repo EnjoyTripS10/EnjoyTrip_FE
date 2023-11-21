@@ -1,5 +1,14 @@
 <script setup>
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
+const router = useRouter();
+
+const logout = () => {
+  // 쿠키 삭제
+  document.cookie = "user-key=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+  // 라우터를 홈 경로로 리디렉션
+  router.push("/");
+};
 </script>
 
 <template>
@@ -10,7 +19,7 @@ import { RouterLink } from "vue-router";
       <RouterLink to="/planList">계획 목록</RouterLink>
       <RouterLink to="/registPlan">계획 작성</RouterLink>
       <RouterLink to="/findLocation">주변 장소</RouterLink>
-      <RouterLink to="/">로그아웃</RouterLink>
+      <RouterLink to="/" @click="logout()">로그아웃</RouterLink>
     </nav>
   </header>
 </template>
