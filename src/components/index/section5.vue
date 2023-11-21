@@ -27,7 +27,7 @@ onMounted(fetchPosts);
           <article>
             <picture>
               <source :srcset="post.imageUrl" media="(min-width: 768px)" />
-              <img :src="'data:image/png;base64,' + post.image[0]" />
+              <img :src="'data:image/png;base64,' + post.image" />
             </picture>
             <h4>{{ post.title }}</h4>
             <article class="short-description">

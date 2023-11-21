@@ -28,7 +28,7 @@ onMounted(fetchPosts);
           <article>
             <picture>
               <source :srcset="post.imageUrl" media="(min-width: 768px)" />
-              <img :src="'data:image/png;base64,' + post.image[0]" />
+              <img :src="'data:image/png;base64,' + post.image" />
             </picture>
             <h4>{{ post.title }}</h4>
             <article class="short-description">
@@ -220,9 +220,9 @@ article.sample-col-para img {
 }
 .marquee-wrapper .marquee-content .card-testimonial {
   width: 400px;
-  background-color: #b6b1b1;
+  background-color: #ffffff;
   padding: 1rem;
-  border: 1px solid #f5f5f5;
+  border: 1px solid #ccc;
   border-radius: 1rem;
   color: #000000;
   font-size: 12px;
