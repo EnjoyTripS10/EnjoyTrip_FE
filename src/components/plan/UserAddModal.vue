@@ -2,9 +2,7 @@
 
 <template>
   <div class="modal" v-if="isModalOpen">
-
     <div class="modal-content">
-      <form @submit.prevent="addUserList(findUser)">
       <div class="input-close">
         <input
           class="input-box"
@@ -12,27 +10,24 @@
           v-model="searchQuery"
           placeholder="사용자 email로 검색"
         />
-        <button type="button" class="close-btn" @click="closeModal">X</button>
+        <button class="close-btn" @click="closeModal">X</button>
       </div>
-    
-      
       <ul class="user-list">
         <div>
-            <p>{{ findUser }}</p>
-            <button @click="addUserList(findUser)">등록</button>
+          <li v-for="user in filteredUser" :key="user.userEmail">
+            {{ user.userName }}
+            <button @click="addUserList(user)">등록</button>
+          </li>
         </div>
       </ul>
-    </form>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, computed, onBeforeMount } from "vue";
 import axios from "axios";
 
-const users = ref([{}]);
-const findUser = ref({});
 const props = defineProps({
   isModalOpen: Boolean,
   // users: {
@@ -45,45 +40,37 @@ const emit = defineEmits(["update:isModalOpen", "onAdd"]);
 
 const searchQuery = ref("");
 
+const filteredUser = computed(() => {
+  if (searchQuery.value.trim() === "") {
+    return [];
+  }
+  return users.value.filter(
+    (user) => user.userEmail === searchQuery.value.trim()
+  );
+});
 
-const searchUsers = async (query) => {
-  // if (query.trim() === '') {
-  //   filteredUser.value = [];
-  //   return;
-  // }
-
+const users = ref([]);
+const beforeUsers = async () => {
   try {
     // 여기에 서버의 사용자 검색 API 엔드포인트를 입력하세요.
-    const response = await axios.get(`/api/user/findmember/${query}`);
-    
-     // 서버 응답을 filteredUser에 할당
-     console.log("come???")
-     findUser.value = {email :response.data.userEmail, name : response.data.userName}
-     console.log(findUser.value)
+    const response =  await axios.get("/api/user/findmembers");
+    // filteredUser.value = response.data; 
+    users.value = response.data;
+    console.log(users.value)
 
   } catch (error) {
     console.error('Error fetching users:', error);
   }
-};
-
-watch(searchQuery, (newValue) => {
-  searchUsers(newValue);
-});
-
-
+}
+onBeforeMount(beforeUsers)
 
 const closeModal = () => {
   emit("update:isModalOpen", false);
 };
 
-const addItemToList = (item) => {
-  users.value.push(item);
-};
-
 const addUserList = (user) => {
   // console.log(user.name);
-  addItemToList(user);
-  emit("onAdd", users);
+  emit("onAdd", user);
   // emit("updateUsers", users.value);
   closeModal();
 };

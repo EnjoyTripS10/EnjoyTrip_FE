@@ -8,8 +8,8 @@
         <!-- <img :src="user.profileImage" :alt="user.name" /> -->
         <!-- <img class="profile-img" :src="user.profileImage" /> -->
         <img class="profile-img" src="../../assets/img/logo.png" />
-        <p>{{ user.name }}</p>
-        <button class="delete-btn" @click="deleteUser(user.email)">X</button>
+        <p>{{ user.userName }}</p>
+        <button class="delete-btn" @click="deleteUser(user.userEmail)">X</button>
       </div>
       <button class="add-user-btn" @click="showModal">사용자 추가</button>
       <UserAddModal
@@ -34,7 +34,7 @@ const props = defineProps({
 const emit = defineEmits(["updateUsers"]);
 
 const deleteUser = (userId) => {
-  const index = users.value.findIndex((user) => user.email === userId);
+  const index = users.value.findIndex((user) => user.userEmail === userId);
   if (index !== -1) {
     users.value.splice(index, 1);
   }
@@ -52,7 +52,7 @@ const showModal = () => {
 };
 
 const addUser = (newUser) => {
-  const userExists = users.value.some((user) => user.email === newUser.email);
+  const userExists = users.value.some((user) => user.userEmail === newUser.userEmail);
 
   if (userExists) {
     alert("이미 등록된 사용자입니다.");
