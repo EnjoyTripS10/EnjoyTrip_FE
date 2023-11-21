@@ -136,13 +136,13 @@ const submitForm = async () => {
     type: 0,
     startDate: start.value,
     endDate: end.value,
-    locationList: draggableArrays.value,
-    users: users.value,
+    locationList: draggableArrays.value
   };
+  console.log(postData)
 
   try {
     console.log(users.value);
-    const response = await axios.post("/trip", postData, {
+    const response = await axios.put(`/trip/update/${planid}`, postData, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -234,9 +234,9 @@ const submitForm = async () => {
         </form>
       </div>
     </div>
-    <div class="userList">
+    <!-- <div class="userList">
       <PlaningUser @updateUsers="updateUsers" />
-    </div>
+    </div> -->
   </div>
 </template>
 
