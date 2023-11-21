@@ -10,6 +10,7 @@ import { RouterLink } from "vue-router";
       <RouterLink to="/planList">계획 목록</RouterLink>
       <RouterLink to="/registPlan">계획 작성</RouterLink>
       <RouterLink to="/findLocation">주변 장소</RouterLink>
+      <RouterLink to="/">로그아웃</RouterLink>
     </nav>
   </header>
 </template>
@@ -42,6 +43,8 @@ import { RouterLink } from "vue-router";
   justify-content: flex-end;
   margin-right: 150px;
   width: 100%;
+  font-size: 1rem;
+  font-weight: 600;
 }
 .navbar a {
   color: rgb(0, 0, 0);

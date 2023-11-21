@@ -31,11 +31,11 @@ const search = () => {
 .banner {
   width: 100%;
   height: 100vh; /* 높이를 뷰포트 높이로 설정 */
-  background: url("../../assets/img/banner1.jpg") no-repeat center center;
+  background: url("../../assets/img/banner4.jpg") no-repeat center center;
   background-size: cover;
   position: relative; /* 자식 요소의 위치를 상대적으로 설정 */
-  filter: contrast(70%);
-  color: black;
+  filter: contrast(80%);
+  color: rgb(255, 255, 255);
 }
 .slogan {
   position: absolute;
@@ -48,7 +48,7 @@ const search = () => {
 
 .slogan h1,
 .slogan p {
-  color: rgb(0, 0, 0); /* 흰색 글씨 */
+  color: rgb(255, 255, 255); /* 흰색 글씨 */
   text-align: center; /* 글씨 중앙 정렬 */
   /* 필요한 경우 추가 스타일 */
 }

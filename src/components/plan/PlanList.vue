@@ -13,11 +13,27 @@
       />
       <button class="input-btn" @click="searchPlans">검색</button>
     </div>
+    <div class="state-box-marble">
+      <div class="marble-container">
+        <div class="blue-marble"></div>
+        <p class="marble-description">계획</p>
+      </div>
+      <div class="marble-container">
+        <div class="red-marble"></div>
+        <p class="marble-description">후기</p>
+      </div>
+    </div>
     <ul class="plan-items" v-if="plans.length">
       <li v-for="plan in plans" :key="plan.id" class="plan-item">
         <div class="plan-details" @click="navigateToDetail(plan.tripId)">
-          <div class="text-box">
+          <div class="state-box">
+            <div v-if="plan.tripType === 0" class="blue-marble"></div>
+            <div v-else-if="plan.tripType === 1" class="red-marble"></div>
+          </div>
+          <div class="text-box-title">
             <h3>{{ plan.tripTitle }}</h3>
+          </div>
+          <div class="text-box-date">
             <p>{{ formatDate(plan.tripStartDate) }} ~ {{ formatDate(plan.tripEndDate) }}</p>
           </div>
           <div class="img-box">
@@ -100,6 +116,81 @@ const navigateToDetail = (tripId) => {
 </script>
 
 <style scoped>
+.state-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.state-box-marble {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.marble-container {
+  display: flex;
+  align-items: center;
+  margin-right: 20px; /* 구슬 사이 간격 */
+}
+.marble-description {
+  margin-left: 10px; /* 구슬과 텍스트 사이 간격 */
+}
+h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+.text-box-date {
+  width: 40%;
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+}
+.text-box-title {
+  width: 40%;
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+}
+.state-box {
+  display: flex;
+  align-items: center; /* 수직 중앙 정렬 */
+  justify-content: center; /* 수평 중앙 정렬 */
+  height: 50px; /* 또는 원하는 고정 높이 */
+  width: 10%;
+}
+
+.blue-marble,
+.red-marble {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #000000;
+
+  /* 나머지 스타일링 */
+}
+.blue-marble {
+  width: 20px;
+  height: 20px;
+  background-color: blue;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19); /* 그림자 추가 */
+  border: 2px solid #1e90ff; /* 테두리 추가 */
+  background-image: linear-gradient(to top right, #3193f4, #87cefa); /* 그라디언트 배경 */
+  /* 추가 스타일링 */
+}
+
+.red-marble {
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19); /* 그림자 추가 */
+  border: 2px solid #ff6347; /* 테두리 추가 */
+  background-image: linear-gradient(to top right, #ff6347, #ffa07a); /* 그라디언트 배경 */
+}
 .input-btn {
   height: 100%;
   height: 70%;
@@ -160,6 +251,7 @@ const navigateToDetail = (tripId) => {
 .plan-details {
   display: flex;
   margin-right: 20px; /* 제목과 날짜 오른쪽의 여백 */
+  width: 100%;
 }
 .user-list {
   display: flex;

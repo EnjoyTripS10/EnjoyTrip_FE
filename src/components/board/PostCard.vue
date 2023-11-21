@@ -181,34 +181,61 @@ const deleteBoard = async (boardId) => {
           </div>
           <div class="modal-body">
             <div class="carousel">
-              <input type="radio" id="slide1" name="slides" checked />
-              <input type="radio" id="slide2" name="slides" />
-              <input type="radio" id="slide3" name="slides" />
-              <ul>
-                <li class="slide slide1">
-                  <img
-                    src="https://images.unsplash.com/photo-1669839190022-2d6823040638?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-                    alt="Product 1"
-                  />
+              <ul class="slides">
+                <input type="radio" name="radio-buttons" id="img-1" checked />
+                <li class="slide-container">
+                  <div class="slide-image">
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Timisoara_-_Regional_Business_Centre.jpg"
+                    />
+                  </div>
+                  <div class="carousel-controls">
+                    <label for="img-3" class="prev-slide">
+                      <span>&lsaquo;</span>
+                    </label>
+                    <label for="img-2" class="next-slide">
+                      <span>&rsaquo;</span>
+                    </label>
+                  </div>
                 </li>
-                <li class="slide slide2">
-                  <img
-                    src="https://images.unsplash.com/photo-1669916007134-fc3ff29d7eed?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8N3x8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=60"
-                    alt="Product 2"
-                  />
+                <input type="radio" name="radio-buttons" id="img-2" />
+                <li class="slide-container">
+                  <div class="slide-image">
+                    <img
+                      src="https://content.r9cdn.net/rimg/dimg/db/02/06b291e8-city-14912-171317ad83a.jpg?width=1750&height=1000&xhint=3040&yhint=2553&crop=true"
+                    />
+                  </div>
+                  <div class="carousel-controls">
+                    <label for="img-1" class="prev-slide">
+                      <span>&lsaquo;</span>
+                    </label>
+                    <label for="img-3" class="next-slide">
+                      <span>&rsaquo;</span>
+                    </label>
+                  </div>
                 </li>
-                <li class="slide slide3">
-                  <img
-                    src="https://images.unsplash.com/photo-1670054675286-e67e5eac5392?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTZ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
-                    alt="Product 3"
-                  />
+                <input type="radio" name="radio-buttons" id="img-3" />
+                <li class="slide-container">
+                  <div class="slide-image">
+                    <img
+                      src="https://speakzeasy.files.wordpress.com/2015/05/twa_blogpic_timisoara-4415.jpg"
+                    />
+                  </div>
+                  <div class="carousel-controls">
+                    <label for="img-2" class="prev-slide">
+                      <span>&lsaquo;</span>
+                    </label>
+                    <label for="img-1" class="next-slide">
+                      <span>&rsaquo;</span>
+                    </label>
+                  </div>
                 </li>
+                <div class="carousel-dots">
+                  <label for="img-1" class="carousel-dot" id="img-dot-1"></label>
+                  <label for="img-2" class="carousel-dot" id="img-dot-2"></label>
+                  <label for="img-3" class="carousel-dot" id="img-dot-3"></label>
+                </div>
               </ul>
-              <div class="indicator-container">
-                <label for="slide1"></label>
-                <label for="slide2"></label>
-                <label for="slide3"></label>
-              </div>
             </div>
           </div>
 
@@ -310,18 +337,6 @@ h1 {
   padding: 10px;
   margin-top: 10px;
 }
-.carousel {
-  position: relative;
-  width: 70%; /* 혹은 적절한 너비 */
-  height: auto; /* 높이를 자동으로 설정하여 이미지 비율에 맞춤 */
-  margin: 50px auto;
-}
-
-.carousel img {
-  width: 100%; /* 너비는 컨테이너에 맞춤 */
-  height: 400px; /* 높이는 자동으로 설정하여 비율 유지 */
-  object-fit: cover; /* 이미지가 컨테이너를 완전히 채우도록 조정하면서 비율 유지 */
-}
 
 input[name="slides"] {
   display: none;
@@ -331,24 +346,134 @@ ul {
   list-style-type: none;
 }
 
-.slide {
+.carousel {
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+ul.slides {
+  display: block;
+  position: relative;
+  height: 600px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  list-style: none;
+}
+
+.slides * {
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+ul.slides input {
+  display: none;
+}
+
+.slide-container {
+  display: block;
+}
+
+.slide-image {
+  display: block;
   position: absolute;
   width: 100%;
   height: 100%;
+  top: 0;
   opacity: 0;
-  transition: opacity 0.5s;
+  transition: all 0.7s ease-in-out;
 }
 
-.slide img {
-  width: 100%;
+.slide-image img {
+  width: auto;
+  min-width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 
-#slide1:checked ~ ul .slide1,
-#slide2:checked ~ ul .slide2,
-#slide3:checked ~ ul .slide3 {
+.carousel-controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  font-size: 100px;
+  line-height: 600px;
+  color: #fff;
+}
+
+.carousel-controls label {
+  display: none;
+  position: absolute;
+  padding: 0 20px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.slide-image:hover + .carousel-controls label {
+  opacity: 0.5;
+}
+
+.carousel-controls label:hover {
   opacity: 1;
+}
+
+.carousel-controls .prev-slide {
+  width: 49%;
+  text-align: left;
+  left: 0;
+}
+
+.carousel-controls .next-slide {
+  width: 49%;
+  text-align: right;
+  right: 0;
+}
+
+.carousel-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  z-index: 999;
+  text-align: center;
+}
+
+.carousel-dots .carousel-dot {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #fff;
+  opacity: 0.5;
+  margin: 10px;
+}
+
+input:checked + .slide-container .slide-image {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 1s ease-in-out;
+}
+
+input:checked + .slide-container .carousel-controls label {
+  display: block;
+}
+
+input#img-1:checked ~ .carousel-dots label#img-dot-1,
+input#img-2:checked ~ .carousel-dots label#img-dot-2,
+input#img-3:checked ~ .carousel-dots label#img-dot-3,
+input#img-4:checked ~ .carousel-dots label#img-dot-4,
+input#img-5:checked ~ .carousel-dots label#img-dot-5,
+input#img-6:checked ~ .carousel-dots label#img-dot-6 {
+  opacity: 1;
+}
+
+input:checked + .slide-container .nav label {
+  display: block;
 }
 
 .indicator-container {

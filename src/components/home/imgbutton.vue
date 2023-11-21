@@ -5,6 +5,10 @@ import { RouterLink } from "vue-router";
 </script>
 
 <template>
+  <div class="img-btn-container">
+  <div class="img-btn-title">
+    <h1>지금 바로 시작해보세요!</h1>
+  </div>
   <div class="imgbutton">
     <div class="card">
       <div class="face face1">
@@ -14,7 +18,7 @@ import { RouterLink } from "vue-router";
       </div>
       <div class="face face2">
         <div class="content">
-          <p>친구와 함께 여행계획 세우기</p>
+          <p>함께 만드는 추억, <br/> 친구들과 함께 여행을 떠나<br/> 새로운 경험을 만나보세요.<br/> <br/></p>
           <RouterLink to="/registPlan">페이지 이동</RouterLink>
         </div>
       </div>
@@ -27,7 +31,7 @@ import { RouterLink } from "vue-router";
       </div>
       <div class="face face2">
         <div class="content">
-          <p>지금 까지 방문하였던 장소를 소개</p>
+          <p>여행의 발자취를 따라,<br/> 지금까지의 여정을 되돌아보세요. 여러분의 이야기가 살아 숨 쉬는 <br/>그곳들을 소개합니다.</p>
           <RouterLink to="/planList">페이지 이동</RouterLink>
         </div>
       </div>
@@ -40,15 +44,30 @@ import { RouterLink } from "vue-router";
       </div>
       <div class="face face2">
         <div class="content">
-          <p>주변 관광지 찾아보기</p>
+          <p>근처 숨은 관광 명소 발견하기,<br/>여기서 시작해보세요.<br/> 주변의 명소들을 방문하며<br/> 새로운 추억을 만들어보세요.</p>
           <RouterLink to="/findLocation">페이지 이동</RouterLink>
         </div>
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <style scoped>
+
+.img-btn-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.img-btn-title {
+  font-size: 2rem;
+  font-weight: 800;
+ margin-bottom: 50px;
+}
 .img-btn {
   width: 100%;
   height: 100%;
@@ -57,6 +76,8 @@ import { RouterLink } from "vue-router";
 .content {
   width: 100%;
   height: 100%;
+  justify-content: center;
+  font-weight: 600;
 }
 .imgbutton {
   width: 1000px;

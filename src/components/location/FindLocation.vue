@@ -68,8 +68,8 @@ const fetchLocation = () => {
   // } else {
   //   errorMessage.value = "Geolocation is not supported by this browser.";
   // }
-  latitude.value = 37.566826;
-  longitude.value = 126.9786567;
+  latitude.value = 36.355184;
+  longitude.value = 127.297979;
   loadLocation();
 };
 

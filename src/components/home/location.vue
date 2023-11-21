@@ -10,6 +10,9 @@ const navigateToBoardListCity = (cityName) => {
 </script>
 
 <template>
+  <div class="location-title">
+    <h1>지역별 국내 인기 여행지</h1>
+  </div>
   <div class="box2">
     <div
       class="grid-item image-bigcontainer"
@@ -83,6 +86,16 @@ const navigateToBoardListCity = (cityName) => {
 </template>
 
 <style scoped>
+
+.location-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+  font-size: 2rem;
+  font-weight: 800;
+ margin-bottom: 70px;
+}
 .box2 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
