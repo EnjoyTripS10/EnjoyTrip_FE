@@ -10,7 +10,7 @@ const posts = ref([]);
 const searchQuery = ref("");
 const fetchPosts = async () => {
   try {
-    const response = await axios.get("/board");
+    const response = await axios.get(`/board/searchCity/${city}`);
     posts.value = response.data;
   } catch (error) {
     console.error("Error fetching posts:", error);
@@ -19,7 +19,7 @@ const fetchPosts = async () => {
 
 const fetchSearchedPosts = async () => {
   try {
-    const response = await axios.get(`/board/search/${searchQuery.value}`);
+    const response = await axios.get(`/board/searchCity/${searchQuery.value}`);
     posts.value = response.data;
   } catch (error) {
     console.error("Error fetching searched posts:", error);
