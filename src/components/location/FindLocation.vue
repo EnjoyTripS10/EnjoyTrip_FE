@@ -54,20 +54,23 @@ const code = ref("FD6");
 const placeList = ref([]);
 
 const fetchLocation = () => {
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        latitude.value = position.coords.latitude;
-        longitude.value = position.coords.longitude;
-        loadLocation();
-      },
-      (error) => {
-        errorMessage.value = "Error Code = " + error.code + " - " + error.message;
-      }
-    );
-  } else {
-    errorMessage.value = "Geolocation is not supported by this browser.";
-  }
+  // if ("geolocation" in navigator) {
+  //   navigator.geolocation.getCurrentPosition(
+  //     (position) => {
+  //       latitude.value = position.coords.latitude;
+  //       longitude.value = position.coords.longitude;
+  //       loadLocation();
+  //     },
+  //     (error) => {
+  //       errorMessage.value = "Error Code = " + error.code + " - " + error.message;
+  //     }
+  //   );
+  // } else {
+  //   errorMessage.value = "Geolocation is not supported by this browser.";
+  // }
+  latitude.value = 37.566826;
+  longitude.value = 126.9786567;
+  loadLocation();
 };
 
 const loadMap = () => {

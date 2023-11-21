@@ -16,13 +16,19 @@ const fetchPosts = async () => {
 };
 onMounted(fetchPosts);
 
-const sort = (criteria) => {
-  // Implement sorting logic based on the criteria (views, likes, or recent)
-  // For example:
-  // if (criteria === 'views') {
-  //     posts.value.sort((a, b) => b.views - a.views);
-  // }
-  // ... other criteria
+const sort = (key) => {
+  posts.value.sort((a, b) => b[key] - a[key]);
+};
+
+const sortDate = (key) => {
+  posts.value.sort((a, b) => {
+    // 두 날짜를 Date 객체로 변환
+    const dateA = new Date(a[key]);
+    const dateB = new Date(b[key]);
+
+    // 날짜를 비교하여 정렬
+    return dateB - dateA;
+  });
 };
 
 const isDropdownOpen = ref(false);
@@ -59,9 +65,9 @@ const showLikedPosts = () => {
       </div>
       <div class="sorting-options">
         <!-- Sorting Options -->
-        <button @click="sort('views')">조회수</button>
-        <button @click="sort('likes')">좋아요</button>
-        <button @click="sort('recent')">최신글</button>
+        <button @click="sort('boardHit')">조회수</button>
+        <button @click="sort('likeCnt')">좋아요</button>
+        <button @click="sortDate('createdAt')">최신글</button>
       </div>
     </div>
 
