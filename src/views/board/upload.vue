@@ -56,7 +56,7 @@ const handleFiles = (event) => {
     alert("최대 10개의 파일만 업로드할 수 있습니다.");
     event.target.value = ""; // 입력 필드 초기화
   } else {
-    files.value = selectedFiles;
+   // files.value = selectedFiles;
   }
 };
 const router = useRouter();

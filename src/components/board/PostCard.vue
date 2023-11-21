@@ -128,7 +128,16 @@ const deleteBoard = async (boardId) => {
   try {
     await axios.delete(`/board/${boardId}`);
     // 삭제 후 할 행동, 예를 들어 목록 페이지로 이동
-    router.push({ name: "PlanList" });
+    closeModal();
+    router.push({ name: "boardList" })
+    .then(() => {
+      // router.push가 완료된 후 새로고침
+      window.location.reload();
+    })
+    .catch((err) => {
+      // 에러 처리
+      console.error('라우팅 오류:', err);
+    });
   } catch (error) {
     console.error("삭제 중 오류 발생: ", error);
     // 오류 처리 로직

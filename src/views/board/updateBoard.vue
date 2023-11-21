@@ -32,7 +32,7 @@
     <ul v-if="files.length" class="file-list">
       <li v-for="file in files" :key="file.name" class="file-item">{{ file.name }}</li>
     </ul>
-    <button @click="uploadFiles" class="upload-btn">등록</button>
+    <button @click="uploadFiles" class="upload-btn">수정 완료</button>
   </div>
 </template>
 location
@@ -46,10 +46,12 @@ import MapComponent from "../../components/location/map.vue";
 const files = ref([]);
 const title = ref("");
 const inLocation = ref({});
+const locationName = ref("")
 const route = useRoute();
 const content = ref("");
 const boardId = route.params.boardId;
 const boardData = ref([]);
+const id = ref();
 
 const loadBoard = async () => {
   try {
@@ -63,8 +65,19 @@ const loadBoard = async () => {
     boardData.value = response.data;
     title.value = boardData.value.boardTitle;
     content.value = boardData.value.boardContent;
-    inLocation.value = boardData.value.locationName;
-    console.log(boardData.value);
+    locationName.value = boardData.value.locationName;
+    console.log("//")
+    inLocation.value = {
+      locationName : boardData.value.locationName,
+      locationId : boardData.value.locationId,
+      locationAddr : boardData.value.locationAddr,
+      locationLat : boardData.value.locationLat,
+      locationLon : boardData.value.locationLon,
+      locationType : boardData.value.locationType,
+    }
+    console.log(inLocation.value);
+    id.value = boardData.value.boardId;
+    console.log(id.value);
     // 글쓰기가 성공적으로 완료되었을 때 처리할 코드를 작성합니다.
   } catch (error) {
     console.log(error);
@@ -82,7 +95,7 @@ const handleFiles = (event) => {
     alert("최대 10개의 파일만 업로드할 수 있습니다.");
     event.target.value = ""; // 입력 필드 초기화
   } else {
-    files.value = selectedFiles;
+   // files.value = selectedFiles;
   }
 };
 
@@ -93,6 +106,7 @@ const uploadFiles = async () => {
   console.log(inLocation.value);
 
   const formData = new FormData();
+  formData.append("boardId", id.value);
   formData.append("title", title.value);
   formData.append("content", content.value);
   formData.append("inLocation", JSON.stringify(inLocation.value));
@@ -101,7 +115,7 @@ const uploadFiles = async () => {
   });
 
   try {
-    const response = await axios.post("/board", formData, {
+    const response = await axios.post("/board/update", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
