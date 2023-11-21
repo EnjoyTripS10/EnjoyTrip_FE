@@ -46,7 +46,7 @@ import MapComponent from "../../components/location/map.vue";
 const files = ref([]);
 const title = ref("");
 const inLocation = ref({});
-const locationName = ref("")
+const locationName = ref("");
 const route = useRoute();
 const content = ref("");
 const boardId = route.params.boardId;
@@ -66,15 +66,15 @@ const loadBoard = async () => {
     title.value = boardData.value.boardTitle;
     content.value = boardData.value.boardContent;
     locationName.value = boardData.value.locationName;
-    console.log("//")
+    console.log("//");
     inLocation.value = {
-      locationName : boardData.value.locationName,
-      locationId : boardData.value.locationId,
-      locationAddr : boardData.value.locationAddr,
-      locationLat : boardData.value.locationLat,
-      locationLon : boardData.value.locationLon,
-      locationType : boardData.value.locationType,
-    }
+      locationName: boardData.value.locationName,
+      locationId: boardData.value.locationId,
+      locationAddr: boardData.value.locationAddr,
+      locationLat: boardData.value.locationLat,
+      locationLon: boardData.value.locationLon,
+      locationType: boardData.value.locationType,
+    };
     console.log(inLocation.value);
     id.value = boardData.value.boardId;
     console.log(id.value);
@@ -95,7 +95,7 @@ const handleFiles = (event) => {
     alert("최대 10개의 파일만 업로드할 수 있습니다.");
     event.target.value = ""; // 입력 필드 초기화
   } else {
-   // files.value = selectedFiles;
+    // files.value = selectedFiles;
   }
 };
 
@@ -121,16 +121,15 @@ const uploadFiles = async () => {
       },
     });
     console.log("File uploaded successfully", response.data);
+    router.push({ name: "PlanList" });
   } catch (error) {
     console.error("Error uploading file", error);
   }
-  router.push("/boardList");
 };
 onMounted(loadBoard);
 </script>
 <style>
-
-.location-label{
+.location-label {
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -142,7 +141,6 @@ onMounted(loadBoard);
 label {
   font-size: 1.1rem; /* 글자 크기 증가 */
   font-weight: bold; /* 굵은 글꼴 */
-  width: 10%;
 }
 label[for="file"] {
   font-size: 15px; /* 글자 크기 증가 */

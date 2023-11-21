@@ -27,13 +27,8 @@ const fetchSearchedPosts = async () => {
 };
 onMounted(fetchPosts);
 
-const sort = (criteria) => {
-  // Implement sorting logic based on the criteria (views, likes, or recent)
-  // For example:
-  // if (criteria === 'views') {
-  //     posts.value.sort((a, b) => b.views - a.views);
-  // }
-  // ... other criteria
+const sort = (key) => {
+  posts.value.sort((a, b) => b[key] - a[key]);
 };
 
 const isDropdownOpen = ref(false);
@@ -70,9 +65,9 @@ const showLikedPosts = () => {
       </div>
       <div class="sorting-options">
         <!-- Sorting Options -->
-        <button @click="sort('views')">조회수</button>
+        <button @click="sort('boardHit')">조회수</button>
         <button @click="sort('likes')">좋아요</button>
-        <button @click="sort('recent')">최신글</button>
+        <button @click="sort('createdAt')">최신글</button>
       </div>
     </div>
 
@@ -97,7 +92,7 @@ const showLikedPosts = () => {
 }
 .board {
   margin-top: 50px;
-  width: 80%;
+  width: 70%;
 }
 .dropdown-menu {
   list-style-type: none;

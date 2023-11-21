@@ -15,6 +15,7 @@
       <ul class="user-list">
         <div>
           <li v-for="user in filteredUser" :key="user.userEmail">
+            <img src="{{ user.picture }}" alt="">
             {{ user.userName }}
             <button @click="addUserList(user)">등록</button>
           </li>
@@ -44,25 +45,22 @@ const filteredUser = computed(() => {
   if (searchQuery.value.trim() === "") {
     return [];
   }
-  return users.value.filter(
-    (user) => user.userEmail === searchQuery.value.trim()
-  );
+  return users.value.filter((user) => user.userEmail.includes(searchQuery.value.trim()));
 });
 
 const users = ref([]);
 const beforeUsers = async () => {
   try {
     // 여기에 서버의 사용자 검색 API 엔드포인트를 입력하세요.
-    const response =  await axios.get("/api/user/findmembers");
-    // filteredUser.value = response.data; 
+    const response = await axios.get("/api/user/findmembers");
+    // filteredUser.value = response.data;
     users.value = response.data;
-    console.log(users.value)
-
+    console.log(users.value);
   } catch (error) {
-    console.error('Error fetching users:', error);
+    console.error("Error fetching users:", error);
   }
-}
-onBeforeMount(beforeUsers)
+};
+onBeforeMount(beforeUsers);
 
 const closeModal = () => {
   emit("update:isModalOpen", false);

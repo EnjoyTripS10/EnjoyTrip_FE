@@ -86,7 +86,7 @@ const showLikedPosts = () => {
 }
 .board {
   margin-top: 50px;
-  width: 80%;
+  width: 70%;
 }
 .dropdown-menu {
   list-style-type: none;

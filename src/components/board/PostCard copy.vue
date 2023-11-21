@@ -180,43 +180,12 @@ const deleteBoard = async (boardId) => {
             <p @click="searchNaver(modalData)">{{ modalData.locationName }}</p>
           </div>
           <div class="carousel">
-            <input type="radio" id="slide1" name="slides" checked />
-            <input type="radio" id="slide2" name="slides" />
-            <input type="radio" id="slide3" name="slides" />
-            <ul>
-              <li class="slide slide1">
-                <img
-                  src="https://images.unsplash.com/photo-1669839190022-2d6823040638?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-                  alt="Product 1"
-                />
-              </li>
-              <li class="slide slide2">
-                <img
-                  src="https://images.unsplash.com/photo-1669916007134-fc3ff29d7eed?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8N3x8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=60"
-                  alt="Product 2"
-                />
-              </li>
-              <li class="slide slide3">
-                <img
-                  src="https://images.unsplash.com/photo-1670054675286-e67e5eac5392?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTZ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
-                  alt="Product 3"
-                />
-              </li>
-            </ul>
-            <div class="indicator-container">
-              <label for="slide1"></label>
-              <label for="slide2"></label>
-              <label for="slide3"></label>
-            </div>
-          </div>
-
-          <!-- <div class="carousel">
             <button @click="showPreviousImage">이전</button>
             <div class="img-slide">
               <img :src="'data:image/png;base64,' + modalData.image[currentImageIndex]" />
             </div>
             <button @click="showNextImage">다음</button>
-          </div> -->
+          </div>
           <div class="share">
             <button
               class="heart-btn"
@@ -281,7 +250,6 @@ h1 {
 }
 .board-header {
   width: 80%;
-  height: 8%;
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 1px solid #ccc;
@@ -311,67 +279,11 @@ h1 {
   margin-top: 10px;
 }
 .carousel {
-  position: relative;
-  width: 70%;
-  height: 400px;
-  margin: 50px auto;
-}
-
-.carousel img {
-  max-height: 400px;
-}
-
-input[name="slides"] {
-  display: none;
-}
-
-ul {
-  list-style-type: none;
-}
-
-.slide {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: opacity 0.5s;
-}
-
-.slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-#slide1:checked ~ ul .slide1,
-#slide2:checked ~ ul .slide2,
-#slide3:checked ~ ul .slide3 {
-  opacity: 1;
-}
-
-.indicator-container {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
+  align-items: center;
   justify-content: center;
-  width: 500px;
-}
-
-.indicator-container label {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: gray;
-  margin: 0 10px;
-  cursor: pointer;
-}
-
-#slide1:checked ~ .indicator-container label:nth-child(1),
-#slide2:checked ~ .indicator-container label:nth-child(2),
-#slide3:checked ~ .indicator-container label:nth-child(3) {
-  background-color: white;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
 .carousel img {
   max-width: 100%;
@@ -439,7 +351,6 @@ ul {
   align-items: center;
 }
 .boardDetail-in {
-  height: 95%;
   position: relative; /* 상대 위치 지정 */
   margin-top: 2%;
   height: calc(100% - 60px);

@@ -76,7 +76,7 @@ const loadMap = () => {
   // 카카오 맵 라이브러리 로딩
   const mapOption = {
     center: new kakao.maps.LatLng(latitude.value, longitude.value - 0.01),
-    level: 10,
+    level: 6,
   };
 
   mapContainer.value = document.getElementById("map");

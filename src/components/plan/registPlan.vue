@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch, onBeforeMount } from "vue";
+import { useRouter } from "vue-router";
 import axios from "axios";
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
 import Draggable from "vue3-draggable";
@@ -16,6 +17,8 @@ const formatter = ref({
   date: "YYYY.MM.DD",
   month: "MM",
 });
+
+const router = useRouter();
 
 const fetchLocations = async () => {
   try {
@@ -102,6 +105,7 @@ const submitForm = async () => {
       },
     });
     console.log("Post successful:", response.data);
+    router.push({ name: "PlanList" });
 
     // 폼 제출 후의 추가 작업 (예: 페이지 리디렉션, 상태 업데이트 등)
   } catch (error) {
@@ -147,7 +151,6 @@ const submitForm = async () => {
                         v-model="item.memo"
                         placeholder="메모 작성..."
                       ></textarea>
-                      <button class="recomend-btn">등록</button>
                     </div>
                   </template>
                 </draggable>

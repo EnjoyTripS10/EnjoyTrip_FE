@@ -55,6 +55,10 @@ const goToEditPage = () => {
   router.push({ name: "updatePlan", params: { planid: planid } });
 };
 
+const mvList = () => {
+  router.push({ name: "PlanList" });
+};
+
 // 데이터를 삭제하는 함수
 const deletePlan = async () => {
   try {
@@ -162,7 +166,14 @@ const kakaoShare = () => {
               :key="locationIndex"
               class="list"
             >
-              {{ location.locationName }}
+              <div @click="toggleDropdown(location)">{{ location.locationName }}</div>
+              <div v-if="location.showDropdown" class="dropdown-menu">
+                <textarea
+                  class="memo"
+                  v-model="location.memo"
+                  placeholder="메모 작성..."
+                ></textarea>
+              </div>
             </div>
             <!-- 여기에 각 locationGroup에 대한 내용을 표시 -->
           </div>
@@ -175,9 +186,10 @@ const kakaoShare = () => {
           src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
           alt="카카오톡 공유 보내기 버튼"
           @click="kakaoShare(modalData)"
-          style="width: 30px; height: 30px"
+          style="width: 50px; height: 48px"
         />
       </a>
+      <button class="list-button" @click="mvList">목록</button>
       <button class="edit-button" @click="goToEditPage">수정</button>
       <button class="delete-button" @click="deletePlan">삭제</button>
     </div>
@@ -187,13 +199,15 @@ const kakaoShare = () => {
 <style scoped>
 .detail-plan-edit {
   /* 컨테이너 스타일링 */
+  margin-top: 30px;
   display: flex;
   justify-content: space-around; /* 버튼들을 공간에 따라 분배 */
   padding: 10px;
 }
 
 .edit-button,
-.delete-button {
+.delete-button,
+.list-button {
   /* 버튼 공통 스타일 */
   padding: 10px 15px;
   border: none;
@@ -204,7 +218,10 @@ const kakaoShare = () => {
   transition: background-color 0.3s ease;
   margin-left: 10px;
 }
-
+.list-button {
+  /* 수정 버튼 스타일 */
+  background-color: #4c87af; /* 녹색 */
+}
 .edit-button {
   /* 수정 버튼 스타일 */
   background-color: #4caf50; /* 녹색 */

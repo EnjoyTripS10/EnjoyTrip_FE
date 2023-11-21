@@ -7,6 +7,7 @@ import Draggable from "vue3-draggable";
 import LocationModal from "./LocationModal.vue";
 import PlaningUser from "./PlaningUser.vue";
 
+const router = useRouter();
 // 달력
 const day = ref(1);
 const dateValue = ref([]);
@@ -147,6 +148,7 @@ const submitForm = async () => {
       },
     });
     console.log("Post successful:", response.data);
+    router.push({ name: "PlanList" });
 
     // 폼 제출 후의 추가 작업 (예: 페이지 리디렉션, 상태 업데이트 등)
   } catch (error) {
