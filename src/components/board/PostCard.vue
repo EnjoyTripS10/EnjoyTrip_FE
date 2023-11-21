@@ -318,7 +318,11 @@ h1 {
 }
 
 .carousel img {
-  max-height: 400px;
+  max-width: 100%; /* 이미지의 최대 너비를 컨테이너의 너비에 맞춤 */
+  max-height: 400px; /* 이미지의 최대 높이를 400px로 설정 */
+  width: auto; /* 이미지의 원본 비율을 유지 */
+  height: auto; /* 이미지의 원본 비율을 유지 */
+  object-fit: contain; /* 이미지가 컨테이너 안에 맞도록 조정 */
 }
 
 input[name="slides"] {
@@ -372,10 +376,6 @@ ul {
 #slide2:checked ~ .indicator-container label:nth-child(2),
 #slide3:checked ~ .indicator-container label:nth-child(3) {
   background-color: white;
-}
-.carousel img {
-  max-width: 100%;
-  height: auto;
 }
 .modal-content {
   width: 70%;

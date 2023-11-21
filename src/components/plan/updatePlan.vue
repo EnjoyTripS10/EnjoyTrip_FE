@@ -136,9 +136,10 @@ const submitForm = async () => {
     type: 0,
     startDate: start.value,
     endDate: end.value,
-    locationList: draggableArrays.value
+    locationList: getData.value.locationList,
   };
-  console.log(postData)
+  console.log("///");
+  console.log(postData);
 
   try {
     console.log(users.value);

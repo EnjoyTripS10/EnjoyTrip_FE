@@ -121,6 +121,19 @@ const kakaoShare = () => {
         <div class="plan-map">
           <PlanMap :locationGroup="selectedLocationGroup" />
         </div>
+        <div class="detail-plan-edit">
+          <a id="kakaotalk-sharing-btn" href="javascript:;">
+            <img
+              src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+              alt="카카오톡 공유 보내기 버튼"
+              @click="kakaoShare(modalData)"
+              style="width: 50px; height: 48px"
+            />
+          </a>
+          <button class="list-button" @click="mvList">목록</button>
+          <button class="edit-button" @click="goToEditPage">수정</button>
+          <button class="delete-button" @click="deletePlan">삭제</button>
+        </div>
       </div>
       <div class="detail-plan-right">
         <div>
@@ -171,7 +184,8 @@ const kakaoShare = () => {
                 <textarea
                   class="memo"
                   v-model="location.memo"
-                  placeholder="메모 작성..."
+                  placeholder="내용 없음"
+                  disabled
                 ></textarea>
               </div>
             </div>
@@ -179,19 +193,6 @@ const kakaoShare = () => {
           </div>
         </div>
       </div>
-    </div>
-    <div class="detail-plan-edit">
-      <a id="kakaotalk-sharing-btn" href="javascript:;">
-        <img
-          src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
-          alt="카카오톡 공유 보내기 버튼"
-          @click="kakaoShare(modalData)"
-          style="width: 50px; height: 48px"
-        />
-      </a>
-      <button class="list-button" @click="mvList">목록</button>
-      <button class="edit-button" @click="goToEditPage">수정</button>
-      <button class="delete-button" @click="deletePlan">삭제</button>
     </div>
   </div>
 </template>
@@ -201,7 +202,7 @@ const kakaoShare = () => {
   /* 컨테이너 스타일링 */
   margin-top: 30px;
   display: flex;
-  justify-content: space-around; /* 버튼들을 공간에 따라 분배 */
+  justify-content: flex-start; /* 버튼들을 공간에 따라 분배 */
   padding: 10px;
 }
 
@@ -241,7 +242,7 @@ const kakaoShare = () => {
 }
 .plan-map {
   width: 100%;
-  height: 90%;
+  height: 500px;
   margin-top: 20px;
   padding-right: 30px;
 }
