@@ -166,7 +166,7 @@ const submitForm = async () => {
       <div>
         <form @submit.prevent="submitForm" class="form-style">
           <div class="edit-date">
-            <vue-tailwind-datepicker v-model="dateValue" />
+            <vue-tailwind-datepicker v-model="dateValue" disabled="ture" />
           </div>
           <div class="form-group">
             <label for="title">제목:</label>

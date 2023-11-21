@@ -179,43 +179,43 @@ const deleteBoard = async (boardId) => {
             </div>
             <p @click="searchNaver(modalData)">{{ modalData.locationName }}</p>
           </div>
-          <div class="carousel">
-            <input type="radio" id="slide1" name="slides" checked />
-            <input type="radio" id="slide2" name="slides" />
-            <input type="radio" id="slide3" name="slides" />
-            <ul>
-              <li class="slide slide1">
-                <img
-                  src="https://images.unsplash.com/photo-1669839190022-2d6823040638?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-                  alt="Product 1"
-                />
-              </li>
-              <li class="slide slide2">
-                <img
-                  src="https://images.unsplash.com/photo-1669916007134-fc3ff29d7eed?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8N3x8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=60"
-                  alt="Product 2"
-                />
-              </li>
-              <li class="slide slide3">
-                <img
-                  src="https://images.unsplash.com/photo-1670054675286-e67e5eac5392?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTZ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
-                  alt="Product 3"
-                />
-              </li>
-            </ul>
-            <div class="indicator-container">
-              <label for="slide1"></label>
-              <label for="slide2"></label>
-              <label for="slide3"></label>
+          <div class="modal-body">
+            <div class="carousel">
+              <input type="radio" id="slide1" name="slides" checked />
+              <input type="radio" id="slide2" name="slides" />
+              <input type="radio" id="slide3" name="slides" />
+              <ul>
+                <li class="slide slide1">
+                  <img
+                    src="https://images.unsplash.com/photo-1669839190022-2d6823040638?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                    alt="Product 1"
+                  />
+                </li>
+                <li class="slide slide2">
+                  <img
+                    src="https://images.unsplash.com/photo-1669916007134-fc3ff29d7eed?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8N3x8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=60"
+                    alt="Product 2"
+                  />
+                </li>
+                <li class="slide slide3">
+                  <img
+                    src="https://images.unsplash.com/photo-1670054675286-e67e5eac5392?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTZ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
+                    alt="Product 3"
+                  />
+                </li>
+              </ul>
+              <div class="indicator-container">
+                <label for="slide1"></label>
+                <label for="slide2"></label>
+                <label for="slide3"></label>
+              </div>
             </div>
           </div>
 
           <!-- <div class="carousel">
-            <button @click="showPreviousImage">이전</button>
             <div class="img-slide">
               <img :src="'data:image/png;base64,' + modalData.image[currentImageIndex]" />
             </div>
-            <button @click="showNextImage">다음</button>
           </div> -->
           <div class="share">
             <button
@@ -312,17 +312,15 @@ h1 {
 }
 .carousel {
   position: relative;
-  width: 70%;
-  height: 400px;
+  width: 70%; /* 혹은 적절한 너비 */
+  height: auto; /* 높이를 자동으로 설정하여 이미지 비율에 맞춤 */
   margin: 50px auto;
 }
 
 .carousel img {
-  max-width: 100%; /* 이미지의 최대 너비를 컨테이너의 너비에 맞춤 */
-  max-height: 400px; /* 이미지의 최대 높이를 400px로 설정 */
-  width: auto; /* 이미지의 원본 비율을 유지 */
-  height: auto; /* 이미지의 원본 비율을 유지 */
-  object-fit: contain; /* 이미지가 컨테이너 안에 맞도록 조정 */
+  width: 100%; /* 너비는 컨테이너에 맞춤 */
+  height: 400px; /* 높이는 자동으로 설정하여 비율 유지 */
+  object-fit: cover; /* 이미지가 컨테이너를 완전히 채우도록 조정하면서 비율 유지 */
 }
 
 input[name="slides"] {
