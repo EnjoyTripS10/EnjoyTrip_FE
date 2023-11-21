@@ -8,6 +8,7 @@ import cookie from '@/utils/cookie.js'
 import axios from 'axios';
 import './style.css'
 import VueTailwindDatepicker from 'vue-tailwind-datepicker'
+import './axiosConfig'; // 전역 axios 요청 함수
 
 
 const app = createApp(App)
