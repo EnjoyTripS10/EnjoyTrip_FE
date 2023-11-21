@@ -45,11 +45,11 @@ const toggleDropdown = () => {
 const router = useRouter();
 
 const registerPlace = () => {
-  router.push("uploadboard");
+  router.push({ name: "addBoard" });
 };
 
 const showLikedPosts = () => {
-  router.push("boardListLiked");
+  router.push({ name: "boardListLiked" });
 };
 </script>
 
@@ -92,7 +92,7 @@ const showLikedPosts = () => {
 <style scoped>
 .post-card-style {
   width: 18%;
-  height: 30%;
+  height: 300px;
   margin: 1%;
 }
 .board {
@@ -143,7 +143,7 @@ const showLikedPosts = () => {
   padding: 0px 20px 0px;
   display: flex;
   flex-wrap: wrap;
-
+  height: auto;
   width: 100%;
   margin-top: 1rem;
 }

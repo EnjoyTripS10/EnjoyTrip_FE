@@ -16,6 +16,8 @@ const markers = ref([]);
 const latitude = ref(null);
 const longitude = ref(null);
 const errorMessage = ref("");
+const linePath = ref([]);
+const currentPolyline = ref(null);
 
 const props = defineProps({
   locationGroup: Array,
@@ -26,12 +28,32 @@ watch(
   (locationGroup) => {
     if (locationGroup && locationGroup.length > 0) {
       clearMarkers(); // 기존 마커 제거
+      linePath.value = [];
       locationGroup.forEach((location) => {
+        linePath.value.push(new kakao.maps.LatLng(location.locationLon, location.locationLat));
         displayMarker(location);
       });
+      // console.log(locationGroup);
+      console.log(linePath.value);
+      drawLine();
     }
   }
 );
+
+const drawLine = () => {
+  if (currentPolyline.value) {
+    currentPolyline.value.setMap(null);
+  }
+
+  currentPolyline.value = new kakao.maps.Polyline({
+    path: linePath.value, // 선을 구성하는 좌표배열 입니다
+    strokeWeight: 2, // 선의 두께 입니다
+    strokeColor: "#0957A2", // 선의 색깔입니다
+    strokeOpacity: 0.7, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+    strokeStyle: "solid", // 선의 스타일입니다
+  });
+  currentPolyline.value.setMap(map.value);
+};
 
 const fetchLocation = () => {
   if ("geolocation" in navigator) {
@@ -91,7 +113,7 @@ const displayMarker = (place) => {
   console.log(place.locationLat, place.locationLon);
   var marker = new kakao.maps.Marker({
     map: map.value,
-    position: new kakao.maps.LatLng(place.locationLat, place.locationLon),
+    position: new kakao.maps.LatLng(place.locationLon, place.locationLat),
   });
   var markerImage = new kakao.maps.MarkerImage(
     marker2,
@@ -136,5 +158,56 @@ onMounted(fetchLocation);
 
 #map {
   background-color: transparent !important;
+}
+
+.dot {
+  overflow: hidden;
+  float: left;
+  width: 12px;
+  height: 12px;
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/mini_circle.png");
+}
+.dotOverlay {
+  position: relative;
+  bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  border-bottom: 2px solid #ddd;
+  float: left;
+  font-size: 12px;
+  padding: 5px;
+  background: #fff;
+}
+.dotOverlay:nth-of-type(n) {
+  border: 0;
+  box-shadow: 0px 1px 2px #888;
+}
+.number {
+  font-weight: bold;
+  color: #ee6152;
+}
+.dotOverlay:after {
+  content: "";
+  position: absolute;
+  margin-left: -6px;
+  left: 50%;
+  bottom: -8px;
+  width: 11px;
+  height: 8px;
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white_small.png");
+}
+.distanceInfo {
+  position: relative;
+  top: 5px;
+  left: 5px;
+  list-style: none;
+  margin: 0;
+}
+.distanceInfo .label {
+  display: inline-block;
+  width: 50px;
+}
+.distanceInfo:after {
+  content: none;
 }
 </style>

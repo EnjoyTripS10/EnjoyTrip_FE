@@ -90,7 +90,7 @@ const showLikedPosts = () => {
 <style scoped>
 .post-card-style {
   width: 18%;
-  height: 30%;
+  height: 300px;
   margin: 1%;
 }
 .board {

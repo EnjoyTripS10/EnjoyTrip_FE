@@ -1,8 +1,19 @@
 <template>
   <div class="plan-list">
-    <h2>계획 목록</h2>
-    <input class="search-box" type="text" placeholder="검색..." v-model="searchQuery" />
-    <ul class="plan-items">
+    <div class="header-title">
+      <h2>계획 목록</h2>
+    </div>
+    <div class="input-box">
+      <input
+        class="search-box"
+        type="text"
+        placeholder="검색..."
+        v-model="searchQuery"
+        @keyup.enter="searchPlans"
+      />
+      <button class="input-btn" @click="searchPlans">검색</button>
+    </div>
+    <ul class="plan-items" v-if="plans.length">
       <li v-for="plan in plans" :key="plan.id" class="plan-item">
         <div class="plan-details" @click="navigateToDetail(plan.tripId)">
           <div class="text-box">
@@ -39,6 +50,9 @@
         </div>
       </li>
     </ul>
+    <div v-else>
+      <p>검색 결과가 없습니다.</p>
+    </div>
   </div>
 </template>
 
@@ -49,17 +63,30 @@ import axios from "axios";
 
 // 검색 쿼리 데이터
 const searchQuery = ref("");
-
+const originalPlans = ref([]);
 const plans = ref([]);
 
 const formatDate = (datetime) => {
   return datetime.split("T")[0];
 };
 
+const searchPlans = async () => {
+  if (!searchQuery.value) {
+    plans.value = originalPlans.value;
+  } else {
+    // 검색 쿼리를 기반으로 필터링
+    plans.value = originalPlans.value.filter((plan) =>
+      plan.tripTitle.toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
+  }
+};
+
 onMounted(async () => {
   try {
     const response = await axios.get("/trip"); // 여기에 계획 목록을 가져올 API 엔드포인트 URL을 적으세요.
     plans.value = response.data;
+    console.log(response.data); // 콘솔에서 데이터 확인
+    originalPlans.value = response.data;
   } catch (error) {
     console.error("계획 목록을 가져오는 데 실패했습니다:", error);
   }
@@ -73,6 +100,15 @@ const navigateToDetail = (tripId) => {
 </script>
 
 <style scoped>
+.input-btn {
+  height: 100%;
+  height: 70%;
+  border: 1px solid #000000;
+  padding: 10px;
+  margin-top: 10px;
+  margin-left: 20px;
+  border-radius: 7px;
+}
 .search-box {
   width: 60%; /* 혹은 적절한 너비 */
   padding: 10px;
@@ -80,11 +116,23 @@ const navigateToDetail = (tripId) => {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+.input-box {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 .plan-list {
+  width: 80%;
   margin-top: 50px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .plan-list-box {
@@ -94,7 +142,8 @@ const navigateToDetail = (tripId) => {
 }
 
 .plan-items {
-  border: 1px solid #000000;
+  width: 80%;
+  border: 1px solid #ccc;
   list-style-type: none;
   padding: 0;
 }
@@ -105,7 +154,7 @@ const navigateToDetail = (tripId) => {
   align-items: center;
   margin: 20px 10px; /* 각 계획 사이의 간격 */
   padding: 10px 5px;
-  border: 1px solid #000000;
+  border: 1px solid #ccc;
 }
 
 .plan-details {
