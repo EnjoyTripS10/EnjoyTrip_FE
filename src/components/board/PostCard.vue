@@ -56,8 +56,7 @@ const kakaoShare = (data) => {
     content: {
       title: data.boardTitle,
       description: "장소 : " + data.locationName + "\n내용 : " + data.boardContent,
-      imageUrl:
-        "http://k.kakaocdn.net/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png",
+      imageUrl: "https://i.ibb.co/0rY56y8/happy-Claas7.jpg",
       link: {
         // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
         mobileWebUrl: "http://172.20.10.2:8080/boardList",

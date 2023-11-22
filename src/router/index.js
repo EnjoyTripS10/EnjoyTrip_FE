@@ -10,7 +10,7 @@ import PlanDetail from "../components/plan/PlanDetail.vue";
 import updatePlan from "../components/plan/updatePlan.vue";
 import updateBoard from "../views/board/updateBoard.vue";
 import boardListCity from "../components/board/boardList_city.vue";
-
+import img from "../components/plan/img.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPosition) {
@@ -110,6 +110,11 @@ const router = createRouter({
           path: "findLocation",
           name: "findLocation",
           component: () => import("../components/location/findlocation.vue"),
+        },
+        {
+          path: "img",
+          name: "img",
+          component: img,
         },
       ],
     },

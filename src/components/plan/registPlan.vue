@@ -113,6 +113,17 @@ const submitForm = async () => {
     // 에러 처리 로직
   }
 };
+
+const firstImageUrl = ref("");
+
+const getImgUrl = async () => {
+  try {
+    const response = await axios.get("/api/search");
+    firstImageUrl.value = response.data[0].imageUrl;
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+  }
+};
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink, useRouter } from "vue-router";
+
 const router = useRouter();
 
 const logout = () => {
@@ -11,6 +12,7 @@ const logout = () => {
   console.log(1);
   // 라우터를 홈 경로로 리디렉션
 };
+
 </script>
 
 <template>
@@ -27,6 +29,7 @@ const logout = () => {
 </template>
 
 <style scoped>
+
 .header {
   position: fixed; /* 헤더 위치를 고정 */
   top: 0; /* 상단에서 0px의 위치 */
