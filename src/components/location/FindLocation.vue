@@ -28,9 +28,14 @@
             @click="mvCenter(place, index)"
             @mouseover="onMarker(place, index)"
           >
-            <div class="place-name" @click="handleClick(place)">{{ place.place_name }}</div>
-            <div class="place-address">{{ place.road_address_name }}</div>
-            <div class="place-category">{{ place.category_name }}</div>
+            <div class="place-img">
+              <img :src="place.img" style="width: 100px; height: 100px; border-radius: 10px" />
+            </div>
+            <div class="place-info">
+              <div class="place-name" @click="handleClick(place)">{{ place.place_name }}</div>
+              <div class="place-address">{{ place.road_address_name }}</div>
+              <div class="place-category">{{ place.category_name }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -42,6 +47,7 @@
 import { onMounted, ref } from "vue";
 import marker1 from "@/assets/img/marker_512.png";
 import marker2 from "@/assets/img/marker2.png";
+import axios from "@/axiosConfig.js";
 
 const mapContainer = ref(null);
 const map = ref(null);
@@ -185,15 +191,28 @@ const searchPlaces = (code, map) => {
   }
 };
 
-const placesSearchCB = (data, status) => {
+const placesSearchCB = async (data, status) => {
   if (status === kakao.maps.services.Status.OK) {
     clearMarkers();
     var bounds = new kakao.maps.LatLngBounds();
     placeList.value = data;
+    for (let i = 0; i < placeList.value.length; i++) {
+      await getImgUrl(placeList.value[i], i);
+    }
     console.log(placeList.value);
     for (let i = 0; i < data.length; i++) {
       displayMarker(data[i]);
     }
+  }
+};
+
+const getImgUrl = async (item, index) => {
+  try {
+    const response = await axios.get(`/api/search?query=` + item.place_name);
+    console.log(placeList.value[index]);
+    placeList.value[index].img = response.data;
+  } catch (error) {
+    console.error("Error fetching image URL:", error);
   }
 };
 
@@ -260,6 +279,11 @@ const toggleMenu = () => {
 };
 </script>
 <style scoped>
+.place-img {
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+}
 .menual {
   text-align: center;
   margin-bottom: 2px;
@@ -365,6 +389,7 @@ const toggleMenu = () => {
 }
 
 .place-list .place-item {
+  display: flex;
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }

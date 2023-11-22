@@ -13,9 +13,21 @@ const content = ref("");
 const users = ref([]);
 const planData = ref([]);
 const mine = ref();
+const locationList = ref([]);
 
 const selectLocationGroup = (locationGroup) => {
   selectedLocationGroup.value = locationGroup;
+};
+
+const getImgUrl = async (item, index) => {
+  try {
+    // console.log(item.locationName);
+    const response = await axios.get(`/api/search?query=` + item.locationName);
+    locationList.value[index[0]][index[1]].img = response.data;
+    console.log(locationList.value[index[0]][index[1]].img);
+  } catch (error) {
+    console.error("Error fetching image URL:", error);
+  }
 };
 
 // 장소 메모
@@ -23,10 +35,6 @@ const toggleDropdown = (item) => {
   console.log(item);
   console.log(item.showDropdown);
   item.showDropdown = !item.showDropdown;
-};
-
-const getUserPicture = (user) => {
-  return user.picture;
 };
 
 const loadPlan = async () => {
@@ -43,9 +51,14 @@ const loadPlan = async () => {
     content.value = planData.value.content;
     mine.value = planData.value.mine;
     users.value = planData.value.users;
-    console.log(".....");
-    console.log(users.value);
-    console.log(planData.value);
+    locationList.value = planData.value.locationList;
+    console.log(locationList.value);
+
+    for (let i = 0; i < locationList.value.length; i++) {
+      for (let j = 0; j < locationList.value[i].length; j++) {
+        await getImgUrl(locationList.value[i][j], [i, j]);
+      }
+    }
     // 글쓰기가 성공적으로 완료되었을 때 처리할 코드를 작성합니다.
   } catch (error) {
     console.log(error);
@@ -76,34 +89,34 @@ const deletePlan = async () => {
   }
 };
 
-const kakaoShare = () => {
-  window.Kakao.Share.createDefaultButton({
-    container: "#kakaotalk-sharing-btn",
-    object_type: "calendar",
-    id_type: "event",
-    id: "1",
-    content: {
-      title: "1월 신작 평론 모임",
-      description: "따끈한 신작 감상평을 나누는 월간 모임에 초대합니다.",
-      imageUrl:
-        "http://k.kakaocdn.net/dn/dFUqwp/bl3SUTqb2VV/VFSqyPpKUzZVVMcmotN9A0/kakaolink40_original.png",
-      link: {
-        // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
-        mobileWebUrl: "http://172.20.10.2:8080/boardList",
-        webUrl: "http://172.20.10.2:8080/boardList",
-      },
-    },
-    buttons: [
-      {
-        title: "모임 주제 보기",
-        link: {
-          webUrl: "https://developers.kakao.com",
-          mobileWebUrl: "https://developers.kakao.com",
-        },
-      },
-    ],
-  });
-};
+// const kakaoShare = () => {
+//   window.Kakao.Share.createDefaultButton({
+//     container: "#kakaotalk-sharing-btn",
+//     object_type: "calendar",
+//     id_type: "event",
+//     id: "1",
+//     content: {
+//       title: "1월 신작 평론 모임",
+//       description: "따끈한 신작 감상평을 나누는 월간 모임에 초대합니다.",
+//       imageUrl:
+//         "http://k.kakaocdn.net/dn/dFUqwp/bl3SUTqb2VV/VFSqyPpKUzZVVMcmotN9A0/kakaolink40_original.png",
+//       link: {
+//         // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+//         mobileWebUrl: "http://172.20.10.2:8080/boardList",
+//         webUrl: "http://172.20.10.2:8080/boardList",
+//       },
+//     },
+//     buttons: [
+//       {
+//         title: "모임 주제 보기",
+//         link: {
+//           webUrl: "https://developers.kakao.com",
+//           mobileWebUrl: "https://developers.kakao.com",
+//         },
+//       },
+//     ],
+//   });
+// };
 
 const transReview = () => {
   const formData = new FormData();
@@ -139,14 +152,14 @@ const transReview = () => {
           <PlanMap :locationGroup="selectedLocationGroup" />
         </div>
         <div class="detail-plan-edit">
-          <a id="kakaotalk-sharing-btn" href="javascript:;">
+          <!-- <a id="kakaotalk-sharing-btn" href="javascript:;">
             <img
               src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
               alt="카카오톡 공유 보내기 버튼"
               @click="kakaoShare(modalData)"
               style="width: 50px; height: 48px"
             />
-          </a>
+          </a> -->
           <button class="list-button" @click="mvList">목록</button>
           <button v-if="mine" class="edit-button" @click="goToEditPage">수정</button>
           <button v-if="mine" class="delete-button" @click="deletePlan">삭제</button>
@@ -197,7 +210,14 @@ const transReview = () => {
               :key="locationIndex"
               class="list"
             >
-              <div @click="toggleDropdown(location)">{{ location.locationName }}</div>
+              <div class="drag-img">
+                <img :src="location.img" style="width: 100px; height: 100px; border-radius: 10px" />
+              </div>
+              <div class="plan-info" @click="toggleDropdown(location)">
+                {{ location.locationName }} <br />
+                {{ location.locationAddr }}
+              </div>
+
               <div v-if="location.showDropdown" class="dropdown-menu">
                 <textarea
                   class="memo"
@@ -216,6 +236,17 @@ const transReview = () => {
 </template>
 
 <style scoped>
+.plan-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.drag-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
 .detail-plan-edit {
   /* 컨테이너 스타일링 */
   margin-top: 30px;
@@ -265,13 +296,13 @@ const transReview = () => {
   padding-right: 30px;
 }
 .list {
+  display: flex;
   width: 100%;
   background-color: #ffffff;
   color: black;
   margin-top: 5px;
   margin-bottom: 5px;
   border-radius: 5px;
-  text-align: center;
 }
 .list-block {
   color: #ffffff;

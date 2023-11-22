@@ -173,14 +173,16 @@ watch(
                   <draggable v-model="draggableArrays[index]" transition="100" class="drop-zone">
                     <template v-slot:item="{ item }">
                       <div class="draggable-item" @click.prevent="toggleDropdown(item)">
-                        <img
-                          :src="item.img"
-                          style="width: 100px; height: 100px; border-radius: 10px"
-                        />
-                        {{ item.locationName }}
-                        <br />
-                        {{ item.locationAddr }}
-                        <!-- <button @click.prevent="toggleDropdown(item)">// 클릭</button> -->
+                        <div class="drag-img">
+                          <img
+                            :src="item.img"
+                            style="width: 100px; height: 100px; border-radius: 10px"
+                          />
+                        </div>
+                        <div class="drag-info">
+                          {{ item.locationName }}<br />
+                          {{ item.locationAddr }}
+                        </div>
                       </div>
                       <div v-if="item.showDropdown" class="dropdown-menu">
                         <textarea
@@ -210,7 +212,16 @@ watch(
                       :key="item.locationName"
                     >
                       <div class="draggable-item">
-                        {{ item.locationName }}
+                        <div class="drag-img">
+                          <img
+                            :src="item.img"
+                            style="width: 100px; height: 100px; border-radius: 10px"
+                          />
+                        </div>
+                        <div class="drag-info">
+                          {{ item.locationName }}<br />
+                          {{ item.locationAddr }}
+                        </div>
                       </div>
                     </template>
                   </draggable>
@@ -236,6 +247,14 @@ watch(
 </template>
 
 <style scoped>
+.drag-info {
+  width: 60%;
+}
+.drag-img {
+width: 40%;
+  border-radius: 10px;
+  margin-right: 10px;
+}
 .label-title {
   display: flex;
   justify-content: center;
