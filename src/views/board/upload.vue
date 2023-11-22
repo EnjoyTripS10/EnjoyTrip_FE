@@ -38,7 +38,7 @@ location
 
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
+import axios from '@/axiosConfig.js';
 import { useRouter } from "vue-router";
 import MapComponent from "../../components/location/map.vue";
 

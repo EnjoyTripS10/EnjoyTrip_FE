@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { ref, onMounted  } from 'vue';
-import axios from 'axios';
+import axios from '@/axiosConfig.js';
 import cookie from '@/utils/cookie.js';
 
 const router = useRouter();

@@ -1,6 +1,6 @@
 import $cookie from '@/utils/cookie.js';
 import $request from '@/utils/request'
-import axios from "axios";
+import axios from '@/axiosConfig.js';
 const socialLogin = {
     data() {
         return {

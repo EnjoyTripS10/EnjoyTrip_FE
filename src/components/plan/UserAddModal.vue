@@ -27,7 +27,7 @@
 
 <script setup>
 import { ref, computed, onBeforeMount } from "vue";
-import axios from "axios";
+import axios from '@/axiosConfig.js';
 
 const props = defineProps({
   isModalOpen: Boolean,

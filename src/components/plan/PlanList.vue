@@ -75,7 +75,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import axios from "axios";
+import axios from '@/axiosConfig.js';
 
 // 검색 쿼리 데이터
 const searchQuery = ref("");

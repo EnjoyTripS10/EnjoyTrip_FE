@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import axios from '@/axiosConfig.js';
 import { useRoute, useRouter } from "vue-router";
 import PlanMap from "../location/PlanMap.vue";
 
@@ -12,6 +12,7 @@ const title = ref("");
 const content = ref("");
 
 const planData = ref([]);
+const mine = ref();
 
 const selectLocationGroup = (locationGroup) => {
   selectedLocationGroup.value = locationGroup;
@@ -40,6 +41,9 @@ const loadPlan = async () => {
     planData.value = response.data;
     title.value = planData.value.title;
     content.value = planData.value.content;
+    mine.value = planData.value.mine;
+    console.log(".....")
+    console.log(mine.value);
     console.log(planData.value);
     // 글쓰기가 성공적으로 완료되었을 때 처리할 코드를 작성합니다.
   } catch (error) {
@@ -99,13 +103,26 @@ const kakaoShare = () => {
     ],
   });
 };
+
+const transReview = () => {
+  const formData = new FormData();
+  try {
+    const response = axios.post(`/trip/transReview/${planid}`, formData);
+    console.log("translate review successfully", response.data);
+    router.push(`/updatePlan/${planid}`);
+  } catch (error) {
+    console.error("Error uploading file", error);
+    router.push("/planList");
+  }
+  
+};
 </script>
 
 <template>
   <div class="detail-plan">
     <label> 계획 조회 </label>
     <div class="detail-plan-info-button">
-      <button>여행완료</button>
+      <button v-if="mine" @click="transReview">여행완료</button>
     </div>
     <div class="detail-plan-info">
       <label for="title">제목: </label>
@@ -131,8 +148,8 @@ const kakaoShare = () => {
             />
           </a>
           <button class="list-button" @click="mvList">목록</button>
-          <button class="edit-button" @click="goToEditPage">수정</button>
-          <button class="delete-button" @click="deletePlan">삭제</button>
+          <button v-if="mine" class="edit-button" @click="goToEditPage">수정</button>
+          <button v-if="mine" class="delete-button" @click="deletePlan">삭제</button>
         </div>
       </div>
       <div class="detail-plan-right">

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch, onBeforeMount } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import axios from "axios";
+import axios from '@/axiosConfig.js';
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
 import Draggable from "vue3-draggable";
 import LocationModal from "./LocationModal.vue";

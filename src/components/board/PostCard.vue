@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import axios from "axios";
+import axios from '@/axiosConfig.js';
 
 const router = useRouter();
 const showModal = ref(false);
@@ -269,8 +269,8 @@ const deleteBoard = async (boardId) => {
             <p>{{ modalData.boardContent }}</p>
           </div>
           <div class="edit-delete-buttons">
-            <button @click="editBoard(modalData.boardId)">수정</button>
-            <button @click="deleteBoard(modalData.boardId)">삭제</button>
+            <button v-if="modalData.mine" @click="editBoard(modalData.boardId)">수정</button>
+            <button v-if="modalData.mine" @click="deleteBoard(modalData.boardId)">삭제</button>
           </div>
         </div>
       </div>

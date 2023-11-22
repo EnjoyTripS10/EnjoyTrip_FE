@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import PostCard from "./PostCard.vue";
-import axios from "axios";
+import axios from '@/axiosConfig.js'
 
 const route = useRoute();
 const city = route.params.city;

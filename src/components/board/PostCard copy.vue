@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import axios from "axios";
+import axios from '@/axiosConfig.js';
 
 const router = useRouter();
 const showModal = ref(false);

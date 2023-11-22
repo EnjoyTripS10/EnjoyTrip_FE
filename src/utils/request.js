@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '@/axiosConfig.js';
 
 // create an axios instance
 const service = axios.create({
