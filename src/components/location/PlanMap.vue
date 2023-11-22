@@ -25,16 +25,22 @@ const props = defineProps({
 
 watch(
   () => props.locationGroup,
-  (locationGroup) => {
-    if (locationGroup && locationGroup.length > 0) {
+  () => {
+    if (props.locationGroup && props.locationGroup.length > 0) {
+      console.log(props.locationGroup[0]);
       clearMarkers(); // 기존 마커 제거
       linePath.value = [];
-      locationGroup.forEach((location) => {
+      props.locationGroup.forEach((location) => {
         linePath.value.push(new kakao.maps.LatLng(location.locationLon, location.locationLat));
         displayMarker(location);
       });
+      var moveLatLon = new kakao.maps.LatLng(
+        props.locationGroup[0].locationLon,
+        props.locationGroup[0].locationLat
+      );
+      map.value.setCenter(moveLatLon);
+      map.value.panTo(moveLatLon);
       // console.log(locationGroup);
-      console.log(linePath.value);
       drawLine();
     }
   }
@@ -56,20 +62,9 @@ const drawLine = () => {
 };
 
 const fetchLocation = () => {
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        latitude.value = position.coords.latitude;
-        longitude.value = position.coords.longitude;
-        loadLocation();
-      },
-      (error) => {
-        errorMessage.value = "Error Code = " + error.code + " - " + error.message;
-      }
-    );
-  } else {
-    errorMessage.value = "Geolocation is not supported by this browser.";
-  }
+  latitude.value = 36.355184;
+  longitude.value = 127.297979;
+  loadLocation();
 };
 
 const loadMap = () => {
