@@ -24,6 +24,9 @@ const fetchLocations = async () => {
   try {
     const response = await axios.get("/location/stored");
     location.value = response.data;
+    for (let i = 0; i < location.value.length; i++) {
+      await getImgUrl(location.value[i], i);
+    }
     componentKey.value++;
   } catch (error) {
     console.error("Error fetching posts:", error);
@@ -114,16 +117,30 @@ const submitForm = async () => {
   }
 };
 
+// 검색
 const firstImageUrl = ref("");
+const searchLocation = ref("");
 
-const getImgUrl = async () => {
+const getImgUrl = async (item, index) => {
   try {
-    const response = await axios.get("/api/search");
-    firstImageUrl.value = response.data[0].imageUrl;
+    const response = await axios.get(`/api/search?query=` + item.locationName);
+    console.log(location.value[index]);
+    location.value[index].img = response.data;
   } catch (error) {
-    console.error("Error fetching posts:", error);
+    console.error("Error fetching image URL:", error);
   }
 };
+
+watch(
+  location,
+  (newLocation, oldLocation) => {
+    if (newLocation.length > oldLocation.length) {
+      const newLocationIndex = newLocation.length - 1;
+      getImgUrl(newLocation[newLocationIndex], newLocationIndex);
+    }
+  },
+  { deep: true }
+);
 </script>
 
 <template>
@@ -156,7 +173,13 @@ const getImgUrl = async () => {
                   <draggable v-model="draggableArrays[index]" transition="100" class="drop-zone">
                     <template v-slot:item="{ item }">
                       <div class="draggable-item" @click.prevent="toggleDropdown(item)">
+                        <img
+                          :src="item.img"
+                          style="width: 100px; height: 100px; border-radius: 10px"
+                        />
                         {{ item.locationName }}
+                        <br />
+                        {{ item.locationAddr }}
                         <!-- <button @click.prevent="toggleDropdown(item)">// 클릭</button> -->
                       </div>
                       <div v-if="item.showDropdown" class="dropdown-menu">
