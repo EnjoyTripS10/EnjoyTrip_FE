@@ -274,11 +274,10 @@ const fetchComments = async () => {
               &#x2764;
               <!-- 하트 아이콘 -->
             </button>
-            <a id="kakaotalk-sharing-btn" href="javascript:;" class="centered">
+            <a id="kakaotalk-sharing-btn" href="javascript:;" class="centered" @click="kakaoShare(modalData)">
               <img
                 src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
                 alt="카카오톡 공유 보내기 버튼"
-                @click="kakaoShare(modalData)"
                 style="width: 30px; height: 30px"
               />
             </a>
@@ -467,6 +466,7 @@ h1 {
   display: flex;
   width: 80%;
   border-top: 1px solid #ccc;
+  align-items: center;
   padding: 10px;
   margin-top: 10px;
 }
