@@ -1,8 +1,9 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import PostCardsimilar from "./PostCardsimilar.vue";
 import axios from "@/axiosConfig.js";
+import { shuffle } from "lodash";
 
 const router = useRouter();
 const showModal = ref(false);
@@ -13,10 +14,10 @@ const posts = ref([]);
 
 const fetchPosts = async (data) => {
   try {
-    console.log(data);
     const response = await axios.get("/board");
     posts.value = response.data;
     filtereData(data);
+    posts.value = shuffle(posts.value);
   } catch (error) {
     console.error("Error fetching posts:", error);
   }
@@ -27,10 +28,9 @@ const openModal = async (boardId) => {
 
   try {
     const response = await axios.get(`/board/${boardId}`);
-    console.log(response);
-    console.log(response.data);
     modalData.value = response.data;
     isLiked.value = modalData.value.like;
+    // posts.value = shuffle(posts.value);
     fetchPosts(modalData.value.locationType);
   } catch (error) {
     console.error("Error", error);
@@ -38,9 +38,13 @@ const openModal = async (boardId) => {
 };
 
 const filtereData = (type) => {
-  console.log(posts.value);
   posts.value = posts.value.filter((post) => post.locationType === type);
+  filtereDataSelf();
+};
+
+const filtereDataSelf = () => {
   console.log(posts.value);
+  posts.value = posts.value.filter((post) => post.boardId !== modalData.value.boardId);
 };
 
 const kakaoShare = (data) => {
@@ -68,6 +72,7 @@ const kakaoShare = (data) => {
 
 const closeModal = () => {
   showModal.value = false;
+  console.log(showModal.value);
 };
 
 const props = defineProps({
@@ -187,7 +192,7 @@ const deleteBoard = async (boardId) => {
           <div class="modal-body">
             <div class="carousel">
               <div class="img-slide">
-                <img :src="'data:image/png;base64,' + modalData.image[currentImageIndex]" />
+                <img :src="'data:image/png;base64,' + modalData.image[0]" />
                 <!-- <img :src="'data:image/png;base64,' + modalData.image" /> -->
               </div>
             </div>
@@ -223,12 +228,14 @@ const deleteBoard = async (boardId) => {
           </div>
           <div class="similar">
             <label for="slides">유사 게시물 추천</label>
-            <PostCardsimilar
-              v-for="post in posts.slice(0, 4)"
-              :key="post.id"
-              :post="post"
-              class="post-card-style"
-            />
+            <div class="post-card-style">
+              <PostCardsimilar
+                v-for="post in posts.slice(0, 4)"
+                :key="post.id"
+                :post="post"
+                class="similar-card"
+              />
+            </div>
           </div>
           <div class="edit-delete-buttons">
             <button v-if="modalData.mine" @click="editBoard(modalData.boardId)">수정</button>
@@ -241,10 +248,15 @@ const deleteBoard = async (boardId) => {
 </template>
 
 <style scoped>
+.similar-card {
+  width: 30%;
+  margin: 10px;
+}
 .post-card-style {
-  width: 18%;
-  height: 300px;
+  width: 100%;
+  height: 500px;
   margin: 1%;
+  display: flex;
 }
 .centered {
   display: flex;
@@ -283,7 +295,7 @@ h1 {
 
 .similar {
   width: 80%;
-  height: 300px;
+  height: 500px;
   margin-bottom: 20px;
   margin-top: 150px;
   padding-bottom: 10px;
@@ -401,9 +413,7 @@ ul {
 }
 
 .edit-delete-buttons {
-  position: absolute; /* 부모 대비 절대 위치 설정 */
-  bottom: 10px; /* 하단에서 10px 떨어진 곳에 위치 */
-  right: 10px; /* 오른쪽에서 10px 떨어진 곳에 위치 */
+  padding-bottom: 20px;
 }
 
 .edit-delete-buttons button {

@@ -25,9 +25,10 @@
             :key="index"
             class="place-item"
             :class="{ clicked: place.clicked }"
-            @click="handleClick(place)"
+            @click="mvCenter(place, index)"
+            @mouseover="onMarker(place, index)"
           >
-            <div class="place-name">{{ place.place_name }}</div>
+            <div class="place-name" @click="mvCenter(place)">{{ place.place_name }}</div>
             <div class="place-address">{{ place.road_address_name }}</div>
             <div class="place-category">{{ place.category_name }}</div>
           </div>
@@ -52,6 +53,7 @@ const longitude = ref(null);
 const errorMessage = ref("");
 const code = ref("FD6");
 const placeList = ref([]);
+const prevIndex = ref(-1);
 
 const fetchLocation = () => {
   // if ("geolocation" in navigator) {
@@ -73,11 +75,39 @@ const fetchLocation = () => {
   loadLocation();
 };
 
+const mvCenter = (place, index) => {
+  const moveLatLon = new kakao.maps.LatLng(place.y, place.x);
+  map.value.setCenter(moveLatLon);
+  map.value.panTo(moveLatLon);
+
+  if (prevIndex.value != -1) {
+    markers.value[prevIndex.value].ca.style.opacity = 0.5;
+  }
+
+  console.log(index);
+  console.log(markers.value);
+  prevIndex.value = index;
+  markers.value[index].ca.style.opacity = 1;
+  // console.log(markers.value[index]);
+};
+
+const onMarker = (place, index) => {
+  if (prevIndex.value != -1) {
+    markers.value[prevIndex.value].ca.style.opacity = 0.5;
+  }
+
+  console.log(index);
+  console.log(markers.value);
+  prevIndex.value = index;
+  markers.value[index].ca.style.opacity = 1;
+  // console.log(markers.value[index]);
+};
+
 const loadMap = () => {
   // 카카오 맵 라이브러리 로딩
   const mapOption = {
-    center: new kakao.maps.LatLng(latitude.value, longitude.value - 0.01),
-    level: 5,
+    center: new kakao.maps.LatLng(latitude.value, longitude.value - 0.007),
+    level: 4,
   };
 
   mapContainer.value = document.getElementById("map");

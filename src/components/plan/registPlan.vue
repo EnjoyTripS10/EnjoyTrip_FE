@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
-import axios from '@/axiosConfig.js';
+import axios from "@/axiosConfig.js";
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
 import Draggable from "vue3-draggable";
 import LocationModal from "./LocationModal.vue";
@@ -118,78 +118,83 @@ const submitForm = async () => {
 <template>
   <div class="regist-plan-user">
     <div class="regist-plan">
-      <label class="date-label"> 계획 작성하기 </label>
-      <div>
-        <form @submit.prevent="submitForm" class="form-style">
-          <div class="edit-date">
-            <vue-tailwind-datepicker v-model="dateValue" :formatter="formatter" />
-          </div>
-          <div class="form-group">
-            <label for="title">제목:</label>
-            <input type="text" id="title" v-model="title" />
-          </div>
-          <div class="form-group">
-            <label for="content">내용:</label>
-            <textarea id="content" v-model="content"></textarea>
-          </div>
-          <div class="button-container">
-            <button type="submit" class="submit-btn" @submit.prevent="submitForm">글쓰기</button>
-          </div>
-          <div class="edit">
-            <div class="left">
-              <div class="drop" v-for="(array, index) in draggableArrays" :key="index">
-                <label class="date-label">{{ index + 1 }} 일차</label>
-                <draggable v-model="draggableArrays[index]" transition="100" class="drop-zone">
-                  <template v-slot:item="{ item }">
-                    <div class="draggable-item" @click.prevent="toggleDropdown(item)">
-                      {{ item.locationName }}
-                      <!-- <button @click.prevent="toggleDropdown(item)">// 클릭</button> -->
-                    </div>
-                    <div v-if="item.showDropdown" class="dropdown-menu">
-                      <textarea
-                        class="memo"
-                        v-model="item.memo"
-                        placeholder="메모 작성..."
-                      ></textarea>
-                    </div>
-                  </template>
-                </draggable>
-                <!-- <pre>{{ JSON.stringify(array, undefined, 4) }}</pre> -->
-              </div>
+      <div class="rp2">
+        <div class="label-title">
+          <label class="date-label"> 계획 작성하기 </label>
+        </div>
+        <div>
+          <form @submit.prevent="submitForm" class="form-style">
+            <div class="edit-date">
+              <vue-tailwind-datepicker v-model="dateValue" :formatter="formatter" />
             </div>
+            <div class="form-group">
+              <label for="title">제목:</label>
+              <input type="text" id="title" v-model="title" />
+            </div>
+            <div class="form-group">
+              <label for="content">내용:</label>
+              <textarea id="content" v-model="content"></textarea>
+            </div>
+            <div class="button-container">
+              <button type="submit" class="submit-btn" @submit.prevent="submitForm">글쓰기</button>
+            </div>
+            <div class="edit">
+              <div class="left">
+                <div class="drop" v-for="(array, index) in draggableArrays" :key="index">
+                  <label class="date-label">{{ index + 1 }} 일차</label>
+                  <draggable v-model="draggableArrays[index]" transition="100" class="drop-zone">
+                    <template v-slot:item="{ item }">
+                      <div class="draggable-item" @click.prevent="toggleDropdown(item)">
+                        {{ item.locationName }}
+                        <!-- <button @click.prevent="toggleDropdown(item)">// 클릭</button> -->
+                      </div>
+                      <div v-if="item.showDropdown" class="dropdown-menu">
+                        <textarea
+                          class="memo"
+                          v-model="item.memo"
+                          placeholder="메모 작성..."
+                        ></textarea>
+                      </div>
+                    </template>
+                  </draggable>
+                  <!-- <pre>{{ JSON.stringify(array, undefined, 4) }}</pre> -->
+                </div>
+              </div>
 
-            <div class="right">
-              <div class="drop">
-                <label class="date-label">추천 장소</label>
-                <draggable
-                  :key="componentKey"
-                  v-model="location"
-                  transition="100"
-                  class="drop-zone"
-                >
-                  <template
-                    v-slot:item="{ item }"
-                    v-for="(item, index) in location"
-                    :key="item.locationName"
+              <div class="right">
+                <div class="drop">
+                  <label class="date-label">추천 장소</label>
+                  <draggable
+                    :key="componentKey"
+                    v-model="location"
+                    transition="100"
+                    class="drop-zone"
                   >
-                    <div class="draggable-item">
-                      {{ item.locationName }}
-                    </div>
-                  </template>
-                </draggable>
-                <button class="add-location" @click="showModal = true">장소 추가</button>
-                <LocationModal
-                  :isVisible="showModal"
-                  @update:isVisible="showModal = $event"
-                  @addLocationToPlan="addLocationToPlan"
-                />
+                    <template
+                      v-slot:item="{ item }"
+                      v-for="(item, index) in location"
+                      :key="item.locationName"
+                    >
+                      <div class="draggable-item">
+                        {{ item.locationName }}
+                      </div>
+                    </template>
+                  </draggable>
+                  <button class="add-location" @click="showModal = true">장소 추가</button>
+                  <LocationModal
+                    :isVisible="showModal"
+                    @update:isVisible="showModal = $event"
+                    @addLocationToPlan="addLocationToPlan"
+                  />
+                </div>
+                <!-- <pre>{{ JSON.stringify(location, undefined, 4) }}</pre> -->
               </div>
-              <!-- <pre>{{ JSON.stringify(location, undefined, 4) }}</pre> -->
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
+
     <div class="userList">
       <PlaningUser @updateUsers="updateUsers" />
     </div>
@@ -197,6 +202,21 @@ const submitForm = async () => {
 </template>
 
 <style scoped>
+.label-title {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+  width: 100%;
+}
+.rp2 {
+  width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 70px;
+}
 .button-container {
   display: flex;
   justify-content: flex-end; /* 버튼을 오른쪽으로 정렬 */
@@ -350,7 +370,7 @@ label {
   height: auto;
   justify-content: center;
   margin-left: 7vw;
-  width: 100%;
+  width: 70%;
 }
 
 .submit-btn {
@@ -371,8 +391,9 @@ label {
 .userList {
   height: 100%;
   min-height: 1000px;
-  margin-left: 5vw;
-  margin-right: 7vw;
+  margin-right: 10vw;
   width: 30%;
+  display: flex;
+  justify-content: flex-start;
 }
 </style>

@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import PostCard from "./PostCard.vue";
-import axios from '@/axiosConfig.js';
+import axios from "@/axiosConfig.js";
 
 const posts = ref([]);
 const searchQuery = ref("");
@@ -15,6 +15,15 @@ const fetchPosts = async () => {
   }
 };
 onMounted(fetchPosts);
+
+const fetchSearchedPosts = async () => {
+  try {
+    const response = await axios.get(`/board/search/${searchQuery.value}`);
+    posts.value = response.data;
+  } catch (error) {
+    console.error("Error fetching searched posts:", error);
+  }
+};
 
 const sort = (key) => {
   posts.value.sort((a, b) => b[key] - a[key]);
@@ -87,7 +96,7 @@ const showLikedPosts = () => {
 <style scoped>
 .post-card-style {
   width: 18%;
-  height: 100%;
+  height: 300px;
   margin: 1%;
 }
 .board {

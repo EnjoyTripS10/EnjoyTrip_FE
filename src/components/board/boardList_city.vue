@@ -2,7 +2,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import PostCard from "./PostCard.vue";
-import axios from '@/axiosConfig.js'
+import axios from "@/axiosConfig.js";
 
 const route = useRoute();
 const city = route.params.city;
@@ -25,6 +25,12 @@ const fetchSearchedPosts = async () => {
     console.error("Error fetching searched posts:", error);
   }
 };
+
+const filtereData = () => {
+  posts.value = posts.value.filter((post) => post.locationType.include(searchQuery.value));
+  filtereDataSelf();
+};
+
 onMounted(fetchPosts);
 
 const sort = (key) => {
@@ -68,10 +74,10 @@ const showLikedPosts = () => {
           type="text"
           placeholder="검색..."
           v-model="searchQuery"
-          @keyup.enter="fetchSearchedPosts"
+          @keyup.enter="filtereData"
           class="search-bar"
         />
-        <button @click="fetchSearchedPosts" class="search-btn">검색</button>
+        <button @click="filtereData" class="search-btn">검색</button>
       </div>
       <div class="sorting-options">
         <!-- Sorting Options -->
@@ -148,7 +154,7 @@ const showLikedPosts = () => {
   padding: 0px 20px 0px;
   display: flex;
   flex-wrap: wrap;
-  height: auto;
+
   width: 100%;
   margin-top: 1rem;
 }

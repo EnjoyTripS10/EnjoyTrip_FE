@@ -17,7 +17,7 @@ const search = () => {
     </div>
     <div class="banner-content">
       <div class="search-box">
-        <input type="text" placeholder="장소 이름으로 검색" v-model="searchText" />
+        <input type="text" placeholder="지역 이름으로 검색" v-model="searchText" />
         <button @click="search">검색</button>
         <div class="link" style="color: white">
           <RouterLink to="/boardList">>추천 장소 보러가기</RouterLink>

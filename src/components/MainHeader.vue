@@ -4,10 +4,12 @@ const router = useRouter();
 
 const logout = () => {
   // 쿠키 삭제
-  document.cookie = "user-key=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-  // 라우터를 홈 경로로 리디렉션
   router.push("/");
+  document.cookie = "user-key=; expires=Thu, 01 Jan 1970 00:00:00 UTC; ";
+  document.cookie = "_kawlt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; ";
+  document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; ";
+  console.log(1);
+  // 라우터를 홈 경로로 리디렉션
 };
 </script>
 

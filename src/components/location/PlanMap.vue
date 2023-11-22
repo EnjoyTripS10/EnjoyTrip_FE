@@ -145,6 +145,7 @@ onMounted(fetchLocation);
 </script>
 
 <style scoped>
+
 .location {
   width: 100%;
   height: 100%;
