@@ -208,9 +208,11 @@ const placesSearchCB = async (data, status) => {
 
 const getImgUrl = async (item, index) => {
   try {
-    const response = await axios.get(`/api/search?query=` + item.place_name);
-    console.log(placeList.value[index]);
+    const city = item.address_name.split(" ")[0];
+    console.log(city);
+    const response = await axios.get(`/api/search?query=` + city + item.place_name);
     placeList.value[index].img = response.data;
+    console.log(placeList.value[index]);
   } catch (error) {
     console.error("Error fetching image URL:", error);
   }

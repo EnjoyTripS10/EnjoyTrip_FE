@@ -123,7 +123,9 @@ const searchLocation = ref("");
 
 const getImgUrl = async (item, index) => {
   try {
-    const response = await axios.get(`/api/search?query=` + item.locationName);
+    console.log(item);
+    const city = item.locationAddr.split(" ")[0];
+    const response = await axios.get(`/api/search?query=` + city + item.locationName);
     console.log(location.value[index]);
     location.value[index].img = response.data;
   } catch (error) {
@@ -251,7 +253,7 @@ watch(
   width: 60%;
 }
 .drag-img {
-width: 40%;
+  width: 40%;
   border-radius: 10px;
   margin-right: 10px;
 }
