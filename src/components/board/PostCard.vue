@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import PostCardsimilar from "./PostCardsimilar.vue";
 import axios from "@/axiosConfig.js";
@@ -11,6 +11,19 @@ const modalData = ref({});
 const isLiked = ref(false);
 const status = ref(0);
 const posts = ref([]);
+const urlPhoto = ref("");
+
+const getImgUrl = async (item) => {
+  try {
+    const response = await axios.get(`/api/search?query=` + item.locationName);
+    urlPhoto.value = response.data;
+    if (item.locationName === "훈불") {
+      urlPhoto.value = "https://i.ibb.co/0rY56y8/happy-Claas7.jpg";
+    }
+  } catch (error) {
+    console.error("Error fetching image URL:", error);
+  }
+};
 
 const fetchPosts = async (data) => {
   try {
@@ -47,7 +60,9 @@ const filtereDataSelf = () => {
   posts.value = posts.value.filter((post) => post.boardId !== modalData.value.boardId);
 };
 
-const kakaoShare = (data) => {
+const kakaoShare = async (data) => {
+  console.log(data);
+  getImgUrl(data);
   window.Kakao.Share.createDefaultButton({
     container: "#kakaotalk-sharing-btn",
     objectType: "location",
@@ -56,11 +71,12 @@ const kakaoShare = (data) => {
     content: {
       title: data.boardTitle,
       description: "장소 : " + data.locationName + "\n내용 : " + data.boardContent,
-      imageUrl: "https://i.ibb.co/0rY56y8/happy-Claas7.jpg",
+      // imageUrl: "https://i.ibb.co/0rY56y8/happy-Claas7.jpg",
+      imageUrl: urlPhoto.value,
       link: {
         // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
-        mobileWebUrl: "http://172.20.10.2:8080/boardList",
-        webUrl: "http://172.20.10.2:8080/boardList",
+        mobileWebUrl: "http://192.168.35.7:8080/boardList",
+        webUrl: "http://192.168.35.7:8080/boardList",
       },
     },
     social: {
@@ -163,6 +179,41 @@ const prevImage = () => {
   currentIndex.value =
     (currentIndex.value - 1 + modalData.value.image.length) % modalData.value.image.length;
 };
+
+//댓글
+const newComment = ref("");
+
+const submitComment = async () => {
+  if (!newComment.value.trim()) {
+    alert("댓글을 입력하세요.");
+    return;
+  }
+
+  try {
+    // Axios를 사용하여 서버에 댓글 데이터를 전송
+    const response = await axios.post("/api/comments", { comment: newComment.value });
+    console.log("댓글 등록 성공:", response);
+
+    // 댓글 등록 후 필요한 작업 수행 (예: 댓글 목록 갱신, 입력란 초기화 등)
+    newComment.value = ""; // 입력란 초기화
+  } catch (error) {
+    console.error("댓글 등록 실패:", error);
+  }
+};
+
+// 댓글 불러오기
+const comments = ref([]);
+
+const fetchComments = async () => {
+  try {
+    const response = await axios.get("/api/comments");
+    comments.value = response.data;
+  } catch (error) {
+    console.error("댓글 로딩 실패:", error);
+  }
+};
+
+// onMounted(fetchComments);
 </script>
 
 <template>
@@ -242,6 +293,26 @@ const prevImage = () => {
             <label>장소 설명 :</label>
             <p>{{ modalData.boardContent }}</p>
           </div>
+
+          <div class="comment">
+            <div class="comments-section">
+              <div class="new-comment">
+                <textarea
+                  class="comment-input"
+                  v-model="newComment"
+                  placeholder="댓글을 입력하세요..."
+                ></textarea>
+                <button class="submit-comment" @click="submitComment">등록</button>
+              </div>
+              <div class="comment-list">
+                <div class="comment" v-for="(comment, index) in comments" :key="index">
+                  {{ comment.text }}
+                  <!-- 댓글 텍스트를 표시 -->
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="similar">
             <label for="slides">유사 게시물 추천</label>
             <div class="post-card-style">
@@ -264,6 +335,52 @@ const prevImage = () => {
 </template>
 
 <style scoped>
+.comments-section {
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.new-comment {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.comment-input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  height: 80px;
+  resize: none;
+}
+
+.submit-comment {
+  align-self: flex-end;
+  padding: 8px 16px;
+  background-color: rgb(0, 0, 0);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.comment-list {
+  margin-top: 20px;
+}
+
+/* 댓글 하나하나를 위한 스타일 */
+.comment {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
 .modal-body {
   width: 80%;
   height: 500px;
@@ -317,7 +434,6 @@ h1 {
   width: 80%;
   height: 500px;
   margin-bottom: 20px;
-  margin-top: 150px;
   padding-bottom: 10px;
   padding-top: 10px;
   border-top: 1px solid #ccc;

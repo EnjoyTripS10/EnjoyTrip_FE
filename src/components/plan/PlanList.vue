@@ -16,11 +16,11 @@
     <div class="state-box-marble">
       <div class="marble-container">
         <div class="blue-marble"></div>
-        <p class="marble-description">계획</p>
+        <p class="marble-description">여행 전</p>
       </div>
       <div class="marble-container">
         <div class="red-marble"></div>
-        <p class="marble-description">후기</p>
+        <p class="marble-description">여행 완료</p>
       </div>
     </div>
     <ul class="plan-items" v-if="plans.length">
@@ -75,7 +75,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import axios from '@/axiosConfig.js';
+import axios from "@/axiosConfig.js";
 
 // 검색 쿼리 데이터
 const searchQuery = ref("");

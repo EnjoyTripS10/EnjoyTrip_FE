@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import axios from "axios";
 import MainHeader from "@/components/MainHeader.vue";
 
 const isNotificationOpen = ref(false);
@@ -9,6 +10,18 @@ const toggleNotification = () => {
   console.log("알림창 토글");
   isNotificationOpen.value = !isNotificationOpen.value;
 };
+
+// 알림 불러오기
+const fetchNotifications = async () => {
+  try {
+    const response = await axios.get("/api/notifications");
+    notifications.value = response.data;
+  } catch (error) {
+    console.error("알림 로딩 실패:", error);
+  }
+};
+
+// onMounted(fetchNotifications); // 컴포넌트가 마운트될 때 알림을 로드
 </script>
 <template>
   <div class="view-container">
@@ -18,7 +31,7 @@ const toggleNotification = () => {
     <div class="view">
       <RouterView />
       <button @click="toggleNotification" class="notification-button">🔔</button>
-      <div v-if="isNotificationOpen" class="notification notification-open"></div>
+      <div v-if="isNotificationOpen" class="notification notification-open">1</div>
     </div>
 
     <div class="footer">
