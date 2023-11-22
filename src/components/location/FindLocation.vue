@@ -1,5 +1,5 @@
 <template>
-  <div class="location">
+  <div id="location" class="location">
     <div id="map" style="width: 100%; height: 100%; background-color: transparent"></div>
     <div class="menu-toggle" :class="{ open: isMenuOpen }" @click="toggleMenu">
       <img src="../../assets/img/menu.png" style="width: 22px" />
@@ -28,7 +28,7 @@
             @click="mvCenter(place, index)"
             @mouseover="onMarker(place, index)"
           >
-            <div class="place-name" @click="mvCenter(place)">{{ place.place_name }}</div>
+            <div class="place-name" @click="handleClick(place)">{{ place.place_name }}</div>
             <div class="place-address">{{ place.road_address_name }}</div>
             <div class="place-category">{{ place.category_name }}</div>
           </div>
@@ -371,10 +371,13 @@ const toggleMenu = () => {
 
 .place-name {
   font-weight: bold;
+  border-bottom: 0.3px dashed #ddd;
+  padding-bottom: 2px;
 }
 
 .place-item {
   /* 기존 스타일 */
+
   cursor: pointer; /* 마우스 올렸을 때 손가락 모양으로 변경 */
   transition: background-color 0.3s; /* 배경색 변경에 애니메이션 효과 적용 */
 }
@@ -388,5 +391,9 @@ const toggleMenu = () => {
 .place-address,
 .place-category {
   font-size: 14px;
+}
+
+.place-address {
+  padding-top: 2px;
 }
 </style>

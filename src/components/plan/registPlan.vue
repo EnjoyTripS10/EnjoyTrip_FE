@@ -69,11 +69,11 @@ const toggleDropdown = (item) => {
 };
 
 // 장소 추가
-let showModal = ref(false);
+let shoModalLocation = ref(false);
 let componentKey = ref(0);
 const addLocationToPlan = (newLocation) => {
-  showModal.value = false;
-  console.log(showModal);
+  shoModalLocation.value = false;
+  console.log(shoModalLocation);
   location.value = [...location.value, newLocation.value];
   componentKey.value++;
 };
@@ -180,10 +180,10 @@ const submitForm = async () => {
                       </div>
                     </template>
                   </draggable>
-                  <button class="add-location" @click="showModal = true">장소 추가</button>
+                  <button class="add-location" @click="shoModalLocation = true">장소 추가</button>
                   <LocationModal
-                    :isVisible="showModal"
-                    @update:isVisible="showModal = $event"
+                    :isVisible="shoModalLocation"
+                    @update:isVisible="shoModalLocation = $event"
                     @addLocationToPlan="addLocationToPlan"
                   />
                 </div>

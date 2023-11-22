@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import axios from '@/axiosConfig.js';
+import axios from "@/axiosConfig.js";
 import { useRoute, useRouter } from "vue-router";
 import PlanMap from "../location/PlanMap.vue";
 
@@ -10,7 +10,7 @@ const route = useRoute();
 const planid = route.params.planid;
 const title = ref("");
 const content = ref("");
-
+const users = ref([]);
 const planData = ref([]);
 const mine = ref();
 
@@ -42,8 +42,9 @@ const loadPlan = async () => {
     title.value = planData.value.title;
     content.value = planData.value.content;
     mine.value = planData.value.mine;
-    console.log(".....")
-    console.log(mine.value);
+    users.value = planData.value.users;
+    console.log(".....");
+    console.log(users.value);
     console.log(planData.value);
     // 글쓰기가 성공적으로 완료되었을 때 처리할 코드를 작성합니다.
   } catch (error) {
@@ -114,7 +115,6 @@ const transReview = () => {
     console.error("Error uploading file", error);
     router.push("/planList");
   }
-  
 };
 </script>
 
@@ -171,12 +171,13 @@ const transReview = () => {
           </ul>
           <div class="tooltiptext">
             <ul>
-              <li v-for="user in planData.users" :key="user.id">
+              <li v-for="user in users" :key="user.id">
                 <div class="tooltip-box">
                   <img
                     class="profile-img"
                     :src="user.picture ? user.picture : '../src/assets/img/logo_bg.png'"
-                  />{{ user.name }}
+                  />
+                  {{ user.userName }}
                 </div>
               </li>
             </ul>

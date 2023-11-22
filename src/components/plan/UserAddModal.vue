@@ -15,9 +15,14 @@
       <ul class="user-list">
         <div>
           <li v-for="user in filteredUser" :key="user.userEmail">
-            <img src="{{ user.picture }}" alt="">
-            {{ user.userName }}
-            <button @click="addUserList(user)">등록</button>
+            <div class="searched-user">
+              <img
+                class="profile-img"
+                :src="user.picture ? user.picture : '../src/assets/img/logo_bg.png'"
+              />
+              {{ user.userName }}
+              <button @click="addUserList(user)">등록</button>
+            </div>
           </li>
         </div>
       </ul>
@@ -27,7 +32,7 @@
 
 <script setup>
 import { ref, computed, onBeforeMount } from "vue";
-import axios from '@/axiosConfig.js';
+import axios from "@/axiosConfig.js";
 
 const props = defineProps({
   isModalOpen: Boolean,
@@ -75,6 +80,11 @@ const addUserList = (user) => {
 </script>
 
 <style scoped>
+.searched-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .modal {
   margin-top: 20px;
 }

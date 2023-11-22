@@ -154,16 +154,6 @@ const deleteBoard = async (boardId) => {
     // 오류 처리 로직
   }
 };
-const currentIndex = ref(0);
-
-const nextImage = () => {
-  currentIndex.value = (currentIndex.value + 1) % modalData.value.image.length;
-};
-
-const prevImage = () => {
-  currentIndex.value =
-    (currentIndex.value - 1 + modalData.value.image.length) % modalData.value.image.length;
-};
 </script>
 
 <template>
@@ -201,17 +191,10 @@ const prevImage = () => {
           </div>
           <div class="modal-body">
             <div class="carousel">
-              <button class="carousel-control prev" @click="prevImage()">&lt;</button>
               <div class="img-slide">
-                <img
-                  v-for="(img, index) in modalData.image"
-                  :src="'data:image/png;base64,' + img"
-                  v-show="index === currentIndex"
-                />
-                <!-- <img :src="'data:image/png;base64,' + modalData.image[0]" /> -->
+                <img :src="'data:image/png;base64,' + modalData.image[0]" />
                 <!-- <img :src="'data:image/png;base64,' + modalData.image" /> -->
               </div>
-              <button class="carousel-control next" @click="nextImage()">&gt;</button>
             </div>
           </div>
 
@@ -265,10 +248,6 @@ const prevImage = () => {
 </template>
 
 <style scoped>
-.modal-body {
-  width: 80%;
-  height: 500px;
-}
 .similar-card {
   width: 30%;
   margin: 10px;
@@ -324,13 +303,7 @@ h1 {
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
 }
-.carousel-control {
-  padding: 10px 15px;
-  color: rgb(0, 0, 0); /* 버튼의 글자색 */
-  font-size: 20px;
-  font-weight: bold;
-  border: none; /* 테두리 제거 */
-}
+
 .board-info {
   width: 80%;
   margin-bottom: 20px;
@@ -339,11 +312,10 @@ h1 {
 }
 .img-slide {
   width: 70%;
-  height: 100%;
+  height: 70%;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
 }
 
 .share {
@@ -365,12 +337,8 @@ ul {
 }
 
 .carousel {
-  width: 100%;
-  height: 500px;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
+  margin-left: 15%;
+  margin-right: 15%;
 }
 
 .modal-content {

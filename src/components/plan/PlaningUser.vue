@@ -7,7 +7,10 @@
       <div class="list" v-for="user in users" :key="user.id">
         <!-- <img :src="user.profileImage" :alt="user.name" /> -->
         <!-- <img class="profile-img" :src="user.profileImage" /> -->
-        <img class="profile-img" src="../../assets/img/logo.png" />
+        <img
+          class="profile-img"
+          :src="user.picture ? user.picture : '../src/assets/img/logo_bg.png'"
+        />
         <p>{{ user.userName }}</p>
         <button class="delete-btn" @click="deleteUser(user.userEmail)">X</button>
       </div>
@@ -107,7 +110,6 @@ const addUser = (newUser) => {
 }
 
 .profile-img {
-  border: 1px solid #000000;
   border-radius: 50%;
   height: 30px;
   object-fit: cover;
