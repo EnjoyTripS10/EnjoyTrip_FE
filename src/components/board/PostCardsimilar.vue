@@ -1,13 +1,22 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import axios from '@/axiosConfig.js';
+import axios from "axios";
 
 const router = useRouter();
 const showModal = ref(false);
 const modalData = ref({});
 const isLiked = ref(false);
 const status = ref(0);
+
+const props = defineProps({
+  post: {
+    type: Object,
+    required: true,
+  },
+});
+
+onMounted(props.post);
 
 const openModal = async (boardId) => {
   showModal.value = true;
@@ -49,13 +58,6 @@ const kakaoShare = (data) => {
 const closeModal = () => {
   showModal.value = false;
 };
-
-const props = defineProps({
-  post: {
-    type: Object,
-    required: true,
-  },
-});
 
 const toggleLike = async (boardId) => {
   isLiked.value = !isLiked.value; // 상태 토글  `
@@ -179,13 +181,14 @@ const deleteBoard = async (boardId) => {
             </div>
             <p @click="searchNaver(modalData)">{{ modalData.locationName }}</p>
           </div>
-          <div class="carousel">
-            <button @click="showPreviousImage">이전</button>
-            <div class="img-slide">
-              <img :src="'data:image/png;base64,' + modalData.image[currentImageIndex]" />
+          <div class="modal-body">
+            <div class="carousel">
+              <div class="img-slide">
+                <img :src="'data:image/png;base64,' + modalData.image[currentImageIndex]" />
+              </div>
             </div>
-            <button @click="showNextImage">다음</button>
           </div>
+
           <div class="share">
             <button
               class="heart-btn"
@@ -205,10 +208,17 @@ const deleteBoard = async (boardId) => {
             </a>
           </div>
           <div class="board-info">
-            <p>조회수 : {{ modalData.boardHit }}</p>
-            <p>좋아요 : {{ modalData.boardLikes }}</p>
+            <label>조회수 : {{ modalData.boardHit }}</label
+            ><br />
+            <label>좋아요 : {{ modalData.boardLikes }}</label
+            ><br />
+            <br />
             <!-- <img :src="'data:image/png;base64,' + modalData.image[0]" alt="post image" width="400"> -->
+            <label>장소 설명 :</label>
             <p>{{ modalData.boardContent }}</p>
+          </div>
+          <div class="similar">
+            <label for="slides">유사 게시물 추천</label>
           </div>
           <div class="edit-delete-buttons">
             <button @click="editBoard(modalData.boardId)">수정</button>
@@ -250,15 +260,25 @@ h1 {
 }
 .board-header {
   width: 80%;
+  height: 8%;
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 1px solid #ccc;
 }
-
+.similar {
+  width: 80%;
+  height: 300px;
+  margin-bottom: 20px;
+  margin-top: 150px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
 .board-info {
   width: 80%;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
+  padding-bottom: 30px;
+  padding-top: 10px;
   border-top: 1px solid #ccc;
 }
 .img-slide {
@@ -278,17 +298,20 @@ h1 {
   padding: 10px;
   margin-top: 10px;
 }
+
+input[name="slides"] {
+  display: none;
+}
+
+ul {
+  list-style-type: none;
+}
+
 .carousel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-  margin-bottom: 30px;
+  margin-left: 15%;
+  margin-right: 15%;
 }
-.carousel img {
-  max-width: 100%;
-  height: auto;
-}
+
 .modal-content {
   width: 70%;
   height: 80%;
@@ -353,14 +376,14 @@ h1 {
 .boardDetail-in {
   position: relative; /* 상대 위치 지정 */
   margin-top: 2%;
-  height: calc(100% - 60px);
+  min-height: calc(100% - 60px);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .edit-delete-buttons {
-  position: absolute; /* 부모 대비 절대 위치 설정 */
+  /* 부모 대비 절대 위치 설정 */
   bottom: 10px; /* 하단에서 10px 떨어진 곳에 위치 */
   right: 10px; /* 오른쪽에서 10px 떨어진 곳에 위치 */
 }

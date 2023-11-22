@@ -1,13 +1,26 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import axios from '@/axiosConfig.js';
+import PostCardsimilar from "./PostCardsimilar.vue";
+import axios from "@/axiosConfig.js";
 
 const router = useRouter();
 const showModal = ref(false);
 const modalData = ref({});
 const isLiked = ref(false);
 const status = ref(0);
+const posts = ref([]);
+
+const fetchPosts = async (data) => {
+  try {
+    console.log(data);
+    const response = await axios.get("/board");
+    posts.value = response.data;
+    filtereData(data);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+  }
+};
 
 const openModal = async (boardId) => {
   showModal.value = true;
@@ -18,9 +31,16 @@ const openModal = async (boardId) => {
     console.log(response.data);
     modalData.value = response.data;
     isLiked.value = modalData.value.like;
+    fetchPosts(modalData.value.locationType);
   } catch (error) {
     console.error("Error", error);
   }
+};
+
+const filtereData = (type) => {
+  console.log(posts.value);
+  posts.value = posts.value.filter((post) => post.locationType === type);
+  console.log(posts.value);
 };
 
 const kakaoShare = (data) => {
@@ -90,21 +110,6 @@ watch(isLiked, (newVal) => {
 const formatDate = (datetime) => {
   if (datetime) {
     return datetime.split("T")[0];
-  }
-};
-
-// 이미지
-const currentImageIndex = ref(0);
-
-const showNextImage = () => {
-  if (currentImageIndex.value < modalData.value.image.length - 1) {
-    currentImageIndex.value++;
-  }
-};
-
-const showPreviousImage = () => {
-  if (currentImageIndex.value > 0) {
-    currentImageIndex.value--;
   }
 };
 
@@ -181,69 +186,13 @@ const deleteBoard = async (boardId) => {
           </div>
           <div class="modal-body">
             <div class="carousel">
-              <ul class="slides">
-                <input type="radio" name="radio-buttons" id="img-1" checked />
-                <li class="slide-container">
-                  <div class="slide-image">
-                    <img
-                      src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Timisoara_-_Regional_Business_Centre.jpg"
-                    />
-                  </div>
-                  <div class="carousel-controls">
-                    <label for="img-3" class="prev-slide">
-                      <span>&lsaquo;</span>
-                    </label>
-                    <label for="img-2" class="next-slide">
-                      <span>&rsaquo;</span>
-                    </label>
-                  </div>
-                </li>
-                <input type="radio" name="radio-buttons" id="img-2" />
-                <li class="slide-container">
-                  <div class="slide-image">
-                    <img
-                      src="https://content.r9cdn.net/rimg/dimg/db/02/06b291e8-city-14912-171317ad83a.jpg?width=1750&height=1000&xhint=3040&yhint=2553&crop=true"
-                    />
-                  </div>
-                  <div class="carousel-controls">
-                    <label for="img-1" class="prev-slide">
-                      <span>&lsaquo;</span>
-                    </label>
-                    <label for="img-3" class="next-slide">
-                      <span>&rsaquo;</span>
-                    </label>
-                  </div>
-                </li>
-                <input type="radio" name="radio-buttons" id="img-3" />
-                <li class="slide-container">
-                  <div class="slide-image">
-                    <img
-                      src="https://speakzeasy.files.wordpress.com/2015/05/twa_blogpic_timisoara-4415.jpg"
-                    />
-                  </div>
-                  <div class="carousel-controls">
-                    <label for="img-2" class="prev-slide">
-                      <span>&lsaquo;</span>
-                    </label>
-                    <label for="img-1" class="next-slide">
-                      <span>&rsaquo;</span>
-                    </label>
-                  </div>
-                </li>
-                <div class="carousel-dots">
-                  <label for="img-1" class="carousel-dot" id="img-dot-1"></label>
-                  <label for="img-2" class="carousel-dot" id="img-dot-2"></label>
-                  <label for="img-3" class="carousel-dot" id="img-dot-3"></label>
-                </div>
-              </ul>
+              <div class="img-slide">
+                <img :src="'data:image/png;base64,' + modalData.image[currentImageIndex]" />
+                <!-- <img :src="'data:image/png;base64,' + modalData.image" /> -->
+              </div>
             </div>
           </div>
 
-          <!-- <div class="carousel">
-            <div class="img-slide">
-              <img :src="'data:image/png;base64,' + modalData.image[currentImageIndex]" />
-            </div>
-          </div> -->
           <div class="share">
             <button
               class="heart-btn"
@@ -263,10 +212,23 @@ const deleteBoard = async (boardId) => {
             </a>
           </div>
           <div class="board-info">
-            <p>조회수 : {{ modalData.boardHit }}</p>
-            <p>좋아요 : {{ modalData.boardLikes }}</p>
+            <label>조회수 : {{ modalData.boardHit }}</label
+            ><br />
+            <label>좋아요 : {{ modalData.boardLikes }}</label
+            ><br />
+            <br />
             <!-- <img :src="'data:image/png;base64,' + modalData.image[0]" alt="post image" width="400"> -->
+            <label>장소 설명 :</label>
             <p>{{ modalData.boardContent }}</p>
+          </div>
+          <div class="similar">
+            <label for="slides">유사 게시물 추천</label>
+            <PostCardsimilar
+              v-for="post in posts.slice(0, 4)"
+              :key="post.id"
+              :post="post"
+              class="post-card-style"
+            />
           </div>
           <div class="edit-delete-buttons">
             <button v-if="modalData.mine" @click="editBoard(modalData.boardId)">수정</button>
@@ -279,6 +241,11 @@ const deleteBoard = async (boardId) => {
 </template>
 
 <style scoped>
+.post-card-style {
+  width: 18%;
+  height: 300px;
+  margin: 1%;
+}
 .centered {
   display: flex;
   justify-content: center;
@@ -311,6 +278,17 @@ h1 {
   height: 8%;
   margin-bottom: 20px;
   padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.similar {
+  width: 80%;
+  height: 300px;
+  margin-bottom: 20px;
+  margin-top: 150px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
 }
 
@@ -351,155 +329,6 @@ ul {
   margin-right: 15%;
 }
 
-ul.slides {
-  display: block;
-  position: relative;
-  height: 600px;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  list-style: none;
-}
-
-.slides * {
-  user-select: none;
-  -ms-user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-}
-
-ul.slides input {
-  display: none;
-}
-
-.slide-container {
-  display: block;
-}
-
-.slide-image {
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  opacity: 0;
-  transition: all 0.7s ease-in-out;
-}
-
-.slide-image img {
-  width: auto;
-  min-width: 100%;
-  height: 100%;
-}
-
-.carousel-controls {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 999;
-  font-size: 100px;
-  line-height: 600px;
-  color: #fff;
-}
-
-.carousel-controls label {
-  display: none;
-  position: absolute;
-  padding: 0 20px;
-  opacity: 0;
-  transition: opacity 0.2s;
-  cursor: pointer;
-}
-
-.slide-image:hover + .carousel-controls label {
-  opacity: 0.5;
-}
-
-.carousel-controls label:hover {
-  opacity: 1;
-}
-
-.carousel-controls .prev-slide {
-  width: 49%;
-  text-align: left;
-  left: 0;
-}
-
-.carousel-controls .next-slide {
-  width: 49%;
-  text-align: right;
-  right: 0;
-}
-
-.carousel-dots {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 20px;
-  z-index: 999;
-  text-align: center;
-}
-
-.carousel-dots .carousel-dot {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: #fff;
-  opacity: 0.5;
-  margin: 10px;
-}
-
-input:checked + .slide-container .slide-image {
-  opacity: 1;
-  transform: scale(1);
-  transition: opacity 1s ease-in-out;
-}
-
-input:checked + .slide-container .carousel-controls label {
-  display: block;
-}
-
-input#img-1:checked ~ .carousel-dots label#img-dot-1,
-input#img-2:checked ~ .carousel-dots label#img-dot-2,
-input#img-3:checked ~ .carousel-dots label#img-dot-3,
-input#img-4:checked ~ .carousel-dots label#img-dot-4,
-input#img-5:checked ~ .carousel-dots label#img-dot-5,
-input#img-6:checked ~ .carousel-dots label#img-dot-6 {
-  opacity: 1;
-}
-
-input:checked + .slide-container .nav label {
-  display: block;
-}
-
-.indicator-container {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  width: 500px;
-}
-
-.indicator-container label {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: gray;
-  margin: 0 10px;
-  cursor: pointer;
-}
-
-#slide1:checked ~ .indicator-container label:nth-child(1),
-#slide2:checked ~ .indicator-container label:nth-child(2),
-#slide3:checked ~ .indicator-container label:nth-child(3) {
-  background-color: white;
-}
 .modal-content {
   width: 70%;
   height: 80%;
