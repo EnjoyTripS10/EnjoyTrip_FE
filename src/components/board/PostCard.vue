@@ -213,6 +213,16 @@ const fetchComments = async () => {
   }
 };
 
+// 삭제
+const deleteComment = async (commentId, index) => {
+  try {
+    await axios.delete(`/api/comments/${commentId}`);
+    comments.value.splice(index, 1); // 클라이언트 측 목록에서 삭제
+  } catch (error) {
+    console.error("댓글 삭제 실패:", error);
+  }
+};
+
 // onMounted(fetchComments);
 </script>
 
@@ -274,7 +284,12 @@ const fetchComments = async () => {
               &#x2764;
               <!-- 하트 아이콘 -->
             </button>
-            <a id="kakaotalk-sharing-btn" href="javascript:;" class="centered" @click="kakaoShare(modalData)">
+            <a
+              id="kakaotalk-sharing-btn"
+              href="javascript:;"
+              class="centered"
+              @click="kakaoShare(modalData)"
+            >
               <img
                 src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
                 alt="카카오톡 공유 보내기 버튼"
@@ -306,7 +321,7 @@ const fetchComments = async () => {
               <div class="comment-list">
                 <div class="comment" v-for="(comment, index) in comments" :key="index">
                   {{ comment.text }}
-                  <!-- 댓글 텍스트를 표시 -->
+                  <button class="delete-button" @click="deleteComment(comment)">X</button>
                 </div>
               </div>
             </div>
