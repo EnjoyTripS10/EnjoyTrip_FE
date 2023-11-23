@@ -6,6 +6,7 @@ import VueTailwindDatepicker from "vue-tailwind-datepicker";
 import Draggable from "vue3-draggable";
 import LocationModal from "./LocationModal.vue";
 import PlaningUser from "./PlaningUser.vue";
+import Swal from "sweetalert2";
 
 // 달력
 const day = ref(1);
@@ -90,6 +91,25 @@ const updateUsers = (newUser) => {
 };
 
 const submitForm = async () => {
+  if (
+    !title.value ||
+    !content.value ||
+    !start.value ||
+    !end.value ||
+    title.value === "" ||
+    content.value === "" ||
+    start.value === "" ||
+    end.value === ""
+  ) {
+    Swal.fire({
+      title: "등록 실패",
+      text: "모든 필드를 작성해주세요.",
+      icon: "error",
+      confirmButtonText: "확인",
+    });
+    return;
+  }
+
   const postData = {
     title: title.value,
     content: content.value,

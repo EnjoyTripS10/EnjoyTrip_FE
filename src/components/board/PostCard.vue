@@ -321,6 +321,22 @@ const deleteComment = async (commentId, boardId) => {
 
           <div class="comment">
             <div class="comments-section">
+              <div class="comment-list">
+                <div class="comment" v-for="(comment, index) in comments" :key="index">
+                  <div class="comment-info">
+                    {{ comment.userEmail.split("@")[0] }} : {{ comment.commentContent }}
+                  </div>
+                  <div>
+                    <button
+                      class="comment-delete-button"
+                      v-if="comment.mine"
+                      @click="deleteComment(comment.commentId, modalData.boardId)"
+                    >
+                      삭제
+                    </button>
+                  </div>
+                </div>
+              </div>
               <div class="new-comment">
                 <textarea
                   class="comment-input"
@@ -330,18 +346,6 @@ const deleteComment = async (commentId, boardId) => {
                 <button class="submit-comment" @click="submitComment(modalData.boardId)">
                   등록
                 </button>
-              </div>
-              <div class="comment-list">
-                <div class="comment" v-for="(comment, index) in comments" :key="index">
-                  {{ comment.commentContent }}
-                  <button
-                    v-if="comment.mine"
-                    @click="deleteComment(comment.commentId, modalData.boardId)"
-                  >
-                    삭제
-                  </button>
-                  <!-- 댓글 텍스트를 표시 -->
-                </div>
               </div>
             </div>
           </div>
@@ -403,16 +407,49 @@ const deleteComment = async (commentId, boardId) => {
 }
 
 .comment-list {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
   margin-top: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
 }
 
 /* 댓글 하나하나를 위한 스타일 */
 .comment {
+  display: flex;
+  justify-content: space-between; /* 양쪽 끝으로 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
   width: 100%;
   background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
+}
+
+.comment-info {
+  font-weight: 600;
+  /* 댓글 내용과 작성자 이메일 스타일링 */
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.comment-delete-button {
+  /* 삭제 버튼 스타일링 */
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.comment-delete-button:hover {
+  /* 삭제 버튼 호버 효과 */
+  background-color: #ff7875;
 }
 .modal-body {
   width: 80%;
