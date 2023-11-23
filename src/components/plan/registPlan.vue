@@ -82,7 +82,7 @@ const addLocationToPlan = (newLocation) => {
 };
 
 // user 추가
-const users = ref([[]]); // 기본 값은 자기 아이디로 넣어주기
+const users = ref([]); // 기본 값은 자기 아이디로 넣어주기
 const updateUsers = (newUser) => {
   console.log(newUser);
   users.value = newUser;

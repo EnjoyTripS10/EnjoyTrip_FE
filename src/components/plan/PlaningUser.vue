@@ -27,6 +27,7 @@
 <script setup>
 import { ref } from "vue";
 import UserAddModal from "./UserAddModal.vue";
+import cookie from "@/utils/cookie.js";
 
 // postId prop을 받습니다.
 const props = defineProps({
@@ -41,14 +42,12 @@ const deleteUser = (userId) => {
   if (index !== -1) {
     users.value.splice(index, 1);
   }
+  console.log(cookie.getCookie("user"));
 };
 
 const isModalOpen = ref(false);
 
-const users = ref([
-  // 사용자 목록, 서버에서 가져온 데이터로 채워질 수 있음
-  // ...
-]);
+const users = ref([]);
 
 const showModal = () => {
   isModalOpen.value = true;

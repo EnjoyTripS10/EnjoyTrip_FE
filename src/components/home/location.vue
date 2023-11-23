@@ -19,68 +19,61 @@ const navigateToBoardListCity = (cityName) => {
       style="grid-row: 1 / 3; grid-column: 1 / 3"
       @click="navigateToBoardListCity('서울')"
     >
-      <img src="../../assets/img/location/seoul.jpg" alt="" style="width: 510px; height: 510px" />
-      <div class="overlay">서울</div>
+      <img src="../../assets/img/location/seoul.png" alt="" style="width: 510px; height: 510px" />
     </div>
     <div class="grid-item image-container"></div>
     <div class="grid-item image-container">
       <img
-        src="../../assets/img/location/gangwon.jpg"
+        src="../../assets/img/location/gangwon.png"
         alt=""
         style="width: 250px; height: 250px"
         @click="navigateToBoardListCity('강원')"
       />
-      <div class="overlay">강원</div>
     </div>
     <div class="grid-item image-container">
       <img
-        src="../../assets/img/location/deajeon.jpg"
+        src="../../assets/img/location/deajeon.png"
         alt=""
         style="width: 250px; height: 250px"
         @click="navigateToBoardListCity('대전')"
       />
-      <div class="overlay">대전</div>
     </div>
     <div class="grid-item image-container"></div>
     <div class="grid-item image-container">
       <img
-        src="../../assets/img/location/jeonju.jpg"
+        src="../../assets/img/location/jeonju.png"
         alt=""
         style="width: 250px; height: 250px"
         @click="navigateToBoardListCity('전주')"
       />
-      <div class="overlay">전주</div>
     </div>
     <div class="grid-item image-container"></div>
     <div class="grid-item image-container">
       <img
-        src="../../assets/img/location/busan.jpg"
+        src="../../assets/img/location/busan.png"
         alt=""
         style="width: 250px; height: 250px"
         @click="navigateToBoardListCity('부산')"
       />
-      <div class="overlay">부산</div>
     </div>
     <div class="grid-item image-container"></div>
     <div class="grid-item image-container"></div>
     <div class="grid-item image-container">
       <img
-        src="../../assets/img/location/gwangju.jpg"
+        src="../../assets/img/location/gwangju.png"
         alt=""
         style="width: 250px; height: 250px"
         @click="navigateToBoardListCity('광주')"
       />
-      <div class="overlay">광주</div>
     </div>
     <div class="grid-item image-container"></div>
     <div class="grid-item image-container">
       <img
-        src="../../assets/img/location/jeju.jpg"
+        src="../../assets/img/location/jeju.png"
         alt=""
         style="width: 250px; height: 250px"
         @click="navigateToBoardListCity('제주')"
       />
-      <div class="overlay">제주</div>
     </div>
   </div>
 </template>
@@ -108,7 +101,7 @@ const navigateToBoardListCity = (cityName) => {
 
 .grid-item img {
   transition: transform 0.3s ease-in-out;
-  filter: contrast(60%);
+  filter: contrast(80%);
   border: 1px solid rgb(23, 24, 27);
 }
 
@@ -150,7 +143,7 @@ const navigateToBoardListCity = (cityName) => {
   background-color: transparent;
   /* background-color: black;
     backdrop-filter: blur(10px); */
-  transform: translate(-50%, -50%);
+  transform: translate(-230%, 210%);
   color: #000000;
   font-size: 25px;
   font-weight: bold;

@@ -10,7 +10,7 @@
       </div>
       <div class="content-input-container">
         <label for="content">내용:</label>
-        <input type="text" id="content" v-model="content" class="content-input">
+        <input type="text" id="content" v-model="content" class="content-input" />
       </div>
       <label for="content">장소를 선택해 주세요</label>
       <MapComponent :updateLocation="updateParentLocation"></MapComponent>
@@ -38,9 +38,10 @@ location
 
 <script setup>
 import { ref } from "vue";
-import axios from '@/axiosConfig.js';
+import axios from "@/axiosConfig.js";
 import { useRouter } from "vue-router";
 import MapComponent from "../../components/location/map.vue";
+import Swal from "sweetalert2";
 
 const files = ref([]);
 const title = ref("");
@@ -52,15 +53,25 @@ const updateParentLocation = (newLocation) => {
 
 const handleFiles = (event) => {
   files.value = Array.from(event.target.files);
-  if (files.value.length > 10) {
-    alert("최대 10개의 파일만 업로드할 수 있습니다.");
+  if (files.value.length > 5) {
+    alert("최대 5개의 파일만 업로드할 수 있습니다.");
     event.target.value = ""; // 입력 필드 초기화
   } else {
-   // files.value = selectedFiles;
+    // files.value = selectedFiles;
   }
 };
 const router = useRouter();
+
 const uploadFiles = async () => {
+  if (!title.value || !content.value || !inLocation.value || files.value.length === 0) {
+    Swal.fire({
+      title: "등록 실패",
+      text: "모든 필드를 작성해주세요.",
+      icon: "error",
+      confirmButtonText: "확인",
+    });
+    return;
+  }
   console.log(title.value);
   console.log(content.value);
   console.log(inLocation.value);
