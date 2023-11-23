@@ -3,7 +3,7 @@
 <template>
   <div class="flex-container">
     <div class="box1">
-      <label class="label-text">장소 추천</label>
+      <label class="label-text">VirusTrip 이렇게 이용하세요!</label>
       <img src="../../assets/img/postSample.png" class="left" />
     </div>
 
@@ -35,7 +35,6 @@
       <div class="grid-item">
         <img src="../../assets/img/photo3.jpg" alt="" width="100%" height="100%" />
       </div>
-      <label class="label-text" style="grid-column: 1 / 4">자기만의 비밀장소 이젠</label>
     </div>
   </div>
 </template>

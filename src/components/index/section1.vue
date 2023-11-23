@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
-import axios from '@/axiosConfig.js';
+import axios from "@/axiosConfig.js";
 import cookie from "@/utils/cookie.js";
 
 const router = useRouter();
@@ -104,8 +104,8 @@ const navigateToMainPage = () => {
 <template>
   <div class="container">
     <h1>
-      뻔하지 않은<br />
-      로컬 여행의 모든 것
+      친구와 함께하는<br />
+      여행의 모든 것
     </h1>
     <br />
     <br />

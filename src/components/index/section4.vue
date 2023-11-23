@@ -6,10 +6,6 @@
         <label>내 주변 관광지 찾아보기</label>
         <img src="../../assets/img/useMap.gif" class="right" />
     </div>
-    <div>
-        <label>나만의 여행 계획 작성하기</label>
-        <img src="../../assets/img/registPlan.gif" class="left" />
-    </div>
   </div>
 </template>
 

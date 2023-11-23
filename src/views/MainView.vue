@@ -16,12 +16,30 @@ const toggleNotification = () => {
 };
 
 onMounted(() => {
+  console.log("< 친구와 함꼐하는 여행의 모든 것 :: VirusTrip >\n"+
+    " __  __     ______                             \n" +
+      "/\\ \\ /\\ \\   /\\__  _\\                            \n" +
+      "\\ \\ \\ \\ \\  \\/_/\\ \\/     _ __   __  __    ____  \n" +
+      " \\ \\ \\ \\ \\    \\ \\ \\    /\\`'__\\/\\ \\/\\ \\  /',__\\ \n" +
+      "  \\ \\ \\_/ \\    \\_\\ \\__ \\ \\ \\/ \\ \\ \\_\\ \\/\\__, `\\\n" +
+      "   \\ `\\___/    /\\_____\\ \\ \\_\\  \\ \\____/\\/\\____/\n" +
+      "    `\\/__/     \\/_____/  \\/_/   \\/___/  \\/___/ \n" +
+      " __                             \n" +
+      "/\\ \\__           __             \n" +
+      "\\ \\ ,_\\   _ __  /\\_\\    _____   \n" +
+      " \\ \\ \\/  /\\`'__\\\\/\\ \\  /\\ '__`\\ \n" +
+      "  \\ \\ \\_ \\ \\ \\/  \\ \\ \\ \\ \\ \\L\\ \\\n" +
+      "   \\ \\__\\ \\ \\_\\   \\ \\_\\ \\ \\ ,__/\n" +
+      "    \\/__/  \\/_/    \\/_/  \\ \\ \\/ \n" +
+      "                          \\ \\_\\ \n" +
+      "                           \\/_/ "
+  );
   const email = $cookie.getCookie("user");
   window.sessionStorage.setItem("user", email);
 
   console.log(email);
 
-  const socket = new SockJS(`http://192.168.120.75:17000/push?userId=${email}`); // 웹소켓 서버 URL
+  const socket = new SockJS(`http://192.168.35.7:17000/push?userId=${email}`); // 웹소켓 서버 URL
   const stompClient = Stomp.over(socket);
 
   stompClient.connect(

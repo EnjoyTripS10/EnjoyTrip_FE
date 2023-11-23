@@ -9,6 +9,7 @@
         v-model="searchQuery"
         @keyup.enter="searchPlaces"
         class="location-input"
+        autocomplete="off"
       />
       <label class="circle-button" @click="searchPlaces">Search</label>
     </div>
