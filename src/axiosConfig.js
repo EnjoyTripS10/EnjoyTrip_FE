@@ -23,15 +23,15 @@ service.interceptors.request.use(
 
 // const token = cookie.getCookie("accessToken");
 
-// const axiosInstance = axios.create({
-//     baseURL: 'http://localhost:17000', // 여기에 기본 URL 설정
-// headers: {
-//   'Content-Type': 'application/json',
-// },
-//   });
-///if (token) {
-// axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-// }
+const axiosInstance = axios.create({
+  baseURL: "http://localhost:17000", // 여기에 기본 URL 설정
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+if (token) {
+  axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+}
 
 // 필요한 경우 인터셉터 추가
 service.interceptors.response.use(

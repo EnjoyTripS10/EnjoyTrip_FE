@@ -589,6 +589,8 @@ ul {
 .post-title {
   width: 90%;
   height: 15%;
+  margin-bottom : 5px;
+
   text-align: center;
 }
 

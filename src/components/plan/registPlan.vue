@@ -90,6 +90,10 @@ const updateUsers = (newUser) => {
   console.log(users.value);
 };
 
+const showMap = () => {
+  shoModalLocation.value = true;
+};
+
 const submitForm = async () => {
   if (
     !title.value ||
@@ -244,7 +248,7 @@ watch(
                       </div>
                     </template>
                   </draggable>
-                  <button class="add-location" @click="shoModalLocation = true">장소 추가</button>
+                  <div class="add-location" @click="showMap">장소 추가</div>
                   <LocationModal
                     :isVisible="shoModalLocation"
                     @update:isVisible="shoModalLocation = $event"
