@@ -282,6 +282,7 @@ const deleteComment = async (commentId, boardId) => {
               <button class="carousel-control prev" @click="prevImage()">&lt;</button>
               <div class="img-slide">
                 <img
+                  class="carousel-img"
                   v-for="(img, index) in modalData.image"
                   :src="'data:image/png;base64,' + img"
                   v-show="index === currentIndex"
@@ -536,6 +537,12 @@ h1 {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+}
+
+.carousel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .share {
