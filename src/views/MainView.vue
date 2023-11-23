@@ -108,14 +108,14 @@ watch(isNotificationOpen, (newValue, oldValue) => {
 
 .notification-count {
   font-weight: 600;
-  font-size: 12px;
-  width: 20px;
-  height: 20px;
+  font-size: 18px;
+  width: 30px;
+  height: 30px;
   z-index: 2000;
   position: fixed;
   bottom: 52px;
   left: 30px;
-  transform: translate(-20%, -20%);
+  transform: translate(-13%, -65%);
   background-color: rgb(241, 79, 79);
   border-radius: 50%;
   text-align: center;
@@ -139,7 +139,7 @@ watch(isNotificationOpen, (newValue, oldValue) => {
 }
 .notification-button {
   position: fixed;
-  font-size: 30px;
+  font-size: 50px;
   bottom: 30px;
   left: 30px;
   z-index: 1000; /* 상위 레이어 설정 */
@@ -150,8 +150,6 @@ watch(isNotificationOpen, (newValue, oldValue) => {
 }
 
 @keyframes shake {
-  0%,
-  33.33%,
   100% {
     transform: rotate(0);
   }
