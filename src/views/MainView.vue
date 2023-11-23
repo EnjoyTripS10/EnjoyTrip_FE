@@ -31,7 +31,10 @@ const fetchNotifications = async () => {
     <div class="view">
       <RouterView />
       <button @click="toggleNotification" class="notification-button">🔔</button>
-      <div v-if="isNotificationOpen" class="notification notification-open">1</div>
+      <div v-if="isNotificationOpen" class="notification notification-open">
+        웹소켓을 이용한 <br/>
+        실시간 알림 기능 구현중...
+      </div>
     </div>
 
     <div class="footer">
@@ -49,7 +52,7 @@ const fetchNotifications = async () => {
   animation: shake 1s infinite;
 }
 
-/* @keyframes shake {
+@keyframes shake {
   0%,
   33.33%,
   100% {
@@ -61,7 +64,7 @@ const fetchNotifications = async () => {
   25% {
     transform: rotate(20deg);
   }
-} */
+}
 .notification {
   min-height: 100px;
   height: auto;

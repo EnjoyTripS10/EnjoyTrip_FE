@@ -125,7 +125,7 @@ const getImgUrl = async (item, index) => {
   try {
     console.log(item);
     const city = item.locationAddr.split(" ")[0];
-    const response = await axios.get(`/api/search?query=` + city + item.locationName);
+    const response = await axios.get(`/api/search?query=` + item.locationName);
     console.log(location.value[index]);
     location.value[index].img = response.data;
   } catch (error) {
@@ -176,10 +176,7 @@ watch(
                     <template v-slot:item="{ item }">
                       <div class="draggable-item" @click.prevent="toggleDropdown(item)">
                         <div class="drag-img">
-                          <img
-                            :src="item.img"
-                            style="width: 100px; height: 100px; border-radius: 10px"
-                          />
+                          <img :src="item.img" />
                         </div>
                         <div class="drag-info">
                           {{ item.locationName }}<br />
@@ -214,12 +211,12 @@ watch(
                       :key="item.locationName"
                     >
                       <div class="draggable-item">
-                        <div class="drag-img">
+                        <!-- <div class="drag-img">
                           <img
                             :src="item.img"
                             style="width: 100px; height: 100px; border-radius: 10px"
                           />
-                        </div>
+                        </div> -->
                         <div class="drag-info">
                           {{ item.locationName }}<br />
                           {{ item.locationAddr }}
@@ -250,10 +247,17 @@ watch(
 
 <style scoped>
 .drag-info {
-  width: 60%;
+  text-align: center;
+  width: 100%;
 }
 .drag-img {
   width: 40%;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+.drag-img img {
+  width: 75px;
+  height: 75px;
   border-radius: 10px;
   margin-right: 10px;
 }

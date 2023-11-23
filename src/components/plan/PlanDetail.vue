@@ -211,7 +211,7 @@ const transReview = () => {
               class="list"
             >
               <div class="drag-img">
-                <img :src="location.img" style="width: 100px; height: 100px; border-radius: 10px" />
+                <img :src="location.img" style="width: 70px; height: 70px; border-radius: 10px" />
               </div>
               <div class="plan-info" @click="toggleDropdown(location)">
                 {{ location.locationName }} <br />
@@ -237,9 +237,11 @@ const transReview = () => {
 
 <style scoped>
 .plan-info {
+  width: calc(100% - 100px);
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 .drag-img {
   display: flex;

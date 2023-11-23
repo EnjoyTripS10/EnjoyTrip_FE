@@ -1,7 +1,7 @@
 <script setup>
-import { RouterLink, useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 import axios from "@/axiosConfig.js";
+import { shuffle } from "lodash";
 
 const posts = ref([]);
 const displayedPosts = ref([]);
@@ -10,6 +10,7 @@ const fetchPosts = async () => {
   try {
     const response = await axios.get("/board");
     posts.value = response.data;
+    posts.value = shuffle(posts.value);
     displayedPosts.value = posts.value.slice(0, 10); // 최대 5개 항목만 저장
   } catch (error) {
     console.error("Error fetching posts:", error);
