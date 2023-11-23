@@ -9,7 +9,7 @@
         @keyup.enter="searchPlaces"
         class="location-input"
       />
-      <button class="circle-button" @click="searchPlaces">Search</button>
+      <label class="circle-button" @click="searchPlaces">Search</label>
     </div>
     <hr />
     <div id="map" style="width: 100%; height: 400px; background-color: transparent"></div>

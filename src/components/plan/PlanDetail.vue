@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import axios from "@/axiosConfig.js";
 import { useRoute, useRouter } from "vue-router";
 import PlanMap from "../location/PlanMap.vue";
+import Swal from "sweetalert2";
 
 const selectedLocationGroup = ref([]);
 const router = useRouter();
@@ -85,6 +86,11 @@ const deletePlan = async () => {
     await axios.delete(`/trip/${planid}`);
     // 삭제 후 할 행동, 예를 들어 목록 페이지로 이동
     router.push({ name: "PlanList" });
+    Swal.fire({
+      icon: "success",
+      title: "삭제 완료",
+      text: "삭제가 완료되었습니다.",
+    });
   } catch (error) {
     console.error("삭제 중 오류 발생: ", error);
     // 오류 처리 로직
@@ -125,10 +131,9 @@ const transReview = () => {
   try {
     const response = axios.post(`/trip/transReview/${planid}`, formData);
     console.log("translate review successfully", response.data);
-    router.push(`/updatePlan/${planid}`);
+    router.push("/planList");
   } catch (error) {
     console.error("Error uploading file", error);
-    router.push("/planList");
   }
 };
 </script>

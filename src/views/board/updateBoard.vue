@@ -10,7 +10,7 @@
       </div>
       <div class="content-input-container">
         <label for="content">내용:</label>
-        <input type="text" id="content" v-model="content" class="content-input" />
+        <textarea type="text" id="content" v-model="content" class="content-input" />
       </div>
       <label class="location-label" for="content">장소 : {{ boardData.locationName }}</label>
 
@@ -39,9 +39,10 @@ location
 
 <script setup>
 import { ref, onMounted } from "vue";
-import axios from '@/axiosConfig.js';
+import axios from "@/axiosConfig.js";
 import { useRouter, useRoute } from "vue-router";
 import MapComponent from "../../components/location/map.vue";
+import Swal from "sweetalert2";
 
 const files = ref([]);
 const title = ref("");
@@ -101,6 +102,15 @@ const handleFiles = (event) => {
 
 const router = useRouter();
 const uploadFiles = async () => {
+  if (!title.value || !content.value || !inLocation.value || files.value.length === 0) {
+    Swal.fire({
+      title: "등록 실패",
+      text: "모든 필드를 작성해주세요.",
+      icon: "error",
+      confirmButtonText: "확인",
+    });
+    return;
+  }
   console.log(title.value);
   console.log(content.value);
   console.log(inLocation.value);
@@ -121,7 +131,13 @@ const uploadFiles = async () => {
       },
     });
     console.log("File uploaded successfully", response.data);
-    router.push({ name: "PlanList" });
+    Swal.fire({
+      title: "수정 성공",
+      text: "게시글이 수정되었습니다.",
+      icon: "success",
+      confirmButtonText: "확인",
+    });
+    router.push({ name: "boardList" });
   } catch (error) {
     console.error("Error uploading file", error);
   }

@@ -1,82 +1,43 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
-<div class="flex-container">
-    <div class="box1">
-        <img src="../../assets/img/postSample.png" class="left">
+  <div class="flex-container">
+    <div>
+        <label>내 주변 관광지 찾아보기</label>
+        <img src="../../assets/img/useMap.gif" class="right" />
     </div>
-    
-        <div class="box2">
-            <div class="grid-item" style="grid-row: 1 / 3; grid-column: 1 / 3;">
-                <img src="../../assets/img/photo4.jpg" alt="" width="100%" height="100%">
-                
-            </div>
-            <div class="grid-item"></div>
-            <div class="grid-item">
-                <img src="../../assets/img/photo1.jpg" alt="" width="100%" height="100%">
-            </div>
-            <div class="grid-item">
-                <img src="../../assets/img/photo2.jpg" alt="" width="100%" height="100%">
-            </div>
-            <div class="grid-item"></div>
-            <div class="grid-item">
-                <img src="../../assets/img/photo5.jpg" alt="" width="100%" height="100%">
-            </div>
-            <div class="grid-item"></div>
-            <div class="grid-item">
-                <img src="../../assets/img/photo8.jpg" alt="" width="100%" height="100%">
-            </div>
-            <div class="grid-item"></div>
-            <div class="grid-item"></div>
-            <div class="grid-item">
-                <img src="../../assets/img/photo9.jpg" alt="" width="100%" height="100%">
-            </div>
-            <div class="grid-item"></div>
-            <div class="grid-item">
-                <img src="../../assets/img/photo3.jpg" alt="" width="100%" height="100%">
-            </div>
-        </div>
-</div>
+    <div>
+        <label>나만의 여행 계획 작성하기</label>
+        <img src="../../assets/img/registPlan.gif" class="left" />
+    </div>
+  </div>
 </template>
 
 <style scoped>
-
-.list-enter-active, .list-leave-active {
-  transition: opacity 1s; /* 이미지의 등장 속도를 1초로 설정 */
+.right {
+    margin-top: 20px;
+    width: 900px;
+    height: 600px;
 }
-.list-enter, .list-leave-to {
-  opacity: 0;
+.flex-container > div {
+  background-color: #f1f1f1;
+  text-align: center;
+  margin: 10px;
+  padding: 20px;
+  font-size: 30px;
 }
-
+label {
+    font-size: 20px; /* 글자 크기 증가 */;
+}
 .flex-container {
   display: flex;
   justify-content: space-between;
 }
 
-.box1 {
-    display: flex; 
-    justify-content: center; 
-    align-items: center;
-  width: 450px;
-  height: 600px;
-  margin: 0px 50px;
-}
-
-.box2 {
-    display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  gap: 10px;
-  width: 600px;
-  height: 600px;
-  margin: 0px 50px;
-}
 
 .left {
-    width: 450px;
-    height: 600px;
+    margin-top: 20px;
+  width: 450px;
+  height: 600px;
 }
-
 </style>

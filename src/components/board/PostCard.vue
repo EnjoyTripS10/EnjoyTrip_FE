@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import PostCardsimilar from "./PostCardsimilar.vue";
 import axios from "@/axiosConfig.js";
 import { shuffle } from "lodash";
+import Swal from "sweetalert2";
 
 const router = useRouter();
 const showModal = ref(false);
@@ -156,6 +157,12 @@ const deleteBoard = async (boardId) => {
     await axios.delete(`/board/${boardId}`);
     // 삭제 후 할 행동, 예를 들어 목록 페이지로 이동
     closeModal();
+    Swal.fire({
+      title: "삭제 성공",
+      text: "게시글이 삭제되었습니다.",
+      icon: "success",
+      confirmButtonText: "확인",
+    });
     router
       .push({ name: "boardList" })
       .then(() => {
@@ -589,7 +596,7 @@ ul {
 .post-title {
   width: 90%;
   height: 15%;
-  margin-bottom : 5px;
+  margin-bottom: 5px;
 
   text-align: center;
 }

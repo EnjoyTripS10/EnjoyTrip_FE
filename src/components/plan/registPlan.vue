@@ -133,6 +133,12 @@ const submitForm = async () => {
     });
     console.log("Post successful:", response.data);
     router.push({ name: "PlanList" });
+    Swal.fire({
+      title: "등록 성공",
+      text: "여행 계획이 등록되었습니다.",
+      icon: "success",
+      confirmButtonText: "확인",
+    });
 
     // 폼 제출 후의 추가 작업 (예: 페이지 리디렉션, 상태 업데이트 등)
   } catch (error) {
@@ -177,7 +183,7 @@ watch(
           <label class="date-label"> 계획 작성하기 </label>
         </div>
         <div>
-          <form @submit.prevent="submitForm" class="form-style">
+          <div @submit.prevent="submitForm" class="form-style">
             <div class="edit-date">
               <vue-tailwind-datepicker v-model="dateValue" :formatter="formatter" />
             </div>
@@ -187,10 +193,10 @@ watch(
             </div>
             <div class="form-group">
               <label for="content">내용:</label>
-              <textarea id="content" v-model="content"></textarea>
+              <textarea id="content" v-model="content" @keyup.enter.prevent></textarea>
             </div>
             <div class="button-container">
-              <button type="submit" class="submit-btn" @submit.prevent="submitForm">글쓰기</button>
+              <button type="submit" class="submit-btn" @click="submitForm">글쓰기</button>
             </div>
             <div class="edit">
               <div class="left">
@@ -258,7 +264,7 @@ watch(
                 <!-- <pre>{{ JSON.stringify(location, undefined, 4) }}</pre> -->
               </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>

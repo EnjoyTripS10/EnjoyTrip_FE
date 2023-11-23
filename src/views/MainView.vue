@@ -77,15 +77,7 @@ watch(isNotificationOpen, (newValue, oldValue) => {
     </div>
     <div class="view">
       <RouterView />
-      <div class="notification-wrapper">
-        <span class="notification-count" v-if="Msgcnt > 0">{{ Msgcnt }}</span>
-        <button
-          @click="toggleNotification"
-          :class="{ 'notification-button': true, 'shake-animation': Msgcnt > 0 }"
-        >
-          🔔
-        </button>
-      </div>
+
       <div v-if="isNotificationOpen" class="notification notification-open">
         <ul class="notification-content">
           <li class="noti-msg" v-for="(message, index) in receivedMessages" :key="index">

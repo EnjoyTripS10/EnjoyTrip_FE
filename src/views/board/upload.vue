@@ -10,7 +10,7 @@
       </div>
       <div class="content-input-container">
         <label for="content">내용:</label>
-        <input type="text" id="content" v-model="content" class="content-input" />
+        <textarea type="text" id="content" v-model="content" class="content-input" />
       </div>
       <label for="content">장소를 선택해 주세요</label>
       <MapComponent :updateLocation="updateParentLocation"></MapComponent>
@@ -94,6 +94,12 @@ const uploadFiles = async () => {
   } catch (error) {
     console.error("Error uploading file", error);
   }
+  Swal.fire({
+    title: "등록 성공",
+    text: "게시글이 등록되었습니다.",
+    icon: "success",
+    confirmButtonText: "확인",
+  });
   router.push("/boardList");
 };
 </script>

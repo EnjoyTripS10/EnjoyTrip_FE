@@ -1,11 +1,12 @@
 <script setup>
 import { ref, watch, onBeforeMount } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import axios from '@/axiosConfig.js';
+import axios from "@/axiosConfig.js";
 import VueTailwindDatepicker from "vue-tailwind-datepicker";
 import Draggable from "vue3-draggable";
 import LocationModal from "./LocationModal.vue";
 import PlaningUser from "./PlaningUser.vue";
+import Swal from "sweetalert2";
 
 const router = useRouter();
 // 달력
@@ -148,6 +149,12 @@ const submitForm = async () => {
         "Content-Type": "application/json",
       },
     });
+    Swal.fire({
+      title: "수정 성공",
+      text: "여행 계획이 수정되었습니다.",
+      icon: "success",
+      confirmButtonText: "확인",
+    });
     console.log("Post successful:", response.data);
     router.push({ name: "PlanList" });
 
@@ -164,7 +171,7 @@ const submitForm = async () => {
     <div class="regist-plan">
       <label class="date-label"> 계획 수정하기 </label>
       <div>
-        <form @submit.prevent="submitForm" class="form-style">
+        <div @submit.prevent="submitForm" class="form-style">
           <div class="edit-date">
             <vue-tailwind-datepicker v-model="dateValue" disabled="ture" />
           </div>
@@ -177,7 +184,7 @@ const submitForm = async () => {
             <textarea id="content" v-model="content"></textarea>
           </div>
           <div class="button-container">
-            <button type="submit" class="submit-btn" @submit.prevent="submitForm">수정 완료</button>
+            <button type="submit" class="submit-btn" @click="submitForm">수정 완료</button>
           </div>
           <div class="edit">
             <div class="left">
@@ -232,7 +239,7 @@ const submitForm = async () => {
               <!-- <pre>{{ JSON.stringify(location, undefined, 4) }}</pre> -->
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
     <!-- <div class="userList">

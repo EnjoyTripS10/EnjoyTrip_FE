@@ -1,7 +1,6 @@
 <script setup>
-import { RouterLink, useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
-import axios from '@/axiosConfig.js';
+import axios from "@/axiosConfig.js";
 
 const posts = ref([]);
 const displayedPosts = ref([]);
