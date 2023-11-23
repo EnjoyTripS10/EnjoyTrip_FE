@@ -45,6 +45,8 @@ const openModal = async (boardId) => {
     isLiked.value = modalData.value.like;
     // posts.value = shuffle(posts.value);
     fetchPosts(modalData.value.locationType);
+
+    fetchComments(boardId);
   } catch (error) {
     console.error("Error", error);
   }
@@ -183,7 +185,7 @@ const prevImage = () => {
 //댓글
 const newComment = ref("");
 
-const submitComment = async () => {
+const submitComment = async (boardId) => {
   if (!newComment.value.trim()) {
     alert("댓글을 입력하세요.");
     return;
@@ -191,11 +193,20 @@ const submitComment = async () => {
 
   try {
     // Axios를 사용하여 서버에 댓글 데이터를 전송
-    const response = await axios.post("/api/comments", { comment: newComment.value });
+    const response = await axios.post(
+      `/board/comment`,
+      { boardId: boardId, content: newComment.value },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     console.log("댓글 등록 성공:", response);
 
     // 댓글 등록 후 필요한 작업 수행 (예: 댓글 목록 갱신, 입력란 초기화 등)
     newComment.value = ""; // 입력란 초기화
+    fetchComments(boardId);
   } catch (error) {
     console.error("댓글 등록 실패:", error);
   }
@@ -204,9 +215,9 @@ const submitComment = async () => {
 // 댓글 불러오기
 const comments = ref([]);
 
-const fetchComments = async () => {
+const fetchComments = async (boardId) => {
   try {
-    const response = await axios.get("/api/comments");
+    const response = await axios.get(`/board/comment/${boardId}`);
     comments.value = response.data;
   } catch (error) {
     console.error("댓글 로딩 실패:", error);
@@ -214,12 +225,12 @@ const fetchComments = async () => {
 };
 
 // 삭제
-const deleteComment = async (commentId, index) => {
+const deleteComment = async (commentId, boardId) => {
   try {
-    await axios.delete(`/api/comments/${commentId}`);
-    comments.value.splice(index, 1); // 클라이언트 측 목록에서 삭제
+    const response = await axios.delete(`/board/comment/${commentId}`);
+    fetchComments(boardId);
   } catch (error) {
-    console.error("댓글 삭제 실패:", error);
+    console.error("댓글 로딩 실패:", error);
   }
 };
 
@@ -308,7 +319,6 @@ const deleteComment = async (commentId, index) => {
             <p>{{ modalData.boardContent }}</p>
           </div>
 
-
           <div class="comment">
             <div class="comments-section">
               <div class="new-comment">
@@ -317,18 +327,25 @@ const deleteComment = async (commentId, index) => {
                   v-model="newComment"
                   placeholder="댓글을 입력하세요..."
                 ></textarea>
-                <button class="submit-comment" @click="submitComment">등록</button>
+                <button class="submit-comment" @click="submitComment(modalData.boardId)">
+                  등록
+                </button>
               </div>
               <div class="comment-list">
                 <div class="comment" v-for="(comment, index) in comments" :key="index">
-                  {{ comment.text }}
-                  <button class="delete-button" @click="deleteComment(comment)">X</button>
+                  {{ comment.commentContent }}
+                  <button
+                    v-if="comment.mine"
+                    @click="deleteComment(comment.commentId, modalData.boardId)"
+                  >
+                    삭제
+                  </button>
+                  <!-- 댓글 텍스트를 표시 -->
                 </div>
               </div>
             </div>
           </div>
 
-          
           <div class="similar">
             <label for="slides">유사 게시물 추천</label>
             <div class="post-card-style">

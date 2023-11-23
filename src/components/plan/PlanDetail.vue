@@ -13,6 +13,7 @@ const content = ref("");
 const users = ref([]);
 const planData = ref([]);
 const mine = ref();
+const owner = ref();
 const locationList = ref([]);
 
 const selectLocationGroup = (locationGroup) => {
@@ -50,6 +51,7 @@ const loadPlan = async () => {
     title.value = planData.value.title;
     content.value = planData.value.content;
     mine.value = planData.value.mine;
+    owner.value = planData.value.owner;
     users.value = planData.value.users;
     locationList.value = planData.value.locationList;
     console.log(locationList.value);
@@ -162,7 +164,7 @@ const transReview = () => {
           </a> -->
           <button class="list-button" @click="mvList">목록</button>
           <button v-if="mine" class="edit-button" @click="goToEditPage">수정</button>
-          <button v-if="mine" class="delete-button" @click="deletePlan">삭제</button>
+          <button v-if="owner" class="delete-button" @click="deletePlan">삭제</button>
         </div>
       </div>
       <div class="detail-plan-right">
