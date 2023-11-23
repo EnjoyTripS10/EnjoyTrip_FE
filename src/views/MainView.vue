@@ -1,9 +1,12 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import axios from "axios";
+import { ref, onMounted} from "vue";
 import MainHeader from "@/components/MainHeader.vue";
+import SockJS from 'sockjs-client/dist/sockjs.min.js';
+import Stomp from 'stompjs';
+import $cookie from '@/utils/cookie.js';
 
 const isNotificationOpen = ref(false);
+const receivedMessages = ref([]);
 
 // 알림창 토글 함수
 const toggleNotification = () => {
@@ -11,17 +14,54 @@ const toggleNotification = () => {
   isNotificationOpen.value = !isNotificationOpen.value;
 };
 
-// 알림 불러오기
-const fetchNotifications = async () => {
-  try {
-    const response = await axios.get("/api/notifications");
-    notifications.value = response.data;
-  } catch (error) {
-    console.error("알림 로딩 실패:", error);
-  }
-};
+onMounted(() => {
+  const email = $cookie.getCookie('user')
+  window.sessionStorage.setItem('user',email)
 
-// onMounted(fetchNotifications); // 컴포넌트가 마운트될 때 알림을 로드
+  console.log(email)
+
+
+  const socket = new SockJS(`http://localhost:17000/push?userId=${email}`); // 웹소켓 서버 URL
+  const stompClient = Stomp.over(socket);
+
+  stompClient.connect({}, frame => {
+    console.log('Connected: ' + frame);
+
+    
+  }, error => {
+    console.log('Connection error: ' + error);
+  });
+
+  
+
+  // socket.value.onmessage = (event) => {
+    
+  //   const message = JSON.parse(event.data);
+  //   receivedMessages.value.push(message);
+  //   console.log("1")
+  //   console.log(message)
+  // };
+
+  stompClient.debug = function(message) {
+    if (message.includes("<<<")) {
+        const index = message.indexOf("<<<");
+        if (index !== -1) {
+          message = message.substring(index + 3).trim();
+        } else {
+          message = "";
+        }
+        receivedMessages.value.push(message);
+        console.log(message)
+    }
+    
+  };
+});
+
+// onUnmounted(() => {
+//   if (socket.value) {
+//     socket.value.close();
+//   }
+// });
 </script>
 <template>
   <div class="view-container">
@@ -32,8 +72,9 @@ const fetchNotifications = async () => {
       <RouterView />
       <button @click="toggleNotification" class="notification-button">🔔</button>
       <div v-if="isNotificationOpen" class="notification notification-open">
-        웹소켓을 이용한 <br/>
-        실시간 알림 기능 구현중...
+          <li v-for="(message, index) in receivedMessages" :key="index">
+          {{ message }}
+        </li>
       </div>
     </div>
 
@@ -52,7 +93,7 @@ const fetchNotifications = async () => {
   animation: shake 1s infinite;
 }
 
-@keyframes shake {
+/* @keyframes shake {
   0%,
   33.33%,
   100% {
@@ -64,7 +105,7 @@ const fetchNotifications = async () => {
   25% {
     transform: rotate(20deg);
   }
-}
+} */
 .notification {
   min-height: 100px;
   height: auto;

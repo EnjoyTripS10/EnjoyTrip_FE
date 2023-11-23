@@ -32,6 +32,9 @@ const socialLogin = {
                 this.loginResult.status = 'SUCCESS'
                 $cookie.setCookie('user-key', response.data.id)
                 $cookie.setCookie('accessToken',response.data.accessToken)
+                $cookie.setCookie('user',response.data.userEmail)
+                console.log(response.data.userEmail)
+                window.sessionStorage.setItem('user',response.data.userEmail)
                 window.opener.location.replace('/')
                 window.close()
             }).catch(error => {
